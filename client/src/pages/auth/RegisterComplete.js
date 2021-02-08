@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RegisterForm from "../../components/RegisterForm";
+import { auth } from "../../firebase";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -9,15 +10,21 @@ const RegisterComplete = ({ history }) => {
     const getEmail = localStorage.getItem("emailForRegistration")
       ? localStorage.getItem("emailForRegistration")
       : "";
+      console.log(window.location.href);
 
     setEmail(getEmail);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const result = auth.signInWithEmailLink(email, window.location.href);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  
   return (
     <div children="container p-5">
       <div className="row">
@@ -34,7 +41,6 @@ const RegisterComplete = ({ history }) => {
             />
 
             <input
-            
               type="password"
               name=""
               value={password}
