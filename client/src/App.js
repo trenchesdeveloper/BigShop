@@ -7,16 +7,16 @@ import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <>
+    <Router>
       <Header />
-      <Router>
+   
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/" component={Home} />
         </Switch>
-      </Router>
-    </>
+     
+    </Router>
   );
 };
 
