@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import RegisterForm from "../../components/RegisterForm";
+import { toast } from "react-toastify";
 import { auth } from "../../firebase";
 
 const RegisterComplete = ({ history }) => {
@@ -10,18 +10,49 @@ const RegisterComplete = ({ history }) => {
     const getEmail = localStorage.getItem("emailForRegistration")
       ? localStorage.getItem("emailForRegistration")
       : "";
-      console.log(window.location.href);
 
     setEmail(getEmail);
   }, []);
 
+  // handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      toast.error("Email and Password is required");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("password must be at least 6 characters");
+      return;
+    }
+
     try {
-      const result = auth.signInWithEmailLink(email, window.location.href);
+      const result = await auth.signInWithEmailLink(
+        email,
+        window.location.href
+      );
+      // check if the email is verified
+      if (result.user.emailVerified) {
+        // remove user email from localstorage
+        localStorage.removeItem("emailForRegistration");
+
+        // get user id token
+        let user = auth.currentUser;
+
+        // update user with password
+        await user.updatePassword(password);
+
+        const idTokenResult = await user.getIdTokenResult();
+
+        console.log("user", user);
+        console.log("idToken", idTokenResult);
+        //redirect
+         history.push('/')
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
