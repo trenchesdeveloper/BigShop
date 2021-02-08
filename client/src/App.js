@@ -1,5 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+//COMPONENTS
 import Header from "./components/Nav/Header";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -9,13 +13,12 @@ const App = () => {
   return (
     <Router>
       <Header />
-   
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/" component={Home} />
-        </Switch>
-     
+      <ToastContainer /> 
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/" component={Home} />
+      </Switch>
     </Router>
   );
 };

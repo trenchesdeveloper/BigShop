@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { auth } from "../firebase";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
@@ -11,26 +10,26 @@ const RegisterForm = () => {
 
     // create a redirect config
     const config = {
-      url: "http://localhost:3000/register/complete",
+      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
       handleCodeInApp: true,
     };
 
     await auth.sendSignInLinkToEmail(email, config); // firebase sendlink to email
 
     // use toast to send notification
-    toast.success(`Email is sent to ${email}. click the link to complete your registration`)
+    toast.success(
+      `Email is sent to ${email}. click the link to complete your registration`
+    );
 
     // save the user's email to localStorage
-    localStorage.setItem('emailForRegistration', email)
+    localStorage.setItem("emailForRegistration", email);
 
     // clear the email state
-    setEmail('')
-
-
+    setEmail("");
   };
   return (
     <>
-    <ToastContainer/>
+     
       <form onSubmit={handleSubmit}>
         <input
           type="email"
