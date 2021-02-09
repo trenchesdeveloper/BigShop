@@ -21,26 +21,27 @@ const ForgotPassword = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    // create a redirect config
-    const config = {
-      url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT,
-      handleCodeInApp: true,
-    };
+    console.log(process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT);
 
     try {
-      auth.sendPasswordResetEmail(email, config);
+      // create a redirect config
+      const config = {
+        url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT,
+        handleCodeInApp: true,
+      };
+      await auth.sendPasswordResetEmail(email, config);
 
-      setEmail('')
-      setLoading(false)
+      setEmail("");
+      setLoading(false);
 
       // use toast to send notification
       toast.success(
         `Email is sent to ${email}. click the link to reset password`
       );
     } catch (error) {
-        setLoading(false)
+      setLoading(false);
       toast.error(error.message);
+      console.log(error);
     }
   };
 
