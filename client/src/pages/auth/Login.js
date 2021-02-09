@@ -6,6 +6,7 @@ import { auth, googleAuthProvider } from "../../firebase";
 import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
+import Loader from "../../components/Loader";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -16,10 +17,8 @@ const Login = ({ history }) => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (user) {
-      history.push("/");
-    }
-  }, [history, user]);
+    if (user && user.token) history.push("/");
+  }, [user, history]);
 
   // handler
   const handleSubmit = async (e) => {
@@ -70,7 +69,7 @@ const Login = ({ history }) => {
     <div children="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          {loading ? "Loading" : <h4>Login</h4>}
+          {loading ? <Loader /> : <h4>Login</h4>}
 
           <form onSubmit={handleSubmit}>
             <input

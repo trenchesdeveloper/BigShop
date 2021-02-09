@@ -6,6 +6,7 @@ import { auth, googleAuthProvider } from "../../firebase";
 import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
+import Loader from "../../components/Loader";
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -13,9 +14,7 @@ const ForgotPassword = ({ history }) => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (user) {
-      history.push("/");
-    }
+    if (user && user.token) history.push("/");
   }, [user, history]);
 
   const handleSubmit = async (e) => {
@@ -49,11 +48,7 @@ const ForgotPassword = ({ history }) => {
     <div children="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3 p-5">
-          {loading ? (
-            <h4 className="text-danger">Loading...</h4>
-          ) : (
-            <h4>Forgot Password</h4>
-          )}
+          {loading ? <Loader /> : <Loader>Forgot Password</Loader>}
           <form onSubmit={handleSubmit}>
             <input
               type="email"
