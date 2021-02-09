@@ -1,4 +1,4 @@
-import { LOGGED_IN_USER } from "../constants/userConstants";
+import { LOGGED_IN_USER, LOGOUT } from "../constants/userConstants";
 
 export const loginUser = (user) => async (dispatch) => {
   try {
@@ -7,3 +7,12 @@ export const loginUser = (user) => async (dispatch) => {
     dispatch({ type: "ERROR" });
   }
 };
+
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOGOUT, payload: null });
+  } catch (error) {
+    dispatch({ type: "ERROR" });
+  }
+};
+
