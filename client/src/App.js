@@ -8,6 +8,7 @@ import { loginUser } from "./actions/userActions";
 //COMPONENTS
 import Header from "./components/Nav/Header";
 import { auth } from "./firebase";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
@@ -41,6 +42,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/" component={Home} />

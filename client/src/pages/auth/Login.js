@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { auth, googleAuthProvider } from "../../firebase";
 import { Button } from "antd";
@@ -12,6 +13,13 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      history.push("/");
+    }
+  }, [history, user]);
 
   // handler
   const handleSubmit = async (e) => {
@@ -53,8 +61,8 @@ const Login = ({ history }) => {
 
       history.push("/");
     } catch (error) {
-        console.log(error);
-        toast.error(error.message)
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -106,6 +114,9 @@ const Login = ({ history }) => {
           >
             Login with Google
           </Button>
+          <Link to="/forgot/password" className="float-right text-danger mt-4">
+            Forgot Password
+          </Link>
         </div>
       </div>
     </div>
