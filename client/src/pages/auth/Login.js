@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { auth } from "../../firebase";
+import { auth, googleAuthProvider } from "../../firebase";
 import { Button } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
 
 const Login = ({ history }) => {
@@ -37,11 +37,32 @@ const Login = ({ history }) => {
     }
   };
 
+  const googleLogin = async () => {
+    try {
+      const { user } = await auth.signInWithPopup(googleAuthProvider);
+
+      const idTokenResult = await user.getIdTokenResult();
+
+      // dispatch the action
+      dispatch(
+        loginUser({
+          email: user.email,
+          token: idTokenResult.token,
+        })
+      );
+
+      history.push("/");
+    } catch (error) {
+        console.log(error);
+        toast.error(error.message)
+    }
+  };
+
   return (
     <div children="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h4>Login</h4>
+          {loading ? "Loading" : <h4>Login</h4>}
 
           <form onSubmit={handleSubmit}>
             <input
@@ -74,6 +95,17 @@ const Login = ({ history }) => {
               Login with Email/Password
             </Button>
           </form>
+
+          <Button
+            icon={<GoogleOutlined />}
+            type="danger"
+            block
+            shape="round"
+            size="large"
+            onClick={googleLogin}
+          >
+            Login with Google
+          </Button>
         </div>
       </div>
     </div>
