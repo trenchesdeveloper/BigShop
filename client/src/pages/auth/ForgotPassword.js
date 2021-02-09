@@ -28,7 +28,20 @@ const ForgotPassword = ({ history }) => {
       handleCodeInApp: true,
     };
 
-    const res = auth.sendPasswordResetEmail(email, config );
+    try {
+      auth.sendPasswordResetEmail(email, config);
+
+      setEmail('')
+      setLoading(false)
+
+      // use toast to send notification
+      toast.success(
+        `Email is sent to ${email}. click the link to reset password`
+      );
+    } catch (error) {
+        setLoading(false)
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -54,12 +67,10 @@ const ForgotPassword = ({ history }) => {
               className="btn btn-raised mt-3"
               disabled={!email}
               onClick={handleSubmit}
-            >Submit</button>
+            >
+              Submit
+            </button>
           </form>
-
-          <Link to="/forgot/password" className="float-right text-danger mt-4">
-            Login
-          </Link>
         </div>
       </div>
     </div>
