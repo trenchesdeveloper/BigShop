@@ -4,6 +4,7 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import color from "colors";
 import authRouter from "./routes/authRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 // configure dotenv
@@ -35,5 +36,7 @@ app.get("/", (req, res, next) => {
 
 // MOUNT ROUTERS
 app.use("api/auth", authRouter);
+app.use("api/user", userRouter);
+
 
 app.listen(PORT, () => console.log(`app running on port ${PORT}`.yellow.bold));
