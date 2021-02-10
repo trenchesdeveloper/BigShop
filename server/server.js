@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import color from "colors";
@@ -12,6 +13,7 @@ dotenv.config();
 
 // MIDDLEWARE
 app.use(express.json());
+//app.use(cors());
 
 // DATABASE CONNECTION
 mongoose
@@ -33,10 +35,8 @@ app.get("/", (req, res, next) => {
   res.status(200).json({ message: "you hit a new route" });
 });
 
-
 // MOUNT ROUTERS
-app.use("api/auth", authRouter);
-app.use("api/user", userRouter);
-
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 app.listen(PORT, () => console.log(`app running on port ${PORT}`.yellow.bold));

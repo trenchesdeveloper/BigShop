@@ -1,7 +1,9 @@
 import { LOGGED_IN_USER, LOGOUT } from "../constants/userConstants";
+import axios from "axios";
 
 export const loginUser = (user) => async (dispatch) => {
   try {
+
     dispatch({ type: LOGGED_IN_USER, payload: user });
   } catch (error) {
     dispatch({ type: "ERROR" });
@@ -15,4 +17,3 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: "ERROR" });
   }
 };
-

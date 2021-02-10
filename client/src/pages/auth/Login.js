@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -8,6 +9,19 @@ import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
 import Loader from "../../components/Loader";
 
+const createOrUpdateUser = async (authToken) => {
+  return await axios.post(
+    "/api/auth/createOrUpdateUser",
+    {},
+    {
+      "Content-Type": "application/json",
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
+
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,9 +30,9 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user, history]);
+  // useEffect(() => {
+  //   if (user && user.token) history.push("/");
+  // }, [user, history]);
 
   // handler
   const handleSubmit = async (e) => {
@@ -27,16 +41,20 @@ const Login = ({ history }) => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
       const idTokenResult = await user.getIdTokenResult();
+      // send token to
+      const res = await createOrUpdateUser(idTokenResult.token);
 
-      // dispatch the action
-      dispatch(
-        loginUser({
-          email: user.email,
-          token: idTokenResult.token,
-        })
-      );
+      console.log(res);
 
-      history.push("/");
+      // // dispatch the action
+      // dispatch(
+      //   loginUser({
+      //     email: user.email,
+      //     token: idTokenResult.token,
+      //   })
+      // );
+
+      // history.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
