@@ -9,14 +9,14 @@ import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
 import Loader from "../../components/Loader";
 
-const createOrUpdateUser = async (authToken) => {
+const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
     "/api/auth/createOrUpdateUser",
     {},
     {
       "Content-Type": "application/json",
       headers: {
-        authToken,
+        authtoken,
       },
     }
   );

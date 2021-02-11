@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "subscriber",
     },
+    picture: String,
 
     cart: {
       type: Array,
