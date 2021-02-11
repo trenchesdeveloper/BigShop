@@ -70,11 +70,18 @@ const Login = ({ history }) => {
 
       const idTokenResult = await user.getIdTokenResult();
 
+      // send token to backend
+      const { data } = await createOrUpdateUser(idTokenResult.token);
+      console.log(data);
+
       // dispatch the action
       dispatch(
         loginUser({
-          email: user.email,
+          email: data.email,
+          name: data.name,
           token: idTokenResult.token,
+          role: data.role,
+          _id: data._id,
         })
       );
 
