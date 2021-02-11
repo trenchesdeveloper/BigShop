@@ -30,9 +30,9 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (user && user.token) history.push("/");
-  // }, [user, history]);
+  useEffect(() => {
+    if (user && user.token) history.push("/");
+  }, [user, history]);
 
   // handler
   const handleSubmit = async (e) => {
@@ -41,20 +41,22 @@ const Login = ({ history }) => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
       const idTokenResult = await user.getIdTokenResult();
-      // send token to
-      const res = await createOrUpdateUser(idTokenResult.token);
+      // send token to backend
+      const { data } = await createOrUpdateUser(idTokenResult.token);
+      console.log(data);
 
-      console.log(res);
+      // dispatch the action
+      dispatch(
+        loginUser({
+          email: data.email,
+          name: data.name,
+          token: idTokenResult.token,
+          role: data.role,
+          _id: data._id,
+        })
+      );
 
-      // // dispatch the action
-      // dispatch(
-      //   loginUser({
-      //     email: user.email,
-      //     token: idTokenResult.token,
-      //   })
-      // );
-
-      // history.push("/");
+      history.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
