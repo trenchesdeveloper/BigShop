@@ -19,7 +19,7 @@ const Header = () => {
   // dispatch
   const dispatch = useDispatch();
   let history = useHistory();
-  const user = useSelector((state) => state.user);
+  const {user} = useSelector((state) => state.userInfo);
 
   // create click handler
   const handleClick = (e) => {
@@ -34,8 +34,6 @@ const Header = () => {
 
     history.push("/login");
   };
-
-  
 
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
@@ -56,7 +54,12 @@ const Header = () => {
       )}
 
       {user && (
-        <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user && user.email.split('@')[0]} className='float-right'>
+        <SubMenu
+          key="SubMenu"
+          icon={<SettingOutlined />}
+          title=''
+          className="float-right"
+        >
           <Item key="setting:1">Option 1</Item>
           <Item key="setting:2">Option 2</Item>
           <Item icon={<LogoutOutlined />} onClick={logoutHandler}>

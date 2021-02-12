@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser } from "../../actions/userActions";
 import { auth } from "../../firebase";
-
-
-
-const createOrUpdateUser = async (authtoken) => {
-  return await axios.post(
-    "/api/auth/createOrUpdateUser",
-    {},
-    {
-      "Content-Type": "application/json",
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
-
-
+import { createOrUpdateUser } from "../../fetchUtils/auth";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);

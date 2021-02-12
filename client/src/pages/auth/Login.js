@@ -8,19 +8,7 @@ import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { loginUser } from "../../actions/userActions";
 import Loader from "../../components/Loader";
-
-const createOrUpdateUser = async (authtoken) => {
-  return await axios.post(
-    "/api/auth/createOrUpdateUser",
-    {},
-    {
-      "Content-Type": "application/json",
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
+import { createOrUpdateUser } from "../../fetchUtils/auth";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -28,7 +16,7 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     if (user && user.token) history.push("/");
@@ -41,18 +29,10 @@ const Login = ({ history }) => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
       const idTokenResult = await user.getIdTokenResult();
-      // send token to backend
-      const { data } = await createOrUpdateUser(idTokenResult.token);
-      console.log(data);
-
       // dispatch the action
       dispatch(
         loginUser({
-          email: data.email,
-          name: data.name,
           token: idTokenResult.token,
-          role: data.role,
-          _id: data._id,
         })
       );
 
@@ -70,20 +50,8 @@ const Login = ({ history }) => {
 
       const idTokenResult = await user.getIdTokenResult();
 
-      // send token to backend
-      const { data } = await createOrUpdateUser(idTokenResult.token);
-      console.log(data);
-
       // dispatch the action
-      dispatch(
-        loginUser({
-          email: data.email,
-          name: data.name,
-          token: idTokenResult.token,
-          role: data.role,
-          _id: data._id,
-        })
-      );
+      dispatch(loginUser(idTokenResult.token));
 
       history.push("/");
     } catch (error) {
