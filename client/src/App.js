@@ -14,7 +14,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
-import History from "./pages/users/History";
+import UserDashboard from "./pages/users/UserDashboard";
 
 const App = () => {
   // const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const App = () => {
   //     }
   //   });
 
-    // clean up
+  // clean up
   //   return () => unsubscribe();
   // }, [dispatch]);
 
@@ -44,7 +44,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/history" component={UserDashboard} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
