@@ -20,8 +20,8 @@ const Login = ({ history }) => {
   useEffect(() => {
     if (userInfo && userInfo.token && userInfo.role === "admin") {
       history.push("/admin/dashboard");
-    } else if(userInfo && userInfo.token) {
-      history.push("/");
+    } else if(userInfo && userInfo.token ) {
+      history.push("/user/history");
     }
   }, [userInfo, history]);
 

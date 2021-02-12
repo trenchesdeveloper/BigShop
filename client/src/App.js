@@ -7,12 +7,14 @@ import { loginUser } from "./actions/userActions";
 
 //COMPONENTS
 import Header from "./components/Nav/Header";
+import UserRoute from "./components/Routes/UserRoute";
 import { auth } from "./firebase";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
+import History from "./pages/users/History";
 
 const App = () => {
   // const dispatch = useDispatch();
@@ -42,6 +44,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <UserRoute exact path="/user/history" component={History} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
