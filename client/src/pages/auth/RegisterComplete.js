@@ -11,7 +11,7 @@ const RegisterComplete = ({ history }) => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const userInfo = useSelector((state) => state.userLogin);
 
   useEffect(() => {
     const getEmail = localStorage.getItem("emailForRegistration")
@@ -52,20 +52,9 @@ const RegisterComplete = ({ history }) => {
         await user.updatePassword(password);
 
         const idTokenResult = await user.getIdTokenResult();
-        // send token to backend
-        const { data } = await createOrUpdateUser(idTokenResult.token);
-        console.log(data);
 
         // dispatch the action
-        dispatch(
-          loginUser({
-            email: data.email,
-            name: data.name,
-            token: idTokenResult.token,
-            role: data.role,
-            _id: data._id,
-          })
-        );
+        dispatch(loginUser(idTokenResult.token));
         //redirect
         history.push("/");
       }

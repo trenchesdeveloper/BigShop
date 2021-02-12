@@ -15,26 +15,26 @@ import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
 
 const App = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const idTokenResult = await user.getIdTokenResult();
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     if (user) {
+  //       const idTokenResult = await user.getIdTokenResult();
 
-        // dispatch the action
-        dispatch(
-          loginUser({
-            email: user.email,
-            token: idTokenResult.token,
-          })
-        );
-      }
-    });
+  //       // dispatch the action
+  //       dispatch(
+  //         loginUser({
+  //           email: user.email,
+  //           token: idTokenResult.token,
+  //         })
+  //       );
+  //     }
+  //   });
 
     // clean up
-    return () => unsubscribe();
-  }, [dispatch]);
+  //   return () => unsubscribe();
+  // }, [dispatch]);
 
   return (
     <Router>

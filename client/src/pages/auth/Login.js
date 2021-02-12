@@ -13,34 +13,28 @@ import { createOrUpdateUser } from "../../fetchUtils/auth";
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.userInfo);
+  const { userInfo, loading, error } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user, history]);
+    if (userInfo && userInfo.token) history.push("/");
+  }, [userInfo, history]);
 
   // handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
       const idTokenResult = await user.getIdTokenResult();
       // dispatch the action
-      dispatch(
-        loginUser({
-          token: idTokenResult.token,
-        })
-      );
+      dispatch(loginUser(idTokenResult.token));
 
       history.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-      setLoading(false);
     }
   };
 
@@ -49,6 +43,7 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithPopup(googleAuthProvider);
 
       const idTokenResult = await user.getIdTokenResult();
+      console.log(idTokenResult.token);
 
       // dispatch the action
       dispatch(loginUser(idTokenResult.token));

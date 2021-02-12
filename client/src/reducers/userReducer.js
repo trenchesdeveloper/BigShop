@@ -1,12 +1,23 @@
-import { LOGGED_IN_USER, LOGOUT } from "../constants/userConstants";
+import {
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  LOGOUT,
+} from "../constants/userConstants";
 
-export const userReducer = (state = { user: {} }, action) => {
+export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
-    case LOGGED_IN_USER:
-      return {...state,  user: action.payload };
+    case USER_LOGIN_REQUEST:
+      return { loading: true };
+
+    case USER_LOGIN_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+
+    case USER_LOGIN_FAIL:
+      return { loading: false, error: action.payload };
 
     case LOGOUT:
-      return {...state, user: {} };
+      return {};
 
     default:
       return state;

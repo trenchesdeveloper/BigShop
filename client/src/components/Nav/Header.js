@@ -19,7 +19,7 @@ const Header = () => {
   // dispatch
   const dispatch = useDispatch();
   let history = useHistory();
-  const {user} = useSelector((state) => state.userInfo);
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   // create click handler
   const handleClick = (e) => {
@@ -41,23 +41,27 @@ const Header = () => {
         <Link to="/">Home</Link>
       </Item>
 
-      {!user && (
+      {!userInfo && (
         <Item key="register" icon={<UserAddOutlined />} className="float-right">
           <Link to="/register">Register </Link>
         </Item>
       )}
 
-      {!user && (
+      {!userInfo && (
         <Item key="login" icon={<UserOutlined />} className="float-right">
           <Link to="/login">Login</Link>
         </Item>
       )}
 
-      {user && (
+      {userInfo && (
         <SubMenu
           key="SubMenu"
           icon={<SettingOutlined />}
-          title=''
+          title={
+            userInfo && userInfo.name
+              ? userInfo.name.split(" ")
+              : userInfo.email.split("@")
+          }
           className="float-right"
         >
           <Item key="setting:1">Option 1</Item>
