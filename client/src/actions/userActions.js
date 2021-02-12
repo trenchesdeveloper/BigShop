@@ -6,6 +6,7 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import { createOrUpdateUser } from "../fetchUtils/auth";
+import {} from "react-router-dom";
 
 export const loginUser = (token) => async (dispatch) => {
   dispatch({ type: USER_LOGIN_REQUEST });
@@ -22,7 +23,7 @@ export const loginUser = (token) => async (dispatch) => {
       config
     );
 
- 
+    data.token = token;
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 

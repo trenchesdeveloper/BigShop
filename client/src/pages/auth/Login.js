@@ -18,7 +18,11 @@ const Login = ({ history }) => {
   const { userInfo, loading, error } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
-    if (userInfo && userInfo.token) history.push("/");
+    if (userInfo && userInfo.token && userInfo.role === "admin") {
+      history.push("/admin/dashboard");
+    } else if(userInfo && userInfo.token) {
+      history.push("/");
+    }
   }, [userInfo, history]);
 
   // handler
@@ -30,12 +34,12 @@ const Login = ({ history }) => {
       const idTokenResult = await user.getIdTokenResult();
       // dispatch the action
       dispatch(loginUser(idTokenResult.token));
-
-      history.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
     }
+
+    console.log(userInfo);
   };
 
   const googleLogin = async () => {
@@ -47,8 +51,6 @@ const Login = ({ history }) => {
 
       // dispatch the action
       dispatch(loginUser(idTokenResult.token));
-
-      history.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
