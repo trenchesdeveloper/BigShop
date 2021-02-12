@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import AppError from "../utils/appError.js";
 
 export const createOrUpdateUser = asyncHandler(async (req, res, next) => {
   const { name, email, picture } = req.user;
@@ -21,4 +22,16 @@ export const createOrUpdateUser = asyncHandler(async (req, res, next) => {
 
     console.log(newUser);
   }
+});
+
+export const currentUser = asyncHandler(async (req, res, next) => {
+  const { email } = req.user;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return next(new AppError("user not found", 404));
+  }
+
+  res.status(200).json(user);
 });
