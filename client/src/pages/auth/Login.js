@@ -21,7 +21,7 @@ const Login = ({ history }) => {
     if (userInfo && userInfo.token && userInfo.role === "admin") {
       history.push("/admin/dashboard");
     } else if(userInfo && userInfo.token ) {
-      history.push("/user/history");
+      history.push("/user/dashboard");
     }
   }, [userInfo, history]);
 

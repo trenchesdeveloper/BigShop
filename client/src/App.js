@@ -14,7 +14,9 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
+import Password from "./pages/users/Password";
 import UserDashboard from "./pages/users/UserDashboard";
+import Wishlist from "./pages/users/Wishlist";
 
 const App = () => {
   // const dispatch = useDispatch();
@@ -44,7 +46,9 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <UserRoute exact path="/user/history" component={UserDashboard} />
+        <UserRoute exact path="/user/dashboard" component={UserDashboard} />
+        <UserRoute exact path="/user/password" component={Password} />
+        <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
