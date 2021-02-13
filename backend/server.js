@@ -7,6 +7,7 @@ import color from "colors";
 import globalErrorHandler from "./controllers/errorControllers.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import categoryRouter from "./routes/categoryRoutes.js";
 
 const app = express();
 // configure dotenv
@@ -39,6 +40,7 @@ app.get("/", (req, res, next) => {
 // MOUNT ROUTERS
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/category", categoryRouter);
 
 app.use(globalErrorHandler);
 
