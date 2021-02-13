@@ -7,8 +7,10 @@ import { loginUser } from "./actions/userActions";
 
 //COMPONENTS
 import Header from "./components/Nav/Header";
+import AdminRoute from "./components/Routes/AdminRoute";
 import UserRoute from "./components/Routes/UserRoute";
-import { auth } from "./firebase";
+// import { auth } from "./firebase";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -48,6 +50,7 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <UserRoute exact path="/user/dashboard" component={UserDashboard} />
         <UserRoute exact path="/user/password" component={Password} />
+        <AdminRoute exact path="/admin/dashboard" component={AdminDashboard}/>
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />
