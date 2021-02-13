@@ -8,6 +8,8 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(process.env.REACT_APP_REGISTER_REDIRECT_URL);
+
     // create a redirect config
     const config = {
       url: process.env.REACT_APP_REGISTER_REDIRECT_URL,

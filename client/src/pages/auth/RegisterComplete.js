@@ -21,6 +21,14 @@ const RegisterComplete = ({ history }) => {
     setEmail(getEmail);
   }, []);
 
+  useEffect(() => {
+    if (userInfo && userInfo.token && userInfo.role === "admin") {
+      history.push("/admin/dashboard");
+    } else if (userInfo && userInfo.token) {
+      history.push("/user/dashboard");
+    }
+  }, [userInfo, history]);
+
   // handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +64,7 @@ const RegisterComplete = ({ history }) => {
         // dispatch the action
         dispatch(loginUser(idTokenResult.token));
         //redirect
-        history.push("/");
+        
       }
     } catch (error) {
       toast.error(error.message);
