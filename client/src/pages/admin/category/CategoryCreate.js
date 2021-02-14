@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AdminNav from "../../../components/Nav/AdminNav";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
-import {
-  createCategory,
-  getCategories,
-  deleteCategory,
-} from "../../../fetchUtils/auth";
+import Message from "../../../components/Message";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { categoryCreate, categoryList } from "../../../actions/categoryActions";
 
 const CategoryCreate = () => {
@@ -16,9 +14,14 @@ const CategoryCreate = () => {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, success, category } = useSelector(
+  const { loading, error, success } = useSelector(
     (state) => state.categoryCreate
   );
+  const {
+    loading: loadingCategory,
+    error: errorCategory,
+    category,
+  } = useSelector((state) => state.categoryList);
 
   useEffect(() => {
     dispatch(categoryList());
@@ -30,6 +33,10 @@ const CategoryCreate = () => {
     dispatch(categoryCreate(userInfo.token, name));
     setName("");
   };
+
+ const deleteHandler = (slug) =>{
+    dispatch()
+ }
 
   useEffect(() => {
     if (success) {
@@ -65,6 +72,34 @@ const CategoryCreate = () => {
               <div></div>
             </div>
           </form>
+
+          <hr />
+
+          {loadingCategory ? (
+            <Loader />
+          ) : errorCategory ? (
+            <Message>{errorCategory}</Message>
+          ) : (
+            category.map((cat) => (
+              <div key={cat.id} className="alert alert-secondary">
+                {cat.name}
+                <span
+                  className="float-right btn btn-sm"
+                  onClick={() => deleteHandler(cat.slug)}
+                >
+                  {" "}
+                  <DeleteOutlined className="text-danger" />{" "}
+                </span>
+                <Link to={`/admin/category/${cat.slug}`}>
+                  {" "}
+                  <span className="float-right btn btn-sm">
+                    {" "}
+                    <EditOutlined className="text-warning" />{" "}
+                  </span>
+                </Link>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
