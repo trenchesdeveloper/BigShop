@@ -4,7 +4,7 @@ import {
   categoryDeleteReducer,
   categoryGetReducer,
   categoryListReducer,
-  categoryReducer,
+  categoryUpdateReducer,
 } from "./categoryReducer";
 import { userLoginReducer } from "./userReducer";
 
@@ -14,6 +14,7 @@ const reducer = combineReducers({
   categoryList: categoryListReducer,
   categoryDelete: categoryDeleteReducer,
   category: categoryGetReducer,
+  categoryUpdate: categoryUpdateReducer,
 });
 
 export default reducer;

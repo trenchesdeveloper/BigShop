@@ -11,37 +11,36 @@ import {
   categoryDelete,
   categoryGet,
   categoryList,
+  categoryUpdate,
 } from "../../../actions/categoryActions";
+import { CATEGORY_UPDATE_RESET } from "../../../constants/categoryConstants";
 
-const CategoryUpdate = ({ match }) => {
+const CategoryUpdate = ({ match, history }) => {
   const { slug } = match.params;
-  const {
-    loading: loadingCategory,
-    error: errorCategory,
-    category,
-  } = useSelector((state) => state.category);
 
   const [name, setName] = useState("");
 
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, success } = useSelector(
-    (state) => state.categoryCreate
-  );
 
   const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = useSelector((state) => state.categoryDelete);
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = useSelector((state) => state.categoryUpdate);
 
   useEffect(() => {
     dispatch(categoryGet(slug));
-  }, [dispatch, slug]);
+    if (successUpdate) {
+      history.push("/admin/category");
+      dispatch({ type: CATEGORY_UPDATE_RESET });
+    }
+  }, [dispatch, slug, successUpdate, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(categoryUpdate(userInfo.token, name, slug));
   };
 
   return (
@@ -65,7 +64,9 @@ const CategoryUpdate = ({ match }) => {
                 required
               />
               <br />
-              <button className="btn btn-outline-primary  ">Update</button>
+              <button className="btn btn-outline-primary" disabled={!name}>
+                Update
+              </button>
 
               <div></div>
             </div>

@@ -91,12 +91,36 @@ export const categoryGet = (slug) => async (dispatch) => {
   try {
     // fetch to backend and verify token
     const { data } = await axios.get(`/api/category/${slug}`);
-   
 
     dispatch({ type: CATEGORY_GET_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: CATEGORY_GET_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const categoryUpdate = (token, name, slug) => async (dispatch) => {
+  dispatch({ type: CATEGORY_UPDATE_REQUEST });
+  try {
+    const config = {
+      headers: {
+        token,
+      },
+    };
+
+    // fetch to backend and verify token
+    const { data } = await axios.put(`/api/category/${slug}`, { name }, config);
+    console.log(data);
+
+    dispatch({ type: CATEGORY_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
