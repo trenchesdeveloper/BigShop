@@ -2,6 +2,9 @@ import {
   CATEGORY_CREATE_FAIL,
   CATEGORY_CREATE_REQUEST,
   CATEGORY_CREATE_SUCCESS,
+  CATEGORY_LIST_FAIL,
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
 } from "../constants/categoryConstants";
 import axios from "axios";
 
@@ -22,6 +25,27 @@ export const categoryCreate = (token, name) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CATEGORY_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const categoryList = () => async (dispatch) => {
+  dispatch({ type: CATEGORY_LIST_REQUEST });
+  try {
+
+    // fetch to backend and verify token
+    const { data } = await axios.get("/api/category");
+    console.log(data);
+
+    dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

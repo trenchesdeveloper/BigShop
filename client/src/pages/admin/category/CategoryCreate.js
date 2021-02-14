@@ -8,7 +8,7 @@ import {
   getCategories,
   deleteCategory,
 } from "../../../fetchUtils/auth";
-import { categoryCreate } from "../../../actions/categoryActions";
+import { categoryCreate, categoryList } from "../../../actions/categoryActions";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -19,6 +19,10 @@ const CategoryCreate = () => {
   const { loading, error, success, category } = useSelector(
     (state) => state.categoryCreate
   );
+
+  useEffect(() => {
+    dispatch(categoryList());
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
