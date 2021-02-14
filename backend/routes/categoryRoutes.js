@@ -16,6 +16,10 @@ const router = express.Router();
 
 router.route("/").get(getAll).post(authCheck, adminCheck, create);
 
-router.route("/:slug").get(getOne).put(updateOne).delete(deleteOne);
+router
+  .route("/:slug")
+  .get(getOne)
+  .put(authCheck, adminCheck, updateOne)
+  .delete(authCheck, adminCheck, deleteOne);
 
 export default router;

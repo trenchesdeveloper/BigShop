@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import slugify from 'slugify'
+import slugify from "slugify";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const categorySchema = new mongoose.Schema(
       minlength: [3, "Too short"],
       maxlength: [32, "Too long"],
     },
-    slog: {
+    slug: {
       type: String,
       lowercase: true,
       unique: true,
@@ -20,9 +20,11 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-categorySchema.pre('save', function(next){
-    return this.slug = slugify(this.name)
-})
+categorySchema.pre("save", async function (next) {
+  
+  this.slug = await slugify(this.name);
+  next();
+});
 
 const Category = mongoose.model("Category", categorySchema);
 

@@ -4,7 +4,11 @@ import AppError from "../utils/appError.js";
 
 
 export const create = asyncHandler(async (req, res, next) =>{
+    const {name} = req.body;
 
+    const cat = await Category.create({name})
+
+    res.status(201).json(cat)
 })
 
 export const getAll = asyncHandler(async (req, res, next) => {});
