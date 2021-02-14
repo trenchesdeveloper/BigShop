@@ -1,19 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
 import LoadingToRedirect from "./LoadingToRedirect";
+import { currentAdmin } from "../../fetchUtils/auth";
 
 const AdminRoute = ({ history, children, ...rest }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
+  const [ok, setOk] = useState(false);
 
   useEffect(() => {
-    if (!userInfo && userInfo.role !== "admin") {
-      history.push("/");
+    if (userInfo && userInfo.token) {
+      currentAdmin(userInfo.token)
+        .then((res) => {
+          console.log(res);
+          setOk(true);
+        })
+        .catch(err =>console.log(err, 'ADMIN ROUTE ERR'));
     }
-  }, [userInfo, history]);
+  }, [userInfo]);
 
-  return userInfo && userInfo.role === 'admin' ? (
+  return ok ? (
     <Route {...rest} />
   ) : (
     <LoadingToRedirect />

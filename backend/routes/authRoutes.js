@@ -8,6 +8,6 @@ router.post("/createOrUpdateUser", authCheck, createOrUpdateUser);
 
 router.get('/currentUser', authCheck, currentUser);
 
-router.get("/currentAdmin", authCheck,adminCheck, currentUser);
+router.get("/currentAdmin", authCheck, adminCheck, currentUser);
 
 export default router;

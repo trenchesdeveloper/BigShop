@@ -1,11 +1,13 @@
 import asyncHandler from "express-async-handler";
 import admin from "../utils/firebase.js";
 import User from "../models/userModel.js";
-import AppError from '../utils/appError.js'
+import AppError from "../utils/appError.js";
 
 export const authCheck = asyncHandler(async (req, res, next) => {
   // 1) Get the authToken from req.headers
   const { token } = req.headers;
+
+  console.log(token);
 
   // 2) Authenticate the user
   const firebaseUser = await admin.auth().verifyIdToken(token);
@@ -21,14 +23,16 @@ export const adminCheck = asyncHandler(async (req, res, next) => {
 
   const adminUser = await User.findOne({ email });
 
+  console.log(adminUser);
+
   if (!adminUser) {
     return next(new AppError("user not found", 404));
   }
 
   // check if the role is admin
-  if(adminUser !== 'admin'){
+  if (adminUser.role !== "admin") {
     return next(new AppError("not authorized", 403));
   }
-  
+
   next();
 });
