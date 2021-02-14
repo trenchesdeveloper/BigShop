@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { categoryCreate, categoryList } from "../../../actions/categoryActions";
+import {
+  categoryCreate,
+  categoryDelete,
+  categoryList,
+} from "../../../actions/categoryActions";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -23,9 +27,19 @@ const CategoryCreate = () => {
     category,
   } = useSelector((state) => state.categoryList);
 
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = useSelector((state) => state.categoryDelete);
+
   useEffect(() => {
     dispatch(categoryList());
-  }, [dispatch]);
+
+    if (successDelete) {
+      dispatch(categoryList());
+    }
+  }, [dispatch, successDelete]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,17 +48,27 @@ const CategoryCreate = () => {
     setName("");
   };
 
- const deleteHandler = (slug) =>{
-    dispatch()
- }
+  const deleteHandler = (slug) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      dispatch(categoryDelete(userInfo.token, slug));
+    }
+
+    if (successDelete) {
+      toast.success("Deleted Successfully");
+      dispatch(categoryList());
+    } else if (errorDelete) {
+      toast.error(error);
+    }
+  };
 
   useEffect(() => {
     if (success) {
       toast.success("Category Created");
+      dispatch(categoryList());
     } else if (error) {
       toast.error(error);
     }
-  }, [error, success]);
+  }, [dispatch, error, success]);
 
   return (
     <div className="container-fluid">
