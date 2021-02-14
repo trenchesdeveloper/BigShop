@@ -13,8 +13,10 @@ export const categoryCreate = (token, name) => async (dispatch) => {
         token,
       },
     };
+   
     // fetch to backend and verify token
-    const { data } = await axios.post("/api/category", name, config);
+    const { data } = await axios.post("/api/category", { name }, config);
+    console.log(data);
 
     dispatch({ type: CATEGORY_CREATE_SUCCESS, payload: data });
   } catch (error) {

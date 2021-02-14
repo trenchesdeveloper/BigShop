@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/Nav/AdminNav";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from '../../../components/Loader'
+import Loader from "../../../components/Loader";
 import {
   createCategory,
   getCategories,
@@ -27,6 +27,14 @@ const CategoryCreate = () => {
     setName("");
   };
 
+  useEffect(() => {
+    if (success) {
+      toast.success("Category Created");
+    } else if (error) {
+      toast.error(error);
+    }
+  }, [error, success]);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -35,9 +43,7 @@ const CategoryCreate = () => {
         </div>
         <div className="col">
           <h4>Create Category</h4>
-          {loading && <Loader />}
-          {error && toast.error(error)}
-          {success && toast.success('Category created')}
+
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="">Name</label>
@@ -51,6 +57,8 @@ const CategoryCreate = () => {
               />
               <br />
               <button className="btn btn-outline-primary  ">Save</button>
+
+              <div></div>
             </div>
           </form>
         </div>
