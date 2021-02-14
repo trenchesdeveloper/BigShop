@@ -29,6 +29,14 @@ export const getOne = asyncHandler(async (req, res, next) => {
 export const updateOne = asyncHandler(async (req, res, next) => {
      const cat = await Category.findOne({ slug: req.params.slug });
 
+      if (!cat) {
+        next(new AppError("category not found", 404));
+      }
+
 });
 
-export const deleteOne = asyncHandler(async (req, res, next) => {});
+export const deleteOne = asyncHandler(async (req, res, next) => {
+    await Category.findOneAndDelete({ slug: req.params.slug });
+
+    res.status(204).send('deleted')
+});
