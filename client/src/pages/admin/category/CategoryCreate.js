@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/Nav/AdminNav";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from '../../../components/Loader'
 import {
   createCategory,
   getCategories,
   deleteCategory,
 } from "../../../fetchUtils/auth";
+import { categoryCreate } from "../../../actions/categoryActions";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
 
+  const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, success, category } = useSelector(
+    (state) => state.categoryCreate
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name);
+
+    dispatch(categoryCreate(userInfo.token, name));
+    setName("");
   };
 
   return (
@@ -24,6 +35,9 @@ const CategoryCreate = () => {
         </div>
         <div className="col">
           <h4>Create Category</h4>
+          {loading && <Loader />}
+          {error && toast.error(error)}
+          {success && toast.success('Category created')}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="">Name</label>
