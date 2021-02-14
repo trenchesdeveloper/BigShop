@@ -25,7 +25,7 @@ const subCategorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-categorySchema.pre("save", async function (next) {
+subCategorySchema.pre("save", async function (next) {
   this.slug = await slugify(this.name);
   next();
 });
