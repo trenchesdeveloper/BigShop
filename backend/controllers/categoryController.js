@@ -26,6 +26,9 @@ export const getOne = asyncHandler(async (req, res, next) => {
   res.status(200).json(cat);
 });
 
-export const updateOne = asyncHandler(async (req, res, next) => {});
+export const updateOne = asyncHandler(async (req, res, next) => {
+     const cat = await Category.findOne({ slug: req.params.slug });
+
+});
 
 export const deleteOne = asyncHandler(async (req, res, next) => {});
