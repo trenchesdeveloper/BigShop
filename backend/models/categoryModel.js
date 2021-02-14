@@ -13,15 +13,14 @@ const categorySchema = new mongoose.Schema(
     slug: {
       type: String,
       lowercase: true,
-      unique: true,
-      index: true,
+      //unique: true,
+      //index: true,
     },
   },
   { timestamps: true }
 );
 
 categorySchema.pre("save", async function (next) {
-  
   this.slug = await slugify(this.name);
   next();
 });
