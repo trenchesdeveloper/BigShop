@@ -11,6 +11,7 @@ import {
   categoryDelete,
   categoryList,
 } from "../../../actions/categoryActions";
+import CategoryForm from "../../../components/forms/CategoryForm";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -79,23 +80,11 @@ const CategoryCreate = () => {
         <div className="col">
           <h4>Create Category</h4>
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="">Name</label>
-              <input
-                type="text"
-                value={name}
-                className="form-control"
-                onChange={(e) => setName(e.target.value)}
-                autoFocus
-                required
-              />
-              <br />
-              <button className="btn btn-outline-primary  ">Save</button>
-
-              <div></div>
-            </div>
-          </form>
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
 
           <hr />
 

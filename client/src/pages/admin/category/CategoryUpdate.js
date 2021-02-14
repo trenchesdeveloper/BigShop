@@ -14,6 +14,7 @@ import {
   categoryUpdate,
 } from "../../../actions/categoryActions";
 import { CATEGORY_UPDATE_RESET } from "../../../constants/categoryConstants";
+import CategoryForm from "../../../components/forms/CategoryForm";
 
 const CategoryUpdate = ({ match, history }) => {
   const { slug } = match.params;
@@ -30,17 +31,20 @@ const CategoryUpdate = ({ match, history }) => {
     success: successUpdate,
   } = useSelector((state) => state.categoryUpdate);
 
+  const { category } = useSelector((state) => state.category);
+
   useEffect(() => {
     dispatch(categoryGet(slug));
-    if (successUpdate) {
-      history.push("/admin/category");
-      dispatch({ type: CATEGORY_UPDATE_RESET });
-    }
-  }, [dispatch, slug, successUpdate, history]);
+    setName(category.name);
+  }, [dispatch, slug]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(categoryUpdate(userInfo.token, name, slug));
+    toast.success("updated successfully");
+
+    history.push("/admin/category");
+    dispatch({ type: CATEGORY_UPDATE_RESET });
   };
 
   return (
@@ -50,27 +54,12 @@ const CategoryUpdate = ({ match, history }) => {
           <AdminNav />
         </div>
         <div className="col">
-          <h4>Create Category</h4>
-
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="">Name</label>
-              <input
-                type="text"
-                value={name}
-                className="form-control"
-                onChange={(e) => setName(e.target.value)}
-                autoFocus
-                required
-              />
-              <br />
-              <button className="btn btn-outline-primary" disabled={!name}>
-                Update
-              </button>
-
-              <div></div>
-            </div>
-          </form>
+          <h4>Update Category</h4>
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
         </div>
       </div>
     </div>
