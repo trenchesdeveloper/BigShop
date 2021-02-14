@@ -12,6 +12,7 @@ import {
   categoryList,
 } from "../../../actions/categoryActions";
 import CategoryForm from "../../../components/forms/CategoryForm";
+import LocalSearch from "../../../components/forms/LocalSearch";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -65,16 +66,11 @@ const CategoryCreate = () => {
     }
   };
 
-  // step 3
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-
-    setKeyword(e.target.value.toLowerCase());
-  };
-
   // step 4
-  const searched = (keyword) => (check) => check.name.toLowerCase().includes(keyword);
-
+  const searched = (keyword) => (check) => {
+    console.log(check);
+    return check.name.toLowerCase().includes(keyword);
+  };
   useEffect(() => {
     if (success) {
       toast.success("Category Created");
@@ -99,23 +95,16 @@ const CategoryCreate = () => {
             setName={setName}
           />
 
-          {/* step2 - create input field */}
-          <input
-            type="search"
-            placeholder="Filter"
-            value={keyword}
-            onChange={handleSearchChange}
-            className="form-control mb-4"
-          />
+          {/* step2  and step3 create input field */}
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
-          <hr />
+      
 
           {loadingCategories ? (
             <Loader />
           ) : errorCategories ? (
             <Message>{errorCategories}</Message>
-          ) :  (
-            
+          ) : (
             categories.filter(searched(keyword)).map((cat) => (
               <div key={cat.id} className="alert alert-secondary">
                 {cat.name}
