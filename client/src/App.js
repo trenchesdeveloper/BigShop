@@ -12,6 +12,7 @@ import UserRoute from "./components/Routes/UserRoute";
 // import { auth } from "./firebase";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -53,6 +54,7 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute exact path="/admin/category/:slug" component={CategoryUpdate} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />

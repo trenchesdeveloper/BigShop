@@ -22,9 +22,9 @@ const CategoryCreate = () => {
     (state) => state.categoryCreate
   );
   const {
-    loading: loadingCategory,
-    error: errorCategory,
-    category,
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
   } = useSelector((state) => state.categoryList);
 
   const {
@@ -99,12 +99,12 @@ const CategoryCreate = () => {
 
           <hr />
 
-          {loadingCategory ? (
+          {loadingCategories ? (
             <Loader />
-          ) : errorCategory ? (
-            <Message>{errorCategory}</Message>
+          ) : errorCategories ? (
+            <Message>{errorCategories}</Message>
           ) : (
-            category.map((cat) => (
+            categories.map((cat) => (
               <div key={cat.id} className="alert alert-secondary">
                 {cat.name}
                 <span
