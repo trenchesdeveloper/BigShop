@@ -16,6 +16,9 @@ import CategoryForm from "../../../components/forms/CategoryForm";
 const CategoryCreate = () => {
   const [name, setName] = useState("");
 
+  //   step1 - create a keyword state
+  const [keyword, setKeyword] = useState("");
+
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -62,6 +65,16 @@ const CategoryCreate = () => {
     }
   };
 
+  // step 3
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+
+    setKeyword(e.target.value.toLowerCase());
+  };
+
+  // step 4
+  const searched = (keyword) => (check) => check.name.toLowerCase().includes(keyword);
+
   useEffect(() => {
     if (success) {
       toast.success("Category Created");
@@ -86,14 +99,24 @@ const CategoryCreate = () => {
             setName={setName}
           />
 
+          {/* step2 - create input field */}
+          <input
+            type="search"
+            placeholder="Filter"
+            value={keyword}
+            onChange={handleSearchChange}
+            className="form-control mb-4"
+          />
+
           <hr />
 
           {loadingCategories ? (
             <Loader />
           ) : errorCategories ? (
             <Message>{errorCategories}</Message>
-          ) : (
-            categories.map((cat) => (
+          ) :  (
+            
+            categories.filter(searched(keyword)).map((cat) => (
               <div key={cat.id} className="alert alert-secondary">
                 {cat.name}
                 <span
