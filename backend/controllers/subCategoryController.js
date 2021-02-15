@@ -3,9 +3,9 @@ import SubCategory from "../models/subCategorySchema.js";
 import AppError from "../utils/appError.js";
 
 export const create = asyncHandler(async (req, res, next) => {
-  const { name } = req.body;
+  const { name, category } = req.body;
 
-  const subCat = await SubCategory.create({ name });
+  const subCat = await SubCategory.create({ name, parent: category });
 
   res.status(201).json(subCat);
 });

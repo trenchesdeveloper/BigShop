@@ -17,6 +17,7 @@ import { subCategoryList } from "../../../actions/subCategoryActions";
 
 const SubCategoryCreate = () => {
   const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
 
   //   step1 - create a keyword state
   const [keyword, setKeyword] = useState("");
@@ -28,9 +29,9 @@ const SubCategoryCreate = () => {
     (state) => state.categoryCreate
   );
   const {
-    loading: loadinSubgCategories,
-    error: errorSubCategories,
-    subCategories,
+    loading: loadingSubCategory,
+    error: errorSubCategory,
+    subCategory,
   } = useSelector((state) => state.categoryList);
 
   const {
@@ -39,8 +40,17 @@ const SubCategoryCreate = () => {
     success: successDelete,
   } = useSelector((state) => state.subCategoryDelete);
 
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = useSelector((state) => state.categoryList);
+
+  console.log(categories);
+
   useEffect(() => {
     dispatch(subCategoryList());
+    dispatch(categoryList());
 
     if (successDelete) {
       dispatch(categoryList());
@@ -50,7 +60,7 @@ const SubCategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(categoryCreate(userInfo.token, name));
+    dispatch(categoryCreate(userInfo.token, {name, category}));
     setName("");
   };
 
@@ -90,6 +100,24 @@ const SubCategoryCreate = () => {
         <div className="col">
           <h4>Create Sub Category</h4>
 
+          <div className="form-group">
+            <label htmlFor="">Parent Category</label>
+            <select name="name" className="form-control" onChange={(e)=> setCategory(e.target.value)}>
+            <option value="select">select category</option>
+              {loadingCategories ? (
+                <Loader />
+              ) : (
+                categories.length > 0 &&
+                categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+                
+                {JSON.stringify(category )}
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
@@ -99,12 +127,12 @@ const SubCategoryCreate = () => {
           {/* step2  and step3 create input field */}
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
-          {loadingCategories ? (
+          {/* {loadingSubCategory ? (
             <Loader />
-          ) : errorCategories ? (
-            <Message>{errorCategories}</Message>
+          ) : errorSubCategory ? (
+            <Message>{errorSubCategory}</Message>
           ) : (
-            categories.filter(searched(keyword)).map((cat) => (
+            subCategory.filter(searched(keyword)).map((cat) => (
               <div key={cat.id} className="alert alert-secondary">
                 {cat.name}
                 <span
@@ -119,11 +147,11 @@ const SubCategoryCreate = () => {
                   <span className="float-right btn btn-sm">
                     {" "}
                     <EditOutlined className="text-warning" />{" "}
-                  </span>
+                  </span> 
                 </Link>
               </div>
             ))
-          )}
+          )} */}
         </div>
       </div>
     </div>

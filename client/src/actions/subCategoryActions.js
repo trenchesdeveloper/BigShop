@@ -17,7 +17,7 @@ import {
 } from "../constants/subCategoryConstant";
 import axios from "axios";
 
-export const subCategoryCreate = (token, name) => async (dispatch) => {
+export const subCategoryCreate = (token, body) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_CREATE_REQUEST });
   try {
     const config = {
@@ -25,9 +25,9 @@ export const subCategoryCreate = (token, name) => async (dispatch) => {
         token,
       },
     };
-
+ 
     // fetch to backend and verify token
-    const { data } = await axios.post("/api/sub", { name }, config);
+    const { data } = await axios.post("/api/sub", body, config);
     console.log(data);
 
     dispatch({ type: SUBCATEGORY_CREATE_SUCCESS, payload: data });
@@ -50,10 +50,11 @@ export const subCategoryList = () => async (dispatch) => {
     console.log(data);
 
     dispatch({ type: SUBCATEGORY_LIST_SUCCESS, payload: data });
+    console.log(data);
   } catch (error) {
     dispatch({
       type: SUBCATEGORY_LIST_FAIL,
-      payload:
+      payload: 
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
