@@ -13,6 +13,7 @@ import {
 } from "../../../actions/categoryActions";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
+import { subCategoryList } from "../../../actions/subCategoryActions";
 
 const SubCategoryCreate = () => {
   const [name, setName] = useState("");
@@ -39,7 +40,7 @@ const SubCategoryCreate = () => {
   } = useSelector((state) => state.subCategoryDelete);
 
   useEffect(() => {
-    dispatch(subCategoryList);
+    dispatch(subCategoryList());
 
     if (successDelete) {
       dispatch(categoryList());

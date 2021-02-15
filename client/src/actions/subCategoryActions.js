@@ -14,7 +14,7 @@ import {
  SUBCATEGORY_UPDATE_FAIL,
  SUBCATEGORY_UPDATE_REQUEST,
  SUBCATEGORY_UPDATE_SUCCESS,
-} from "../constants/categoryConstants";
+} from "../constants/subCategoryConstant";
 import axios from "axios";
 
 export const subCategoryCreate = (token, name) => async (dispatch) => {
