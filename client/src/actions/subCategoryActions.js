@@ -17,7 +17,7 @@ import {
 } from "../constants/categoryConstants";
 import axios from "axios";
 
-export const categoryCreate = (token, name) => async (dispatch) => {
+export const subCategoryCreate = (token, name) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_CREATE_REQUEST });
   try {
     const config = {
@@ -42,7 +42,7 @@ export const categoryCreate = (token, name) => async (dispatch) => {
   }
 };
 
-export const categoryList = () => async (dispatch) => {
+export const subCategoryList = () => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_LIST_REQUEST });
   try {
     // fetch to backend and verify token
@@ -61,7 +61,7 @@ export const categoryList = () => async (dispatch) => {
   }
 };
 
-export const categoryDelete = (token, slug) => async (dispatch) => {
+export const subCategoryDelete = (token, slug) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_DELETE_REQUEST });
   try {
     const config = {
@@ -86,7 +86,7 @@ export const categoryDelete = (token, slug) => async (dispatch) => {
   }
 };
 
-export const categoryGet = (slug) => async (dispatch) => {
+export const subCategoryGet = (slug) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_GET_REQUEST });
   try {
     // fetch to backend and verify token
@@ -104,7 +104,7 @@ export const categoryGet = (slug) => async (dispatch) => {
   }
 };
 
-export const categoryUpdate = (token, name, slug) => async (dispatch) => {
+export const subCategoryUpdate = (token, name, slug) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_UPDATE_REQUEST });
   try {
     const config = {

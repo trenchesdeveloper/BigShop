@@ -27,19 +27,19 @@ const SubCategoryCreate = () => {
     (state) => state.categoryCreate
   );
   const {
-    loading: loadingCategories,
-    error: errorCategories,
-    categories,
+    loading: loadinSubgCategories,
+    error: errorSubCategories,
+    subCategories,
   } = useSelector((state) => state.categoryList);
 
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = useSelector((state) => state.categoryDelete);
+  } = useSelector((state) => state.subCategoryDelete);
 
   useEffect(() => {
-    dispatch(categoryList());
+    dispatch(subCategoryList);
 
     if (successDelete) {
       dispatch(categoryList());
@@ -87,7 +87,7 @@ const SubCategoryCreate = () => {
           <AdminNav />
         </div>
         <div className="col">
-          <h4>Create Category</h4>
+          <h4>Create Sub Category</h4>
 
           <CategoryForm
             handleSubmit={handleSubmit}
