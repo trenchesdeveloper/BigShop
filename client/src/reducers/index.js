@@ -6,6 +6,7 @@ import {
   categoryListReducer,
   categoryUpdateReducer,
 } from "./categoryReducer";
+import { subCategoryCreateReducer, subCategoryDeleteReducer, subCategoryGetReducer, subCategoryListReducer, subCategoryUpdateReducer } from "./subCategoryReducer";
 import { userLoginReducer } from "./userReducer";
 
 const reducer = combineReducers({
@@ -15,6 +16,11 @@ const reducer = combineReducers({
   categoryDelete: categoryDeleteReducer,
   category: categoryGetReducer,
   categoryUpdate: categoryUpdateReducer,
+  subCategoryCreate: subCategoryCreateReducer,
+  subCategoryList: subCategoryListReducer,
+  subCategory: subCategoryGetReducer,
+  subCategoryUpdate: subCategoryUpdateReducer,
+  subCategoryDelete: subCategoryDeleteReducer,
 });
 
 export default reducer;

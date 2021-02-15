@@ -15,7 +15,7 @@ import {
   SUBCATEGORY_UPDATE_REQUEST,
   SUBCATEGORY_UPDATE_RESET,
   SUBCATEGORY_UPDATE_SUCCESS,
-} from "../constants/categoryConstants";
+} from "../constants/subCategoryConstant";
 
 export const subCategoryCreateReducer = (state = {}, action) => {
   switch (action.type) {
