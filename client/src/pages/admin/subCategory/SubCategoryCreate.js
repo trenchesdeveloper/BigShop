@@ -13,7 +13,7 @@ import {
 } from "../../../actions/categoryActions";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
-import { subCategoryList } from "../../../actions/subCategoryActions";
+import { subCategoryCreate, subCategoryList } from "../../../actions/subCategoryActions";
 
 const SubCategoryCreate = () => {
   const [name, setName] = useState("");
@@ -26,13 +26,13 @@ const SubCategoryCreate = () => {
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const { loading, error, success } = useSelector(
-    (state) => state.categoryCreate
+    (state) => state.subCategoryCreate
   );
   const {
     loading: loadingSubCategory,
     error: errorSubCategory,
     subCategory,
-  } = useSelector((state) => state.categoryList);
+  } = useSelector((state) => state.subCategoryList);
 
   const {
     loading: loadingDelete,
@@ -60,7 +60,7 @@ const SubCategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(categoryCreate(userInfo.token, {name, category}));
+    dispatch(subCategoryCreate(userInfo.token, {name, category}));
     setName("");
   };
 
@@ -84,7 +84,7 @@ const SubCategoryCreate = () => {
   };
   useEffect(() => {
     if (success) {
-      toast.success("Category Created");
+      toast.success("sub Category Created");
       dispatch(categoryList());
     } else if (error) {
       toast.error(error);
@@ -122,6 +122,7 @@ const SubCategoryCreate = () => {
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
+            btn='create'
           />
 
           {/* step2  and step3 create input field */}

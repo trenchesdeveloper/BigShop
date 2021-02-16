@@ -1,6 +1,6 @@
 import React from "react";
 
-const CategoryForm = ({ handleSubmit, name, setName }) => {
+const CategoryForm = ({ handleSubmit, name, setName, btn }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -15,7 +15,7 @@ const CategoryForm = ({ handleSubmit, name, setName }) => {
         />
         <br />
         <button className="btn btn-outline-primary" disabled={!name}>
-          Update
+        {btn}
         </button>
 
         <div></div>

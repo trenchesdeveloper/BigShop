@@ -71,6 +71,7 @@ const CategoryCreate = () => {
     console.log(check);
     return check.name.toLowerCase().includes(keyword);
   };
+  
   useEffect(() => {
     if (success) {
       toast.success("Category Created");
@@ -93,6 +94,7 @@ const CategoryCreate = () => {
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
+            btn='Create'
           />
 
           {/* step2  and step3 create input field */}

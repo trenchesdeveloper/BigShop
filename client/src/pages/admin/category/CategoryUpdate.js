@@ -59,6 +59,7 @@ const CategoryUpdate = ({ match, history }) => {
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
+            btn='Update'
           />
         </div>
       </div>
