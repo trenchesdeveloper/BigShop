@@ -153,7 +153,7 @@ const SubCategoryCreate = () => {
                   {" "}
                   <DeleteOutlined className="text-danger" />{" "}
                 </span>
-                <Link to={`/admin/category/${subCat.slug}`}>
+                <Link to={`/admin/sub/${subCat.slug}`}>
                   {" "}
                   <span className="float-right btn btn-sm">
                     {" "}

@@ -105,7 +105,7 @@ export const subCategoryGet = (slug) => async (dispatch) => {
   }
 };
 
-export const subCategoryUpdate = (token, name, slug) => async (dispatch) => {
+export const subCategoryUpdate = (token, body, slug) => async (dispatch) => {
   dispatch({ type: SUBCATEGORY_UPDATE_REQUEST });
   try {
     const config = {
@@ -115,7 +115,7 @@ export const subCategoryUpdate = (token, name, slug) => async (dispatch) => {
     };
 
     // fetch to backend and verify token
-    const { data } = await axios.put(`/api/sub/${slug}`, { name }, config);
+    const { data } = await axios.put(`/api/sub/${slug}`, body, config);
     console.log(data);
 
     dispatch({ type: SUBCATEGORY_UPDATE_SUCCESS, payload: data });
