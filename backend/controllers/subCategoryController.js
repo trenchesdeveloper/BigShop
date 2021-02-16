@@ -35,7 +35,7 @@ export const updateOne = asyncHandler(async (req, res, next) => {
     next(new AppError("sub-category not found", 404));
   }
   cat.name = req.body.name;
-  cat.parent = req.body.category
+  cat.parent = req.body.parent
 
   const updatedSubCategory = await cat.save();
 
