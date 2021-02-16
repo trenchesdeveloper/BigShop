@@ -76,7 +76,7 @@ const SubCategoryCreate = () => {
     if (successDelete) {
       toast.success("Deleted Successfully");
       dispatch(categoryList());
-      dispatch(subCategoryList())
+      dispatch(subCategoryList());
     } else if (errorDelete) {
       toast.error(error);
     }
@@ -127,7 +127,6 @@ const SubCategoryCreate = () => {
             </select>
           </div>
 
-          {JSON.stringify(category)}
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}

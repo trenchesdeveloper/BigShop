@@ -9,46 +9,93 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
   categoryCreate,
   categoryDelete,
-  categoryGet,
   categoryList,
-  categoryUpdate,
 } from "../../../actions/categoryActions";
-import { CATEGORY_UPDATE_RESET } from "../../../constants/categoryConstants";
 import CategoryForm from "../../../components/forms/CategoryForm";
-import { subCategoryUpdate } from "../../../actions/subCategoryActions";
-import { SUBCATEGORY_UPDATE_RESET } from "../../../constants/subCategoryConstant";
+import LocalSearch from "../../../components/forms/LocalSearch";
+import {
+  subCategoryCreate,
+  subCategoryDelete,
+  subCategoryList,
+} from "../../../actions/subCategoryActions";
 
-const SubCategoryUpdate = ({ match, history }) => {
-  const { slug } = match.params;
-
+const SubCategoryUpdate = () => {
   const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+
+  //   step1 - create a keyword state
+  const [keyword, setKeyword] = useState("");
 
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, success } = useSelector(
+    (state) => state.subCategoryCreate
+  );
+  const {
+    loading: loadingSubCategories,
+    error: errorSubCategories,
+    subCategories,
+  } = useSelector((state) => state.subCategoryList);
 
   const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = useSelector((state) => state.subCategoryUpdate);
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = useSelector((state) => state.subCategoryDelete);
 
-  const { subCategory } = useSelector((state) => state.subCategory);
-  const { category } = useSelector((state) => state.category);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = useSelector((state) => state.categoryList);
+
+  console.log(categories);
 
   useEffect(() => {
-    dispatch(categoryGet(slug));
-    setName(subCategory.name);
-  }, [dispatch, slug]);
+    dispatch(subCategoryList());
+    dispatch(categoryList());
+
+    if (successDelete) {
+      dispatch(categoryList());
+    }
+  }, [dispatch, successDelete]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(subCategoryUpdate(userInfo.token, {name}, slug));
-    toast.success("updated successfully");
 
-    history.push("/admin/sub");
-    dispatch({ type: SUBCATEGORY_UPDATE_RESET });
+    dispatch(subCategoryCreate(userInfo.token, { name, category }));
+    setName("");
   };
+
+  const deleteHandler = (slug) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      dispatch(subCategoryDelete(userInfo.token, slug));
+    }
+
+    if (successDelete) {
+      toast.success("Deleted Successfully");
+      dispatch(categoryList());
+      dispatch(subCategoryList());
+    } else if (errorDelete) {
+      toast.error(error);
+    }
+  };
+
+  // step 4
+  const searched = (keyword) => (check) => {
+    console.log(check);
+    return check.name.toLowerCase().includes(keyword);
+  };
+  useEffect(() => {
+    if (success) {
+      toast.success("sub Category Created");
+      dispatch(categoryList());
+      dispatch(subCategoryList());
+    } else if (error) {
+      toast.error(error);
+    }
+  }, [dispatch, error, success]);
 
   return (
     <div className="container-fluid">
@@ -57,13 +104,64 @@ const SubCategoryUpdate = ({ match, history }) => {
           <AdminNav />
         </div>
         <div className="col">
-          <h4>Update Category</h4>
+          <h4>Update Sub Category</h4>
+
+          <div className="form-group">
+            <label htmlFor="">Parent Category</label>
+            <select
+              name="name"
+              className="form-control"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="select">select category</option>
+              {loadingCategories ? (
+                <Loader />
+              ) : (
+                categories.length > 0 &&
+                categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
-            btn="Update"
+            btn="create"
           />
+
+          {/* step2  and step3 create input field */}
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+
+          {loadingSubCategories ? (
+            <Loader />
+          ) : errorSubCategories ? (
+            <Message>{errorSubCategories}</Message>
+          ) : (
+            subCategories.filter(searched(keyword)).map((subCat) => (
+              <div key={subCat.id} className="alert alert-secondary">
+                {subCat.name}
+                <span
+                  className="float-right btn btn-sm"
+                  onClick={() => deleteHandler(subCat.slug)}
+                >
+                  {" "}
+                  <DeleteOutlined className="text-danger" />{" "}
+                </span>
+                <Link to={`/admin/sub/${subCat.slug}`}>
+                  {" "}
+                  <span className="float-right btn btn-sm">
+                    {" "}
+                    <EditOutlined className="text-warning" />{" "}
+                  </span>
+                </Link>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
