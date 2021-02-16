@@ -13,7 +13,10 @@ import {
 } from "../../../actions/categoryActions";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
-import { subCategoryCreate, subCategoryList } from "../../../actions/subCategoryActions";
+import {
+  subCategoryCreate,
+  subCategoryList,
+} from "../../../actions/subCategoryActions";
 
 const SubCategoryCreate = () => {
   const [name, setName] = useState("");
@@ -29,9 +32,9 @@ const SubCategoryCreate = () => {
     (state) => state.subCategoryCreate
   );
   const {
-    loading: loadingSubCategory,
-    error: errorSubCategory,
-    subCategory,
+    loading: loadingSubCategories,
+    error: errorSubCategories,
+    subCategories,
   } = useSelector((state) => state.subCategoryList);
 
   const {
@@ -60,7 +63,7 @@ const SubCategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(subCategoryCreate(userInfo.token, {name, category}));
+    dispatch(subCategoryCreate(userInfo.token, { name, category }));
     setName("");
   };
 
@@ -72,6 +75,7 @@ const SubCategoryCreate = () => {
     if (successDelete) {
       toast.success("Deleted Successfully");
       dispatch(categoryList());
+      dispatch(subCategoryList())
     } else if (errorDelete) {
       toast.error(error);
     }
@@ -86,6 +90,7 @@ const SubCategoryCreate = () => {
     if (success) {
       toast.success("sub Category Created");
       dispatch(categoryList());
+      dispatch(subCategoryList());
     } else if (error) {
       toast.error(error);
     }
@@ -102,8 +107,12 @@ const SubCategoryCreate = () => {
 
           <div className="form-group">
             <label htmlFor="">Parent Category</label>
-            <select name="name" className="form-control" onChange={(e)=> setCategory(e.target.value)}>
-            <option value="select">select category</option>
+            <select
+              name="name"
+              className="form-control"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="select">select category</option>
               {loadingCategories ? (
                 <Loader />
               ) : (
@@ -116,43 +125,43 @@ const SubCategoryCreate = () => {
               )}
             </select>
           </div>
-                
-                {JSON.stringify(category )}
+
+          {JSON.stringify(category)}
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
-            btn='create'
+            btn="create"
           />
 
           {/* step2  and step3 create input field */}
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
-          {/* {loadingSubCategory ? (
+          {loadingSubCategories ? (
             <Loader />
-          ) : errorSubCategory ? (
-            <Message>{errorSubCategory}</Message>
+          ) : errorSubCategories ? (
+            <Message>{errorSubCategories}</Message>
           ) : (
-            subCategory.filter(searched(keyword)).map((cat) => (
-              <div key={cat.id} className="alert alert-secondary">
-                {cat.name}
+            subCategories.filter(searched(keyword)).map((subCat) => (
+              <div key={subCat.id} className="alert alert-secondary">
+                {subCat.name}
                 <span
                   className="float-right btn btn-sm"
-                  onClick={() => deleteHandler(cat.slug)}
+                  onClick={() => deleteHandler(subCat.slug)}
                 >
                   {" "}
                   <DeleteOutlined className="text-danger" />{" "}
                 </span>
-                <Link to={`/admin/category/${cat.slug}`}>
+                <Link to={`/admin/category/${subCat.slug}`}>
                   {" "}
                   <span className="float-right btn btn-sm">
                     {" "}
                     <EditOutlined className="text-warning" />{" "}
-                  </span> 
+                  </span>
                 </Link>
               </div>
             ))
-          )} */}
+          )}
         </div>
       </div>
     </div>
