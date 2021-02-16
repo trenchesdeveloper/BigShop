@@ -15,6 +15,7 @@ import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 import {
   subCategoryCreate,
+  subCategoryDelete,
   subCategoryList,
 } from "../../../actions/subCategoryActions";
 
@@ -69,7 +70,7 @@ const SubCategoryCreate = () => {
 
   const deleteHandler = (slug) => {
     if (window.confirm("Are you sure you want to delete?")) {
-      dispatch(categoryDelete(userInfo.token, slug));
+      dispatch(subCategoryDelete(userInfo.token, slug));
     }
 
     if (successDelete) {
