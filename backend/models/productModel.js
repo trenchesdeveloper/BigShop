@@ -12,8 +12,8 @@ const productSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: true,
-      lowercase: true,
-      index: true,
+    //   lowercase: true,
+    //   index: true,
     },
     description: {
       type: String,
@@ -64,6 +64,12 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+productSchema.pre("save", async function (next) {
+  this.slug = await slugify(this.title);
+  next();
+});
+
 
 const Product = mongoose.model("Product", productSchema);
 

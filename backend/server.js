@@ -9,6 +9,7 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import subRouter from "./routes/subCategoryRoutes.js";
+import productRouter from "./routes/productRoutes.js";
 
 const app = express();
 // configure dotenv
@@ -43,6 +44,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sub", subRouter);
+app.use("/api/product", productRouter);
 
 app.use(globalErrorHandler);
 
