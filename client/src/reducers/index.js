@@ -6,7 +6,14 @@ import {
   categoryListReducer,
   categoryUpdateReducer,
 } from "./categoryReducer";
-import { subCategoryCreateReducer, subCategoryDeleteReducer, subCategoryGetReducer, subCategoryListReducer, subCategoryUpdateReducer } from "./subCategoryReducer";
+import { productCreateReducer } from "./productReducer";
+import {
+  subCategoryCreateReducer,
+  subCategoryDeleteReducer,
+  subCategoryGetReducer,
+  subCategoryListReducer,
+  subCategoryUpdateReducer,
+} from "./subCategoryReducer";
 import { userLoginReducer } from "./userReducer";
 
 const reducer = combineReducers({
@@ -21,6 +28,7 @@ const reducer = combineReducers({
   subCategory: subCategoryGetReducer,
   subCategoryUpdate: subCategoryUpdateReducer,
   subCategoryDelete: subCategoryDeleteReducer,
+  productCreate: productCreateReducer,
 });
 
 export default reducer;

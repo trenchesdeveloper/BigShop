@@ -13,6 +13,7 @@ import UserRoute from "./components/Routes/UserRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
+import ProductCreate from "./pages/admin/product/ProductCreate";
 import SubCategoryCreate from "./pages/admin/subCategory/SubCategoryCreate";
 import SubCategoryUpdate from "./pages/admin/subCategory/subCategoryUpdate";
 import ForgotPassword from "./pages/auth/ForgotPassword";
@@ -62,7 +63,12 @@ const App = () => {
           component={CategoryUpdate}
         />
         <AdminRoute exact path="/admin/sub" component={SubCategoryCreate} />
-        <AdminRoute exact path="/admin/sub/:slug" component={SubCategoryUpdate} />
+        <AdminRoute
+          exact
+          path="/admin/sub/:slug"
+          component={SubCategoryUpdate}
+        />
+        <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/register" component={Register} />

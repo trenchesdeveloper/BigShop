@@ -6,20 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import {
-  categoryCreate,
-  categoryDelete,
-  categoryList,
-} from "../../../actions/categoryActions";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 
-const productCreate = () => {
+const ProductCreate = () => {
     return (
-        <div>
-            
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-2">
+            <AdminNav />
+          </div>
+          <div className="col-md-10">
+              Product create form
+          </div>
         </div>
-    )
+      </div>
+    );
 }
 
-export default productCreate
+export default ProductCreate
