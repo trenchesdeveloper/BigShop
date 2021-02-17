@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const productSchema = new mongoose.Schema(
   {
@@ -12,8 +13,8 @@ const productSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: true,
-    //   lowercase: true,
-    //   index: true,
+      lowercase: true,
+      index: true,
     },
     description: {
       type: String,
@@ -27,22 +28,22 @@ const productSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    },
-    subs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "SubCategory",
-      },
-    ],
+    // category: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Category",
+    // },
+    // subs: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "SubCategory",
+    //   },
+    // ],
     quantity: Number,
     sold: {
       type: Number,
       default: 0,
     },
-    images: Array,
+    // images: Array,
     shipping: {
       type: String,
       enum: ["Yes", "No"],
@@ -69,7 +70,6 @@ productSchema.pre("save", async function (next) {
   this.slug = await slugify(this.title);
   next();
 });
-
 
 const Product = mongoose.model("Product", productSchema);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AdminNav from "../../../components/Nav/AdminNav";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import Message from "../../../components/Message";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
+import { productCreate } from "../../../actions/productActions";
 
 const initialState = {
   title: "",
@@ -43,13 +44,31 @@ const ProductCreate = () => {
     brand,
   } = values;
 
+  const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const { product, success, error } = useSelector(
+    (state) => state.productCreate
+  );
+
+  useEffect(() => {
+    if (success) {
+      toast.success("product created");
+    }
+  }, [success]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //
+    //dispatch create product actions
+    dispatch(productCreate(userInfo.token, values));
+
+    //toast.success("product created!");
   };
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="container-fluid">
@@ -102,7 +121,7 @@ const ProductCreate = () => {
                 id=""
                 className="form-control"
                 onChange={handleChange}
-              >  
+              >
                 <option>Please select</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
@@ -129,13 +148,15 @@ const ProductCreate = () => {
                 onChange={handleChange}
               >
                 <option>Please select</option>
-              {colors.map(color=> (
-                <option value={color} key={color}>{color}</option>
-              ))}
+                {colors.map((c) => (
+                  <option value={c} key={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </div>
 
-             <div className="form-group">
+            <div className="form-group">
               <label htmlFor="brand">Brand</label>
               <select
                 name="brand"
@@ -144,9 +165,11 @@ const ProductCreate = () => {
                 onChange={handleChange}
               >
                 <option>Please select</option>
-              {brands.map(b=> (
-                <option value={b} key={b}>{b}</option>
-              ))}
+                {brands.map((b) => (
+                  <option value={b} key={b}>
+                    {b}
+                  </option>
+                ))}
               </select>
             </div>
 

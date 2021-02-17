@@ -17,7 +17,7 @@ import {
 } from "../constants/productConstants";
 import axios from "axios";
 
-export const productvCreate = (token, body) => async (dispatch) => {
+export const productCreate = (token, values) => async (dispatch) => {
   dispatch({ type: PRODUCT_CREATE_REQUEST });
   try {
     const config = {
@@ -27,7 +27,7 @@ export const productvCreate = (token, body) => async (dispatch) => {
     };
 
     // fetch to backend and verify token
-    const { data } = await axios.post("/api/product", body, config);
+    const { data } = await axios.post("/api/product", values, config);
 
     dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
 
@@ -42,89 +42,89 @@ export const productvCreate = (token, body) => async (dispatch) => {
   }
 };
 
-export const categoryList = () => async (dispatch) => {
-  dispatch({ type: CATEGORY_LIST_REQUEST });
-  try {
-    // fetch to backend and verify token
-    const { data } = await axios.get("/api/category");
-    console.log(data);
+// export const categoryList = () => async (dispatch) => {
+//   dispatch({ type: CATEGORY_LIST_REQUEST });
+//   try {
+//     // fetch to backend and verify token
+//     const { data } = await axios.get("/api/category");
+//     console.log(data);
 
-    dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: CATEGORY_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+//     dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data });
+//   } catch (error) {
+//     dispatch({
+//       type: CATEGORY_LIST_FAIL,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
 
-export const categoryDelete = (token, slug) => async (dispatch) => {
-  dispatch({ type: CATEGORY_DELETE_REQUEST });
-  try {
-    const config = {
-      headers: {
-        token,
-      },
-    };
+// export const categoryDelete = (token, slug) => async (dispatch) => {
+//   dispatch({ type: CATEGORY_DELETE_REQUEST });
+//   try {
+//     const config = {
+//       headers: {
+//         token,
+//       },
+//     };
 
-    // fetch to backend and verify token
-    const { data } = await axios.delete(`/api/category/${slug}`, config);
-    console.log(data);
+//     // fetch to backend and verify token
+//     const { data } = await axios.delete(`/api/category/${slug}`, config);
+//     console.log(data);
 
-    dispatch({ type: CATEGORY_DELETE_SUCCESS });
-  } catch (error) {
-    dispatch({
-      type: CATEGORY_DELETE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+//     dispatch({ type: CATEGORY_DELETE_SUCCESS });
+//   } catch (error) {
+//     dispatch({
+//       type: CATEGORY_DELETE_FAIL,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
 
-export const categoryGet = (slug) => async (dispatch) => {
-  dispatch({ type: CATEGORY_GET_REQUEST });
-  try {
-    // fetch to backend and verify token
-    const { data } = await axios.get(`/api/category/${slug}`);
+// export const categoryGet = (slug) => async (dispatch) => {
+//   dispatch({ type: CATEGORY_GET_REQUEST });
+//   try {
+//     // fetch to backend and verify token
+//     const { data } = await axios.get(`/api/category/${slug}`);
 
-    dispatch({ type: CATEGORY_GET_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: CATEGORY_GET_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+//     dispatch({ type: CATEGORY_GET_SUCCESS, payload: data });
+//   } catch (error) {
+//     dispatch({
+//       type: CATEGORY_GET_FAIL,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
 
-export const categoryUpdate = (token, name, slug) => async (dispatch) => {
-  dispatch({ type: CATEGORY_UPDATE_REQUEST });
-  try {
-    const config = {
-      headers: {
-        token,
-      },
-    };
+// export const categoryUpdate = (token, name, slug) => async (dispatch) => {
+//   dispatch({ type: CATEGORY_UPDATE_REQUEST });
+//   try {
+//     const config = {
+//       headers: {
+//         token,
+//       },
+//     };
 
-    // fetch to backend and verify token
-    const { data } = await axios.put(`/api/category/${slug}`, { name }, config);
-    console.log(data);
+//     // fetch to backend and verify token
+//     const { data } = await axios.put(`/api/category/${slug}`, { name }, config);
+//     console.log(data);
 
-    dispatch({ type: CATEGORY_UPDATE_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: CATEGORY_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+//     dispatch({ type: CATEGORY_UPDATE_SUCCESS, payload: data });
+//   } catch (error) {
+//     dispatch({
+//       type: CATEGORY_UPDATE_FAIL,
+//       payload:
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message,
+//     });
+//   }
+// };
