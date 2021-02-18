@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Category from "../models/categoryModel.js";
+import SubCategory from "../models/subCategorySchema.js";
 import AppError from "../utils/appError.js";
 
 export const create = asyncHandler(async (req, res, next) => {
@@ -44,3 +45,15 @@ export const deleteOne = asyncHandler(async (req, res, next) => {
 
   res.status(204).send("deleted");
 });
+
+
+export const getSubs = asyncHandler(async (req, res, next) => {
+  const subs = await subCategory.find({ parent: req.params.id });
+
+  if (!subs) {
+    next(new AppError("sub categories not found", 404));
+  }
+
+  res.status(200).json(subs);
+});
+
