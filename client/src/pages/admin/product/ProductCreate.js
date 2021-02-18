@@ -10,6 +10,7 @@ import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 import { productCreate } from "../../../actions/productActions";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import { categoryList } from "../../../actions/categoryActions";
 
 const initialState = {
   title: "",
@@ -29,7 +30,6 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
-  
 
   const dispatch = useDispatch();
 
@@ -38,11 +38,22 @@ const ProductCreate = () => {
     (state) => state.productCreate
   );
 
-  // useEffect(() => {
-  //   if (success) {
-  //     toast.success("product created");
-  //   }
-  // }, [success]);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = useSelector((state) => state.categoryList);
+
+  useEffect(() => {
+    dispatch(categoryList());
+     if (categories) {
+       setValues({ ...values, categories: categories });
+     }
+  }, []);
+
+ 
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +86,7 @@ const ProductCreate = () => {
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            values ={values}
+            values={values}
           />
         </div>
       </div>
