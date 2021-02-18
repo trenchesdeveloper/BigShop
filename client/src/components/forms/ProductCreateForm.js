@@ -115,12 +115,12 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
       <div className="form-group">
         <label htmlFor="">Category</label>
         <select
-          name="name"
+          name="category"
           className="form-control"
           onChange={handleChange}
         >
           <option value="select">select category</option>
-          {categories.length > 0 &&
+          {categories && categories.length > 0 &&
             categories.map((cat) => (
               <option key={cat._id} value={cat._id}>
                 {cat.name}

@@ -46,25 +46,19 @@ const ProductCreate = () => {
 
   useEffect(() => {
     dispatch(categoryList());
-     if (categories) {
-       setValues({ ...values, categories: categories });
-     }
-  }, []);
-
- 
-
-
+    if (categories) {
+      setValues({ ...values, categories: categories });
+    }
+  }, [values.title]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     //dispatch create product actions
     dispatch(productCreate(userInfo.token, values));
-
-    if (success) {
-      window.alert(`${product.title} created!`);
-      window.location.reload();
-    } else if (error) {
+    window.alert(`${product.title} created!`);
+    window.location.reload();
+    if (error) {
       toast.error(error);
     }
   };

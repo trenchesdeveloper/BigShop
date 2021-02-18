@@ -68,7 +68,7 @@ const CategoryCreate = () => {
 
   // step 4
   const searched = (keyword) => (check) => {
-    console.log(check);
+   
     return check.name.toLowerCase().includes(keyword);
   };
   
@@ -108,7 +108,7 @@ const CategoryCreate = () => {
             <Message>{errorCategories}</Message>
           ) : (
             categories.filter(searched(keyword)).map((cat) => (
-              <div key={cat.id} className="alert alert-secondary">
+              <div key={cat.slug} className="alert alert-secondary">
                 {cat.name}
                 <span
                   className="float-right btn btn-sm"
