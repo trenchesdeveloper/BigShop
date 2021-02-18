@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 import AppError from "../utils/appError.js";
 
 export const create = asyncHandler(async (req, res, next) => {
-console.log(req.body);
+console.log(req.body.subs);
   const product = await Product.create(req.body);
 
   res.status(201).json(product);

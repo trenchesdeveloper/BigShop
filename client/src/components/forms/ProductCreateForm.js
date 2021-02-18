@@ -39,6 +39,8 @@ const ProductCreateForm = ({
   //    }
   //  }, [subs, category]);
 
+  console.log(subOptions);
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -151,7 +153,7 @@ const ProductCreateForm = ({
         </select>
       </div>
 
-      <div>
+    { showSub &&  <div>
         <label htmlFor=""> Sub Categories</label>
         <Select
           mode="multiple"
@@ -162,11 +164,15 @@ const ProductCreateForm = ({
           onChange={(value) => setValues({ ...values, subs: value })}
           name="subs"
         >
-          <Option value="one">option One</Option>
-          <Option value="two">option Two</Option>
+          {subOptions &&
+            subOptions.map((subs) => (
+              <Option key={subs._id} value={subs._id}>
+                {subs.name}
+              </Option>
+            ))}
         </Select>
-      </div>
-
+      </div>}
+      <br />
       <button className="btn btn-outline-info">Create</button>
     </form>
   );
