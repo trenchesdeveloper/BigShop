@@ -7,8 +7,6 @@ export const authCheck = asyncHandler(async (req, res, next) => {
   // 1) Get the authToken from req.headers
   const { token } = req.headers;
 
-  console.log(token);
-
   // 2) Authenticate the user
   const firebaseUser = await admin.auth().verifyIdToken(token);
   // 3) add it to the req object
@@ -22,8 +20,6 @@ export const adminCheck = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
 
   const adminUser = await User.findOne({ email });
-
-  console.log(adminUser);
 
   if (!adminUser) {
     return next(new AppError("user not found", 404));

@@ -10,7 +10,10 @@ import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 import { productCreate } from "../../../actions/productActions";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import { categoryGetSubs, categoryList } from "../../../actions/categoryActions";
+import {
+  categoryGetSubs,
+  categoryList,
+} from "../../../actions/categoryActions";
 
 const initialState = {
   title: "",
@@ -30,7 +33,8 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
-  const [subOptions, setSubOptions] = useState([])
+  const [subOptions, setSubOptions] = useState([]);
+  const [showSub, setShowSub] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -45,11 +49,11 @@ const ProductCreate = () => {
     categories,
   } = useSelector((state) => state.categoryList);
 
-    const {
-      loading: loadingCategorySubs,
-      error: errorCategorySubs,
-      subs,
-    } = useSelector((state) => state.categorySub);
+  const {
+    loading: loadingCategorySubs,
+    error: errorCategorySubs,
+    subs,
+  } = useSelector((state) => state.categorySub);
 
   useEffect(() => {
     dispatch(categoryList());
@@ -79,16 +83,13 @@ const ProductCreate = () => {
     console.log(e.target.value);
     setValues({ ...values, category: e.target.value });
 
-    dispatch(categoryGetSubs(e.target.value))
+    dispatch(categoryGetSubs(e.target.value));
   };
-
-  useEffect(()=>{
-    if(subs){
-      setSubOptions(subs)
+  useEffect(() => {
+    if (subs) {
+      setSubOptions(subs);
     }
-  }, [subs])
-
- 
+  }, [subs, values.category]);
 
   return (
     <div className="container-fluid">
@@ -105,6 +106,8 @@ const ProductCreate = () => {
             handleChange={handleChange}
             values={values}
             handleCategoryChange={handleCategoryChange}
+            subOptions={subOptions}
+            showSub={showSub}
           />
         </div>
       </div>

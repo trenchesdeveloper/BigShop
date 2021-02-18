@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-const ProductCreateForm = ({ handleSubmit, handleChange, values, handleCategoryChange }) => {
+const ProductCreateForm = ({ handleSubmit, handleChange, values, handleCategoryChange, subOptions, showSub }) => {
   const {
     title,
     description,
@@ -16,6 +16,18 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values, handleCategoryC
     brands,
     brand,
   } = values;
+
+  //  const {
+  //    loading: loadingCategorySubs,
+  //    error: errorCategorySubs,
+  //    subs,
+  //  } = useSelector((state) => state.categorySub);
+
+  //  useEffect(() => {
+  //    if (subs) {
+  //      setSubOptions(subs);
+  //    }
+  //  }, [subs, category]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -127,6 +139,8 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values, handleCategoryC
             ))}
         </select>
       </div>
+
+        {subOptions && subOptions.length}
 
       <button className="btn btn-outline-info">Create</button>
     </form>
