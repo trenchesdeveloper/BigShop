@@ -27,18 +27,6 @@ const ProductCreateForm = ({
     brand,
   } = values;
 
-  //  const {
-  //    loading: loadingCategorySubs,
-  //    error: errorCategorySubs,
-  //    subs,
-  //  } = useSelector((state) => state.categorySub);
-
-  //  useEffect(() => {
-  //    if (subs) {
-  //      setSubOptions(subs);
-  //    }
-  //  }, [subs, category]);
-
   console.log(subOptions);
 
   return (
@@ -153,25 +141,27 @@ const ProductCreateForm = ({
         </select>
       </div>
 
-    { showSub &&  <div>
-        <label htmlFor=""> Sub Categories</label>
-        <Select
-          mode="multiple"
-          allowClear
-          style={{ width: "100%" }}
-          placeholder="Please select"
-          value={subs}
-          onChange={(value) => setValues({ ...values, subs: value })}
-          name="subs"
-        >
-          {subOptions &&
-            subOptions.map((subs) => (
-              <Option key={subs._id} value={subs._id}>
-                {subs.name}
-              </Option>
-            ))}
-        </Select>
-      </div>}
+      {showSub && (
+        <div>
+          <label htmlFor=""> Sub Categories</label>
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Please select"
+            value={subs}
+            onChange={(value) => setValues({ ...values, subs: value })}
+            name="subs"
+          >
+            {subOptions &&
+              subOptions.map((subs) => (
+                <Option key={subs._id} value={subs._id}>
+                  {subs.name}
+                </Option>
+              ))}
+          </Select>
+        </div>
+      )}
       <br />
       <button className="btn btn-outline-info">Create</button>
     </form>
