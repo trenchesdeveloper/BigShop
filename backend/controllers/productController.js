@@ -10,7 +10,7 @@ console.log(req.body);
 });
 
 export const getAll = asyncHandler(async (req, res, next) => {
-  const product = await Product.find({}).sort({ createdAt: -1 });
+  const product = await Product.find({}).sort({ createdAt: -1 }).populate('category');
 
   res.status(200).json(product);
 });

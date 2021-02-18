@@ -51,11 +51,11 @@ const ProductCreate = () => {
     (state) => state.productCreate
   );
 
-  useEffect(() => {
-    if (success) {
-      toast.success("product created");
-    }
-  }, [success]);
+  // useEffect(() => {
+  //   if (success) {
+  //     toast.success("product created");
+  //   }
+  // }, [success]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +63,12 @@ const ProductCreate = () => {
     //dispatch create product actions
     dispatch(productCreate(userInfo.token, values));
 
-    //toast.success("product created!");
+    if (success) {
+      window.alert(`${product.title} created!`);
+      window.location.reload();
+    } else if (error) {
+      toast.error(error);
+    }
   };
 
   const handleChange = (e) => {
