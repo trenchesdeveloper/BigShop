@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import cloudinary from 'cloudinary'
+import AppError from "../utils/appError";
 
 // config
 cloudinary.config({
@@ -9,6 +10,17 @@ cloudinary.config({
 });
 
 export const upload = asyncHandler (async (req, res, next) =>{
+const result = await cloudinary.uploader.upload(req.body.image, {
+    public_id: `${Date.now()}`,
+    resource_type: 'auto',
+
+})
+
+if(!result){
+    next(new AppError(`Error with cloudinary`, 400))
+}
+
+
 
 })
 
