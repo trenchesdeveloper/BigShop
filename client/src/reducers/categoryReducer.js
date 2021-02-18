@@ -11,6 +11,9 @@ import {
   CATEGORY_LIST_FAIL,
   CATEGORY_LIST_REQUEST,
   CATEGORY_LIST_SUCCESS,
+  CATEGORY_SUB_GET_FAIL,
+  CATEGORY_SUB_GET_REQUEST,
+  CATEGORY_SUB_GET_SUCCESS,
   CATEGORY_UPDATE_FAIL,
   CATEGORY_UPDATE_REQUEST,
   CATEGORY_UPDATE_RESET,
@@ -94,6 +97,23 @@ export const categoryUpdateReducer = (state = {}, action) => {
 
     case CATEGORY_UPDATE_RESET:
       return {};
+
+    default:
+      return state;
+  }
+};
+
+
+export const categorySubGetReducer = (state = { subs: [] }, action) => {
+  switch (action.type) {
+    case CATEGORY_SUB_GET_REQUEST:
+      return { loading: true };
+
+    case CATEGORY_SUB_GET_SUCCESS:
+      return { loading: false, subs: action.payload };
+
+    case CATEGORY_SUB_GET_FAIL:
+      return { loading: false, error: action.payload };
 
     default:
       return state;

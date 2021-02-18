@@ -4,6 +4,7 @@ import {
   categoryDeleteReducer,
   categoryGetReducer,
   categoryListReducer,
+  categorySubGetReducer,
   categoryUpdateReducer,
 } from "./categoryReducer";
 import { productCreateReducer } from "./productReducer";
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   categoryDelete: categoryDeleteReducer,
   category: categoryGetReducer,
   categoryUpdate: categoryUpdateReducer,
+  categorySub: categorySubGetReducer,
   subCategoryCreate: subCategoryCreateReducer,
   subCategoryList: subCategoryListReducer,
   subCategory: subCategoryGetReducer,

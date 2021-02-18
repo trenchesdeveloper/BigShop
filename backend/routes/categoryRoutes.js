@@ -15,6 +15,11 @@ import {
 
 const router = express.Router();
 
+import subRouter from "./subCategoryRoutes.js";
+
+//  Re-route into other resource Router
+router.use("/:categoryId/subs", subRouter);
+
 router.route("/").get(getAll).post(authCheck, adminCheck, create);
 
 router
@@ -23,6 +28,6 @@ router
   .put(authCheck, adminCheck, updateOne)
   .delete(authCheck, adminCheck, deleteOne);
 
-  router.get('/category/subs/:id',  getSubs)
+router.get("/category/subs/:id", getSubs);
 
 export default router;

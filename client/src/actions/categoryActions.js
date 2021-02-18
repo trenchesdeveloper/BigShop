@@ -11,6 +11,9 @@ import {
   CATEGORY_LIST_FAIL,
   CATEGORY_LIST_REQUEST,
   CATEGORY_LIST_SUCCESS,
+  CATEGORY_SUB_GET_FAIL,
+  CATEGORY_SUB_GET_REQUEST,
+  CATEGORY_SUB_GET_SUCCESS,
   CATEGORY_UPDATE_FAIL,
   CATEGORY_UPDATE_REQUEST,
   CATEGORY_UPDATE_SUCCESS,
@@ -121,6 +124,25 @@ export const categoryUpdate = (token, name, slug) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CATEGORY_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const categoryGetSubs = (id) => async (dispatch) => {
+  dispatch({ type: CATEGORY_SUB_GET_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.get(`/api/category/${id}/subs`);
+
+    dispatch({ type: CATEGORY_SUB_GET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_SUB_GET_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
