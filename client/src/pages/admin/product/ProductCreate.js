@@ -21,7 +21,7 @@ const initialState = {
   price: "",
   categories: [],
   category: "",
-  sub: [],
+  subs: [],
   shipping: "",
   quantity: "",
   images: [],
@@ -101,10 +101,13 @@ const ProductCreate = () => {
           <h4>Product Create</h4>
           <hr />
 
+          {JSON.stringify(values.subs)}
+          
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             values={values}
+            setValues={setValues}
             handleCategoryChange={handleCategoryChange}
             subOptions={subOptions}
             showSub={showSub}
