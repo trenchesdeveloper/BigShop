@@ -28,6 +28,6 @@ router
   .put(authCheck, adminCheck, updateOne)
   .delete(authCheck, adminCheck, deleteOne);
 
-router.get("/category/subs/:id", getSubs);
+router.get("/category/:id/subs", getSubs);
 
 export default router;

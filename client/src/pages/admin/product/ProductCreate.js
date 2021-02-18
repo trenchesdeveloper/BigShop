@@ -10,7 +10,7 @@ import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 import { productCreate } from "../../../actions/productActions";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import { categoryList } from "../../../actions/categoryActions";
+import { categoryGetSubs, categoryList } from "../../../actions/categoryActions";
 
 const initialState = {
   title: "",
@@ -30,6 +30,7 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+  const [subOptions, setSubOptions] = useState([])
 
   const dispatch = useDispatch();
 
@@ -43,6 +44,12 @@ const ProductCreate = () => {
     error: errorCategories,
     categories,
   } = useSelector((state) => state.categoryList);
+
+    const {
+      loading: loadingCategorySubs,
+      error: errorCategorySubs,
+      subs,
+    } = useSelector((state) => state.categorySub);
 
   useEffect(() => {
     dispatch(categoryList());
@@ -67,6 +74,22 @@ const ProductCreate = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    setValues({ ...values, category: e.target.value });
+
+    dispatch(categoryGetSubs(e.target.value))
+  };
+
+  useEffect(()=>{
+    if(subs){
+      setSubOptions(subs)
+    }
+  }, [subs])
+
+ 
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -81,6 +104,7 @@ const ProductCreate = () => {
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             values={values}
+            handleCategoryChange={handleCategoryChange}
           />
         </div>
       </div>

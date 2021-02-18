@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
+const ProductCreateForm = ({ handleSubmit, handleChange, values, handleCategoryChange }) => {
   const {
     title,
     description,
@@ -17,7 +17,6 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
     brand,
   } = values;
 
-  console.log(categories);
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -117,7 +116,7 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
         <select
           name="category"
           className="form-control"
-          onChange={handleChange}
+          onChange={handleCategoryChange}
         >
           <option value="select">select category</option>
           {categories && categories.length > 0 &&
