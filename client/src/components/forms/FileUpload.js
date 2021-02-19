@@ -1,7 +1,12 @@
-import React from "react";
-import Resizer from 'react-image-file-resizer'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Resizer from "react-image-file-resizer";
+import axios from "axios";
 
 const FileUpload = () => {
+  // get the user from redux store
+  const { userInfo } = useSelector((state) => state.userLogin);
+
   const fileUploadAndResize = (e) => {
     // resize images
     //send back to server to upload to cloudinary
