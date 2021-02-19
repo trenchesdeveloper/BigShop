@@ -1,21 +1,18 @@
 import React from "react";
 
 const FileUpload = () => {
-
-    const fileUploadAndResize = () =>{
-        //
-    }
-
-
+  const fileUploadAndResize = (e) => {
+    // resize images
+    //send back to server to upload to cloudinary
+    // set url to images [] in the parent component - ProductCreate
+  };
 
   return (
     <div className="row">
-      <label htmlFor="" className='btn btn-primary btn-raised'>
+      <label className="btn btn-primary btn-raised">
         Choose file
         <input
           type="file"
-          name="file"
-          id=""
           hidden
           multiple
           accept="images/*"
