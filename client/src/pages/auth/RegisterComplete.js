@@ -64,7 +64,7 @@ const RegisterComplete = ({ history }) => {
         // dispatch the action
         dispatch(loginUser(idTokenResult.token));
         //redirect
-        
+        history.push('/')
       }
     } catch (error) {
       toast.error(error.message);

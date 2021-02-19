@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import cloudinary from "cloudinary";
-import AppError from "../utils/appError";
+import AppError from "../utils/appError.js";
 
 // config
 cloudinary.config({
@@ -26,13 +26,13 @@ export const upload = asyncHandler(async (req, res, next) => {
 });
 
 export const remove = asyncHandler(async (req, res, next) => {
-    const imageId = req.body.public_id
+  const imageId = req.body.public_id;
 
-   const res = await cloudinary.v2.uploader.destroy(imageId)
+  const result = await cloudinary.v2.uploader.destroy(imageId);
 
-   if(!res) {
-       return next(new AppError('error deleting from cloudinary'))
-   }
+  if (!result) {
+    return next(new AppError("error deleting from cloudinary"));
+  }
 
-    res.status(200).send('removed')
+  res.status(200).send("removed");
 });

@@ -14,6 +14,7 @@ import {
   categoryGetSubs,
   categoryList,
 } from "../../../actions/categoryActions";
+import FileUpload from "../../../components/forms/FileUpload";
 
 const initialState = {
   title: "",
@@ -101,7 +102,9 @@ const ProductCreate = () => {
         <div className="col-md-10">
           <h4>Product Create</h4>
           <hr />
-
+          <div className="p-3">
+            <FileUpload />
+          </div>
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}

@@ -10,6 +10,7 @@ import userRouter from "./routes/userRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import subRouter from "./routes/subCategoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
+import cloudinaryRouter from './routes/cloudinary.js'
 
 const app = express();
 // configure dotenv
@@ -45,6 +46,7 @@ app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sub", subRouter);
 app.use("/api/product", productRouter);
+app.use('/api/images', cloudinaryRouter)
 
 app.use(globalErrorHandler);
 
