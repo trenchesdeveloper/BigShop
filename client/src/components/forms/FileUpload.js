@@ -3,34 +3,56 @@ import { useSelector, useDispatch } from "react-redux";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
 
-const FileUpload = () => {
+const FileUpload = ({ values, setValues, setLoading }) => {
   // get the user from redux store
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const fileUploadAndResize = (e) => {
     // get the files
     let files = e.target.files;
+    let allUploadedFiles = values.images;
+
+    console.log(userInfo.token);
+
     // resize images
     if (files) {
-        for (let i = 0; i < files.length; i++) {
-           Resizer.imageFileResizer(
-             files[i],
-             720,
-             720,
-             "JPEG",
-             100,
-             0,
-             (uri) => {
-               console.log(uri);
-             },
-             "base64"
-           );
-            
-        }
-    }
+      setLoading(true);
+      for (let i = 0; i < files.length; i++) {
+        Resizer.imageFileResizer(
+          files[i],
+          720,
+          720,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            axios
+              .post(
+                `/api/images/uploadImages`,
+                { image: uri },
+                {
+                  headers: {
+                    token: userInfo ? userInfo.token : "",
+                  },
+                }
+              )
+              .then((res) => {
+                // set url to images [] in the parent component - ProductCreate
+                console.log("IMAGE UPLOADED", res.data);
+                setLoading(true);
+                allUploadedFiles.push(res.data); // push the response into values.images
 
-   
-    // set url to images [] in the parent component - ProductCreate
+                setValues({ ...values, images: allUploadedFiles });
+              })
+              .catch((err) => {
+                setLoading(false);
+                console.log("cloudinary upload err", err);
+              });
+          },
+          "base64"
+        );
+      }
+    }
   };
 
   return (

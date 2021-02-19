@@ -1,6 +1,9 @@
 import asyncHandler from "express-async-handler";
 import cloudinary from "cloudinary";
 import AppError from "../utils/appError.js";
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 // config
 cloudinary.config({
@@ -8,6 +11,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
+
 
 export const upload = asyncHandler(async (req, res, next) => {
   const result = await cloudinary.v2.uploader.upload(req.body.image, {
