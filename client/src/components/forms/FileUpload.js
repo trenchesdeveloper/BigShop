@@ -1,4 +1,5 @@
 import React from "react";
+import Resizer from 'react-image-file-resizer'
 
 const FileUpload = () => {
   const fileUploadAndResize = (e) => {
