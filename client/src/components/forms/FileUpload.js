@@ -57,9 +57,19 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 
   return (
     <>
+    {/* image preview row */}
       <div className="row">
-        {values.images && values.images.map((image) => <Avatar key={image.public_id} src={image.url}  size={100} className='m-3' />)}
+        {values.images &&
+          values.images.map((image) => (
+            <Avatar
+              key={image.public_id}
+              src={image.url}
+              size={100}
+              className="m-3"
+            />
+          ))}
       </div>
+    {/* image upload row */}
       <div className="row">
         <label className="btn btn-primary btn-raised">
           Choose file
