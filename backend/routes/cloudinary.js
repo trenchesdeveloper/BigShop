@@ -5,6 +5,6 @@ import { adminCheck, authCheck } from "../middlewares/auth.js";
 const router = express.Router();
 
 router.post("/uploadImages", authCheck, adminCheck, upload);
-router.post("/removeimages", authCheck, adminCheck, remove);
+router.post("/removeImages", authCheck, adminCheck, remove);
 
 export default router;

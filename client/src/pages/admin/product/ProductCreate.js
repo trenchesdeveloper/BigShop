@@ -5,7 +5,12 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  LaptopOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 import { productCreate } from "../../../actions/productActions";
@@ -69,7 +74,8 @@ const ProductCreate = () => {
 
     //dispatch create product actions
     dispatch(productCreate(userInfo.token, values));
-    window.alert(`${product.title} created!`);
+    // window.alert(`${product.title} created!`);
+    toast.success('product created')
     window.location.reload();
     if (error) {
       toast.error(error);
@@ -101,7 +107,7 @@ const ProductCreate = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          <h4>Product Create</h4>
+          {loading ? <LoadingOutlined className='text-red h1'/> : <h4>Product Create</h4>}
           <hr />
           <div className="p-3">
             <FileUpload
