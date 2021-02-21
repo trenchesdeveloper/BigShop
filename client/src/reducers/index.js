@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { productListByCount } from "../actions/productActions";
 import {
   categoryCreateReducer,
   categoryDeleteReducer,
@@ -7,7 +8,7 @@ import {
   categorySubGetReducer,
   categoryUpdateReducer,
 } from "./categoryReducer";
-import { productCreateReducer } from "./productReducer";
+import { productCreateReducer, productListByCountReducer } from "./productReducer";
 import {
   subCategoryCreateReducer,
   subCategoryDeleteReducer,
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   subCategoryUpdate: subCategoryUpdateReducer,
   subCategoryDelete: subCategoryDeleteReducer,
   productCreate: productCreateReducer,
+  productListByCount: productListByCountReducer,
 });
 
 export default reducer;

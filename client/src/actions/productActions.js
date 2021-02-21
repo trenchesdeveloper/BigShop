@@ -42,24 +42,23 @@ export const productCreate = (token, values) => async (dispatch) => {
   }
 };
 
-// export const categoryList = () => async (dispatch) => {
-//   dispatch({ type: CATEGORY_LIST_REQUEST });
-//   try {
-//     // fetch to backend and verify token
-//     const { data } = await axios.get("/api/category");
-//     console.log(data);
+export const productListByCount = (count) => async (dispatch) => {
+  dispatch({ type: PRODUCT_LIST_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.get(`/api/product/${count}`);
 
-//     dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data });
-//   } catch (error) {
-//     dispatch({
-//       type: CATEGORY_LIST_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 // export const categoryDelete = (token, slug) => async (dispatch) => {
 //   dispatch({ type: CATEGORY_DELETE_REQUEST });
