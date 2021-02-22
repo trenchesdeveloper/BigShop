@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { productListByCount } from "../../actions/productActions";
-import AdminNav from "../../components/Nav/AdminNav";
+import { productListByCount } from "../../../actions/productActions";
+import AdminNav from "../../../components/Nav/AdminNav";
 import { LoadingOutlined } from "@ant-design/icons";
-import AdminProductCard from "../../components/cards/AdminProductCard";
+import AdminProductCard from "../../../components/cards/AdminProductCard";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
