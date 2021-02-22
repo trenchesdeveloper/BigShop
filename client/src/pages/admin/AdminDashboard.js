@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import AdminNav from "../../components/Nav/AdminNav";
 
-
 const AdminDashboard = () => {
-  
   return (
     <div className="container-fluid">
       <div className="row">
@@ -11,12 +9,7 @@ const AdminDashboard = () => {
           <AdminNav />
         </div>
         <div className="col">
-         
-          <div className="col">
-            <div className="row">
-             
-            </div>
-          </div>
+          <h4>Admin Dashboard</h4>
         </div>
       </div>
     </div>
