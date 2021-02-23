@@ -21,8 +21,14 @@ export const listAll = asyncHandler(async (req, res, next) => {
   const product = await Product.find({})
     .limit(parseInt(req.params.count))
     .populate("subs")
-    .sort([['createdAt', 'desc']])
+    .sort([["createdAt", "desc"]])
     .populate("category");
 
   res.status(200).json(product);
+});
+
+export const deleteProduct = asyncHandler(async (req, res, next) => {
+  const product = await Product.findOneAndRemove({ slug: req.params.slug });
+
+  res.status(204).json(product);
 });
