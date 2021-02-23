@@ -30,7 +30,6 @@ export const productCreate = (token, values) => async (dispatch) => {
     const { data } = await axios.post("/api/product", values, config);
 
     dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
-
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAIL,
@@ -60,30 +59,29 @@ export const productListByCount = (count) => async (dispatch) => {
   }
 };
 
-// export const categoryDelete = (token, slug) => async (dispatch) => {
-//   dispatch({ type: CATEGORY_DELETE_REQUEST });
-//   try {
-//     const config = {
-//       headers: {
-//         token,
-//       },
-//     };
+export const productDelete = (token, slug) => async (dispatch) => {
+  dispatch({ type: PRODUCT_DELETE_REQUEST });
+  try {
+    const config = {
+      headers: {
+        token,
+      },
+    };
 
-//     // fetch to backend and verify token
-//     const { data } = await axios.delete(`/api/category/${slug}`, config);
-//     console.log(data);
+    // fetch to backend and verify token
+    await axios.delete(`/api/product/${slug}`, config);
 
-//     dispatch({ type: CATEGORY_DELETE_SUCCESS });
-//   } catch (error) {
-//     dispatch({
-//       type: CATEGORY_DELETE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({ type: PRODUCT_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 // export const categoryGet = (slug) => async (dispatch) => {
 //   dispatch({ type: CATEGORY_GET_REQUEST });
