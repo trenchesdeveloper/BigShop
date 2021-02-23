@@ -17,13 +17,12 @@ const AdminProductCard = ({ product }) => {
           src={images && images.length ? images[0].url : laptop}
         />
       }
-      actions={
-        [
-          <EditOutlined className='text-warning'/>, <DeleteOutlined className='text-danger'/>
-        ]
-      }
+      actions={[
+        <EditOutlined className="text-warning" />,
+        <DeleteOutlined className="text-danger" />,
+      ]}
     >
-      <Meta title={title} description={description} />
+      <Meta title={title} description={`${description && description.substring(0, 40)}...`} />
     </Card>
   );
 };
