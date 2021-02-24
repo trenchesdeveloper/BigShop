@@ -18,6 +18,7 @@ export const getAll = asyncHandler(async (req, res, next) => {
 });
 
 export const listAll = asyncHandler(async (req, res, next) => {
+  console.log(req.params.count)
   const product = await Product.find({})
     .limit(parseInt(req.params.count))
     .populate("subs")

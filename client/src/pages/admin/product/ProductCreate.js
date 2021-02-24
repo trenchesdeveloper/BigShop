@@ -75,11 +75,15 @@ const ProductCreate = () => {
     //dispatch create product actions
     dispatch(productCreate(userInfo.token, values));
     // window.alert(`${product.title} created!`);
-    toast.success('product created')
-    window.location.reload();
+    toast.success("product created");
+
     if (error) {
       toast.error(error);
-    }
+    
+    } 
+    // else {
+    //   window.location.reload();
+    // }
   };
 
   const handleChange = (e) => {
@@ -107,7 +111,11 @@ const ProductCreate = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          {loading ? <LoadingOutlined className='text-red h1'/> : <h4>Product Create</h4>}
+          {loading ? (
+            <LoadingOutlined className="text-red h1" />
+          ) : (
+            <h4>Product Create</h4>
+          )}
           <hr />
           <div className="p-3">
             <FileUpload

@@ -22,18 +22,18 @@ const AllProducts = () => {
   );
 
   useEffect(() => {
-    dispatch(productListByCount(1));
+    dispatch(productListByCount(10));
   }, [dispatch]);
 
   const handleDelete = (slug) => {
     if (window.confirm("Are you sure you want to delete?")) {
       dispatch(productDelete(userInfo.token, slug));
     }
-
     if (errorDelete) {
       toast.error(errorDelete);
     } else {
       toast.success("delete successfully");
+      dispatch(productListByCount(10));
     }
   };
 
