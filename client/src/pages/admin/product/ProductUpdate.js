@@ -44,7 +44,7 @@ const ProductUpdate = ({ match }) => {
   };
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.targe.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (
