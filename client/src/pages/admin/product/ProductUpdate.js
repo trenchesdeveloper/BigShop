@@ -2,6 +2,8 @@ import React from "react";
 import AdminNav from "../../../components/Nav/AdminNav";
 
 const ProductUpdate = ({ match }) => {
+  const { slug } = match.params;
+  
   return (
     <div className="container-fluid">
       <div className="row">
