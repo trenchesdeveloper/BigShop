@@ -66,6 +66,8 @@ export const productGet = (slug) => async (dispatch) => {
     // fetch to backend and verify token
     const { data } = await axios.get(`/api/product/product/${slug}`);
 
+
+
     dispatch({ type: PRODUCT_GET_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
