@@ -27,6 +27,7 @@ const AllProducts = () => {
 
   const handleDelete = (slug) => {
     if (window.confirm("Are you sure you want to delete?")) {
+      // dispatch delete product
       dispatch(productDelete(userInfo.token, slug));
     }
     if (errorDelete) {
