@@ -5,6 +5,9 @@ import {
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
+  PRODUCT_GET_FAIL,
+  PRODUCT_GET_REQUEST,
+  PRODUCT_GET_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -41,6 +44,24 @@ export const productListByCountReducer = (state = { products:[] }, action) => {
       return state;
   }
 };
+
+
+export const productGetReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_GET_REQUEST:
+      return { loading: true, ...state };
+
+    case PRODUCT_GET_SUCCESS:
+      return { loading: false, product: action.payload };
+
+    case PRODUCT_GET_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 
 
 
