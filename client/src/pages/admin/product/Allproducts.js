@@ -9,6 +9,7 @@ import AdminNav from "../../../components/Nav/AdminNav";
 import { LoadingOutlined } from "@ant-design/icons";
 import AdminProductCard from "../../../components/cards/AdminProductCard";
 
+
 const AllProducts = () => {
   const dispatch = useDispatch();
   const { loading, error, products } = useSelector(
