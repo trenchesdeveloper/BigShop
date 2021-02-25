@@ -59,6 +59,25 @@ export const productListByCount = (count) => async (dispatch) => {
   }
 };
 
+
+export const productGet = (slug) => async (dispatch) => {
+  dispatch({ type: PRODUCT_GET_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.get(`/api/product/product/${slug}`);
+
+    dispatch({ type: PRODUCT_GET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_GET_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const productDelete = (token, slug) => async (dispatch) => {
   dispatch({ type: PRODUCT_DELETE_REQUEST });
   try {
