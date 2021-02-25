@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productGet } from "../../../actions/productActions";
+import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 import AdminNav from "../../../components/Nav/AdminNav";
 
 const initialState = {
@@ -35,7 +36,16 @@ const ProductUpdate = ({ match }) => {
     if (product) {
       setValues({ ...values, ...product });
     }
-  }, [slug, dispatch, product, values]);
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.targe.value });
+  };
 
   return (
     <div className="container-fluid">
@@ -45,8 +55,13 @@ const ProductUpdate = ({ match }) => {
         </div>
 
         <div className="col-md-10">
-          Product Update Page
-          {product && JSON.stringify(values)}
+          <h4>Product Update</h4>
+          <ProductUpdateForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setValues={setValues}
+          />
         </div>
       </div>
     </div>
