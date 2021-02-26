@@ -5,8 +5,6 @@ import AppError from "../utils/appError.js";
 export const create = asyncHandler(async (req, res, next) => {
   const { name, category } = req.body;
 
-  console.log(name);
-  console.log(category);
   const subCat = await SubCategory.create({ name, parent: category });
 
   res.status(201).json(subCat);

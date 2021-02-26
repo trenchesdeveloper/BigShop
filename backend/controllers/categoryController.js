@@ -48,7 +48,7 @@ export const deleteOne = asyncHandler(async (req, res, next) => {
 
 
 export const getSubs = asyncHandler(async (req, res, next) => {
-  console.log(req.params.id);
+console.log(req.params.id);
   const subs = await SubCategory.find({ parent: req.params.id });
 
   if (!subs) {

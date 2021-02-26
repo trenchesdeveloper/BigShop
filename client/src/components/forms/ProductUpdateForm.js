@@ -7,7 +7,10 @@ const ProductUpdateForm = ({
   handleChange,
   values,
   setValues,
-  handleCategoryChange
+  handleCategoryChange,
+  subOptions,
+  arrayOfSubIds,
+  setArrayOfSubIds,
 }) => {
   const {
     title,
@@ -24,6 +27,8 @@ const ProductUpdateForm = ({
     brands,
     brand,
   } = values;
+
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -127,7 +132,9 @@ const ProductUpdateForm = ({
           className="form-control"
           onChange={handleCategoryChange}
         >
-          <option value="select">select category</option>
+          <option value="select">
+            {category ? category.name : "Please Select Category"}
+          </option>
           {categories &&
             categories.length > 0 &&
             categories.map((cat) => (
@@ -137,6 +144,26 @@ const ProductUpdateForm = ({
             ))}
         </select>
       </div>
+
+      {/* <div>
+        <label htmlFor=""> Sub Categories</label>
+        <Select
+          mode="multiple"
+          allowClear
+          style={{ width: "100%" }}
+          placeholder="Please select"
+          value={arrayOfSubIds}
+          onChange={(value) => setArrayOfSubIds(value)}
+          name="subs"
+        >
+          {subOptions &&
+            subOptions.map((subs) => (
+              <Option key={subs._id} value={subs && subs._id}>
+                {subs.name}
+              </Option>
+            ))}
+        </Select>
+      </div> */}
 
       <br />
       <button className="btn btn-outline-info">Update</button>

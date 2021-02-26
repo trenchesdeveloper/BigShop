@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -5,8 +6,11 @@ import {
   categoryList,
 } from "../../../actions/categoryActions";
 import { productGet } from "../../../actions/productActions";
+import { subCategoryGet } from "../../../actions/subCategoryActions";
+import FileUpload from "../../../components/forms/FileUpload";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 import AdminNav from "../../../components/Nav/AdminNav";
+import { subCategoryCreateReducer } from "../../../reducers/subCategoryReducer";
 
 const initialState = {
   title: "",
@@ -28,31 +32,40 @@ const ProductUpdate = ({ match }) => {
   const { slug } = match.params;
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
-  const [showSub, setShowSub] = useState(false);
+  const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
-  const { error: errorGet, success: successGet, product } = useSelector(
-    (state) => state.productGet
-  );
+  const { product } = useSelector((state) => state.productGet);
 
   const { categories } = useSelector((state) => state.categoryList);
   const { subs } = useSelector((state) => state.categorySub);
 
-  useEffect(() => {
+  const onLoad = () => {
     dispatch(productGet(slug));
     dispatch(categoryList());
+  };
 
-    if (product || categories) {
-      setValues({ ...values, ...product, categories: categories });
-    }
+  useEffect(() => {
+    onLoad();
+    console.log(product);
+
+    setValues({ ...values, ...product, categories: categories });
+    // dispatch(categoryGetSubs(product.category._id));
+    setSubOptions(subs);
+
+    product.subs.map((p) => setArrayOfSubIds((prev) => p._id));
   }, []);
 
   useEffect(() => {
     if (subs) {
       setSubOptions(subs);
     }
-  }, [subs, values.category]);
+    // product.subs.map((s) => {
+    //   return setArrayOfSubIds(s._id);
+    // });
+  }, [subs]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,9 +77,15 @@ const ProductUpdate = ({ match }) => {
   };
 
   const handleCategoryChange = (e) => {
+    console.log(e.target.value);
     setValues({ ...values, subs: [], category: e.target.value });
 
     dispatch(categoryGetSubs(e.target.value));
+
+    if (values.category._id === e.target.value) {
+      dispatch(productGet(slug));
+    }
+    setArrayOfSubIds([]);
   };
 
   return (
@@ -77,13 +96,27 @@ const ProductUpdate = ({ match }) => {
         </div>
 
         <div className="col-md-10">
-          <h4>Product Update</h4>
+          {loading ? (
+            <LoadingOutlined className="text-red h1" />
+          ) : (
+            <h4>Product Update</h4>
+          )}
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setLoading={setLoading}
+              setValues={setValues}
+            />
+          </div>
           <ProductUpdateForm
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             values={values}
             setValues={setValues}
             handleCategoryChange={handleCategoryChange}
+            subOptions={subOptions}
+            arrayOfSubIds={arrayOfSubIds}
+            setArrayOfSubIds={setArrayOfSubIds}
           />
         </div>
       </div>
