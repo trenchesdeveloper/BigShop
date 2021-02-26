@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productListByCount } from "../actions/productActions";
+import Jumbotron from "../components/cards/Jumbotron";
 import ProductCard from "../components/cards/ProductCard";
 
 const Home = () => {
@@ -13,8 +14,10 @@ const Home = () => {
   }, [dispatch]);
   return (
     <>
-      <div className="jumbotron">
-        {loading ? <h4>Loading...</h4> : <h4>All Products</h4>}
+      <div className="jumbotron text-danger text-center h1 font-weight-bold">
+        <Jumbotron
+          text={["Latest Products", "Best Selling", "Latest Product"]}
+        />
       </div>
       <div className="container">
         <div className="row">
