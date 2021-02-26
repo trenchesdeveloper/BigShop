@@ -24,7 +24,7 @@ const Home = () => {
 
       <div className="container">
         {loading ? (
-          <LoadingCard />
+          <LoadingCard count={3}/>
         ) : (
           <div className="row">
             {products.map((product) => {
