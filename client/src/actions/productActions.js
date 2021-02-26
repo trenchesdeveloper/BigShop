@@ -8,6 +8,9 @@ import {
   PRODUCT_GET_FAIL,
   PRODUCT_GET_REQUEST,
   PRODUCT_GET_SUCCESS,
+  PRODUCT_LISTS_FAIL,
+  PRODUCT_LISTS_REQUEST,
+  PRODUCT_LISTS_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -58,6 +61,26 @@ export const productListByCount = (count) => async (dispatch) => {
     });
   }
 };
+
+
+export const productList = (sort, order, limit) => async (dispatch) => {
+  dispatch({ type: PRODUCT_LISTS_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.post(`/api/product/allProducts`);
+
+    dispatch({ type: PRODUCT_LISTS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_LISTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 
 
 export const productGet = (slug) => async (dispatch) => {

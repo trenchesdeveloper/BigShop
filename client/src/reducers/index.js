@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { productListByCount } from "../actions/productActions";
+
 import {
   categoryCreateReducer,
   categoryDeleteReducer,
@@ -13,6 +13,7 @@ import {
   productDeleteReducer,
   productGetReducer,
   productListByCountReducer,
+  productListReducer,
   productUpdateReducer,
 } from "./productReducer";
 import {
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   productDelete: productDeleteReducer,
   productGet: productGetReducer,
   productUpdate: productUpdateReducer,
+  productList: productListReducer
 });
 
 export default reducer;
