@@ -1,7 +1,9 @@
+import { Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productListByCount } from "../actions/productActions";
 import Jumbotron from "../components/cards/Jumbotron";
+import LoadingCard from "../components/cards/LoadingCard";
 import ProductCard from "../components/cards/ProductCard";
 
 const Home = () => {
@@ -19,16 +21,21 @@ const Home = () => {
           text={["Latest Products", "Best Selling", "Latest Product"]}
         />
       </div>
+
       <div className="container">
-        <div className="row">
-          {products.map((product) => {
-            return (
-              <div key={product._id} className="col-md-4">
-                <ProductCard product={product} />
-              </div>
-            );
-          })}
-        </div>
+        {loading ? (
+          <LoadingCard />
+        ) : (
+          <div className="row">
+            {products.map((product) => {
+              return (
+                <div key={product._id} className="col-md-4">
+                  <ProductCard product={product} />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );
