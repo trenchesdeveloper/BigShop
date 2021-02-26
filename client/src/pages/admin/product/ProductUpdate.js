@@ -1,15 +1,17 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   categoryGetSubs,
   categoryList,
 } from "../../../actions/categoryActions";
-import { productGet } from "../../../actions/productActions";
+import { productGet, productUpdate } from "../../../actions/productActions";
 import { subCategoryGet } from "../../../actions/subCategoryActions";
 import FileUpload from "../../../components/forms/FileUpload";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 import AdminNav from "../../../components/Nav/AdminNav";
+import { PRODUCT_UPDATE_RESET } from "../../../constants/productConstants";
 import { subCategoryCreateReducer } from "../../../reducers/subCategoryReducer";
 
 const initialState = {
@@ -28,7 +30,7 @@ const initialState = {
   brand: "",
 };
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   const { slug } = match.params;
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
@@ -38,6 +40,8 @@ const ProductUpdate = ({ match }) => {
   const dispatch = useDispatch();
 
   const { product } = useSelector((state) => state.productGet);
+
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const { categories } = useSelector((state) => state.categoryList);
   const { subs } = useSelector((state) => state.categorySub);
@@ -55,8 +59,8 @@ const ProductUpdate = ({ match }) => {
     // dispatch(categoryGetSubs(product.category._id));
     setSubOptions(subs);
 
-    product.subs.map((p) => setArrayOfSubIds((prev) => p._id));
-  }, []);
+    // product.subs.map((p) => setArrayOfSubIds((prev) => p._id));
+  }, [history]);
 
   useEffect(() => {
     if (subs) {
@@ -70,6 +74,11 @@ const ProductUpdate = ({ match }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //
+    dispatch(productUpdate(userInfo.token, slug, values));
+    toast.success("updated successfully");
+
+    dispatch({ type: PRODUCT_UPDATE_RESET });
+    history.push("/admin/products");
   };
 
   const handleChange = (e) => {
