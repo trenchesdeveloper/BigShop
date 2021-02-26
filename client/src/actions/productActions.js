@@ -104,6 +104,30 @@ export const productDelete = (token, slug) => async (dispatch) => {
   }
 };
 
+export const productUpdate = (token, slug, values) => async (dispatch) => {
+  dispatch({ type: PRODUCT_UPDATE_REQUEST });
+  try {
+    const config = {
+      headers: {
+        token,
+      },
+    };
+
+    // fetch to backend and verify token
+    await axios.put(`/api/product/${slug}`, values, config);
+
+    dispatch({ type: PRODUCT_UPDATE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 // export const categoryGet = (slug) => async (dispatch) => {
 //   dispatch({ type: CATEGORY_GET_REQUEST });
 //   try {

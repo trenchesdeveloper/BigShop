@@ -13,6 +13,7 @@ import {
   productDeleteReducer,
   productGetReducer,
   productListByCountReducer,
+  productUpdateReducer,
 } from "./productReducer";
 import {
   subCategoryCreateReducer,
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   productListByCount: productListByCountReducer,
   productDelete: productDeleteReducer,
   productGet: productGetReducer,
+  productUpdate: productUpdateReducer,
 });
 
 export default reducer;
