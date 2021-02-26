@@ -77,3 +77,9 @@ export const listProducts = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(products);
 });
+
+export const productsCount = asyncHandler(async (req, res, next) => {
+  const total = await Product.find({}).estimatedDocumentCount();
+
+  res.status(200).json(total);
+});
