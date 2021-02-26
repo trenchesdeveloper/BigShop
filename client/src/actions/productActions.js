@@ -1,4 +1,7 @@
 import {
+  PRODUCT_COUNT_FAIL,
+  PRODUCT_COUNT_REQUEST,
+  PRODUCT_COUNT_SUCCESS,
   PRODUCT_CREATE_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
@@ -101,6 +104,26 @@ export const productGet = (slug) => async (dispatch) => {
     });
   }
 };
+
+
+export const productCount = () => async (dispatch) => {
+  dispatch({ type: PRODUCT_COUNT_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.get(`/api/product/total`);
+
+    dispatch({ type: PRODUCT_COUNT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_COUNT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 
 export const productDelete = (token, slug) => async (dispatch) => {
   dispatch({ type: PRODUCT_DELETE_REQUEST });

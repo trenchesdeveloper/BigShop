@@ -92,6 +92,9 @@ export const listProducts = asyncHandler(async (req, res, next) => {
 
   const perPage = 3;
 
+
+   const total = await Product.find({}).estimatedDocumentCount();
+
   const products = await Product.find({})
     .skip((currentPage - 1) * perPage)
     .populate("subs")
@@ -99,7 +102,7 @@ export const listProducts = asyncHandler(async (req, res, next) => {
     .limit(parseInt(perPage))
     .sort([[sort, order]]);
 
-  res.status(200).json(products);
+  res.status(200).json({products, total});
 });
 
 //@DESC  count all documents in the collection
