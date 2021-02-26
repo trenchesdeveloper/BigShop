@@ -66,17 +66,45 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
   res.status(200).json(product);
 });
 
+//@DESC  Fetch all Products without paginations
+//@route GET api/products
+//@access PUBLIC
+
+// export const listProducts = asyncHandler(async (req, res, next) => {
+//   const { sort, order, limit } = req.body;
+
+//   const products = await Product.find({})
+//     .populate("subs")
+//     .populate("category")
+//     .limit(parseInt(limit))
+//     .sort([[sort, order]]);
+
+//   res.status(200).json(products);
+// });
+
+//@DESC  Fetch all Products with paginations
+//@route GET api/product/allProducts
+//@access PUBLIC
 export const listProducts = asyncHandler(async (req, res, next) => {
-  const { sort, order, limit } = req.body;
+  const { sort, order, page } = req.body;
+
+  const currentPage = page || 1;
+
+  const perPage = 3;
 
   const products = await Product.find({})
+    .skip((currentPage - 1) * perPage)
     .populate("subs")
     .populate("category")
-    .limit(parseInt(limit))
+    .limit(parseInt(perPage))
     .sort([[sort, order]]);
 
   res.status(200).json(products);
 });
+
+//@DESC  count all documents in the collection
+//@route GET api/product/total
+//@access PUBLIC
 
 export const productsCount = asyncHandler(async (req, res, next) => {
   const total = await Product.find({}).estimatedDocumentCount();
