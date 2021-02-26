@@ -65,14 +65,14 @@ export const productListByCount = (count) => async (dispatch) => {
   }
 };
 
-export const productList = (sort, order, limit) => async (dispatch) => {
+export const productList = (sort, order, page) => async (dispatch) => {
   dispatch({ type: PRODUCT_LISTS_REQUEST });
   try {
     // fetch to backend and verify token
     const { data } = await axios.post(`/api/product/allProducts`, {
       sort,
       order,
-      limit,
+      page,
     });
 
     dispatch({ type: PRODUCT_LISTS_SUCCESS, payload: data });
