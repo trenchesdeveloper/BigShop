@@ -1,19 +1,13 @@
 import { Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { productListByCount } from "../actions/productActions";
+import { productList } from "../actions/productActions";
 import Jumbotron from "../components/cards/Jumbotron";
 import LoadingCard from "../components/cards/LoadingCard";
 import ProductCard from "../components/cards/ProductCard";
+import NewArrivals from "../components/home/NewArrivals";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { loading, error, products } = useSelector(
-    (state) => state.productListByCount
-  );
-  useEffect(() => {
-    dispatch(productListByCount(3));
-  }, [dispatch]);
   return (
     <>
       <div className="jumbotron text-danger text-center h1 font-weight-bold">
@@ -21,22 +15,11 @@ const Home = () => {
           text={["Latest Products", "Best Selling", "Latest Product"]}
         />
       </div>
+      <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
+        New Arrivals
+      </h4>
 
-      <div className="container">
-        {loading ? (
-          <LoadingCard count={3}/>
-        ) : (
-          <div className="row">
-            {products.map((product) => {
-              return (
-                <div key={product._id} className="col-md-4">
-                  <ProductCard product={product} />
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      <NewArrivals />
     </>
   );
 };

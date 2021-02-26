@@ -62,12 +62,15 @@ export const productListByCount = (count) => async (dispatch) => {
   }
 };
 
-
 export const productList = (sort, order, limit) => async (dispatch) => {
   dispatch({ type: PRODUCT_LISTS_REQUEST });
   try {
     // fetch to backend and verify token
-    const { data } = await axios.post(`/api/product/allProducts`);
+    const { data } = await axios.post(`/api/product/allProducts`, {
+      sort,
+      order,
+      limit,
+    });
 
     dispatch({ type: PRODUCT_LISTS_SUCCESS, payload: data });
   } catch (error) {
@@ -81,15 +84,11 @@ export const productList = (sort, order, limit) => async (dispatch) => {
   }
 };
 
-
-
 export const productGet = (slug) => async (dispatch) => {
   dispatch({ type: PRODUCT_GET_REQUEST });
   try {
     // fetch to backend and verify token
     const { data } = await axios.get(`/api/product/product/${slug}`);
-
-
 
     dispatch({ type: PRODUCT_GET_SUCCESS, payload: data });
   } catch (error) {
