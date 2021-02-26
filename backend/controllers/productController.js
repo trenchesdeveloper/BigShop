@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import slugify from "slugify";
 import Product from "../models/productModel.js";
 import AppError from "../utils/appError.js";
 
@@ -47,6 +48,9 @@ export const getProduct = asyncHandler(async (req, res, next) => {
 });
 
 export const updateProduct = asyncHandler(async (req, res, next) => {
+  if (req.body.title) {
+    req.body.title = slugify(req.body.title);
+  }
   const product = await Product.findOneAndUpdate(
     { slug: req.params.slug },
     req.body,
@@ -60,4 +64,16 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
   }
 
   res.status(200).json(product);
+});
+
+export const listProducts = asyncHandler(async (req, res, next) => {
+  const { sort, order, limit } = req.body;
+
+  const products = await Product.find({})
+    .populate("subs")
+    .populate("category")
+    .limit(parseInt(limit))
+    .sort([[sort, order]]);
+
+  res.status(200).json(products);
 });

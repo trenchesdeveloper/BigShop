@@ -6,6 +6,7 @@ import {
   listAll,
   getProduct,
   updateProduct,
+  listProducts
 } from "../controllers/productController.js";
 
 import { adminCheck, authCheck } from "../middlewares/auth.js";
@@ -21,6 +22,9 @@ router
   .put(authCheck, adminCheck, updateProduct);
 
 router.get("/product/:slug", getProduct);
+
+/// route to fetch from home page
+router.post('/allProducts', listProducts)
 
 // router
 //   .route("/:slug")

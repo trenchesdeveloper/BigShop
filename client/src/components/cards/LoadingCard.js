@@ -6,7 +6,7 @@ const LoadingCard = ({ count }) => {
     let totalCard = []
 
     for (let i = 0; i < count; i++) {
-        totalCard.push(<Card className='col m-3'>
+        totalCard.push(<Card className='col-md-4'>
             <Skeleton active ></Skeleton>
         </Card>)
         
