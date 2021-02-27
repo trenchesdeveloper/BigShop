@@ -23,6 +23,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Home from "./pages/Home";
+import Product from "./pages/Product";
 import Password from "./pages/users/Password";
 import UserDashboard from "./pages/users/UserDashboard";
 import Wishlist from "./pages/users/Wishlist";
@@ -82,6 +83,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/products/:slug" component={Product} />
       </Switch>
     </Router>
   );
