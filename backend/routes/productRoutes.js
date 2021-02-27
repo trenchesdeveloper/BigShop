@@ -8,6 +8,7 @@ import {
   updateProduct,
   listProducts,
   productsCount,
+  productStar,
 } from "../controllers/productController.js";
 
 import { adminCheck, authCheck } from "../middlewares/auth.js";
@@ -28,12 +29,13 @@ router.get("/product/:slug", getProduct);
 /// route to fetch from home page
 router.post("/allProducts", listProducts);
 
-
-
 // router
 //   .route("/:slug")
 //   .get(getOne)
 //   .put(authCheck, adminCheck, updateOne)
 //   .delete(authCheck, adminCheck, deleteOne);
+
+// Rating
+router.put("/star/:productId", authCheck, productStar);
 
 export default router;

@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import slugify from "slugify";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 
 export const create = asyncHandler(async (req, res, next) => {
@@ -92,8 +93,7 @@ export const listProducts = asyncHandler(async (req, res, next) => {
 
   const perPage = 3;
 
-
-   const total = await Product.find({}).estimatedDocumentCount();
+  const total = await Product.find({}).estimatedDocumentCount();
 
   const products = await Product.find({})
     .skip((currentPage - 1) * perPage)
@@ -102,7 +102,7 @@ export const listProducts = asyncHandler(async (req, res, next) => {
     .limit(parseInt(perPage))
     .sort([[sort, order]]);
 
-  res.status(200).json({products, total});
+  res.status(200).json({ products, total });
 });
 
 //@DESC  count all documents in the collection
@@ -111,6 +111,30 @@ export const listProducts = asyncHandler(async (req, res, next) => {
 
 export const productsCount = asyncHandler(async (req, res, next) => {
   const total = await Product.find({}).estimatedDocumentCount();
+
+  res.status(200).json(total);
+});
+
+//@DESC  update product star rating
+//@route PUT api/product/star/:productId
+//@access PRIVATE
+
+export const productStar = asyncHandler(async (req, res, next) => {
+  const { star } = req.body;
+
+  const product = await Product.findById(req.params.productId);
+
+  const user = await User.findOne({ email: req.user.email });
+
+  // check if current loggedin user have already added rating to this product
+  let existingRatingObject = product.ratings.find(
+    (el) => el.postedBy.toString() === user._id
+  );
+
+  // if user haven't left rating before, push it into product.rating
+  if (existingRatingObject === undefined) {
+  }
+  // if user have already left rating, update it
 
   res.status(200).json(total);
 });
