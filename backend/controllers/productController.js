@@ -128,13 +128,30 @@ export const productStar = asyncHandler(async (req, res, next) => {
 
   // check if current loggedin user have already added rating to this product
   let existingRatingObject = product.ratings.find(
-    (el) => el.postedBy.toString() === user._id
+    (el) => el.postedBy.toString() === user._id.toString()
   );
 
   // if user haven't left rating before, push it into product.rating
   if (existingRatingObject === undefined) {
-  }
-  // if user have already left rating, update it
+    let ratingAdded = await Product.findByIdAndUpdate(
+      req.params.productId,
+      {
+        $push: { ratings: { star, postedBy: user._id } },
+      },
+      { new: true }
+    );
 
-  res.status(200).json(total);
+    res.status(200).json(ratingsAdded);
+  } else {
+    // if user have already left rating, update it
+    let ratingUpdated = await Product.updateOne(
+      {
+        ratings: { $elemMatch: existingRatingObject },
+      },
+      { $set: { "ratings.$.star": star } },
+      { new: true }
+    );
+
+    res.status(200).json(ratingUpdated);
+  }
 });
