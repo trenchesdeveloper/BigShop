@@ -22,8 +22,13 @@ const Product = ({ match }) => {
 
       {/* second row is for related product */}
 
-      <div className="row pt-4">
-        <h4>Related Products</h4>
+      <div className="row">
+        <div className="col text-center pt-5 pb-5">
+            <hr/>
+          <h4>Related Products</h4>
+
+          <hr/>
+        </div>
       </div>
     </div>
   );
