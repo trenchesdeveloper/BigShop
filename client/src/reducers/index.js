@@ -13,6 +13,7 @@ import {
   productCreateReducer,
   productDeleteReducer,
   productGetReducer,
+  productGetRelatedReducer,
   productListByCountReducer,
   productListReducer,
   productUpdateReducer,
@@ -48,6 +49,7 @@ const reducer = combineReducers({
   productList: productListReducer,
   productCount: productCountReducer,
   productUpdateStar: productUpdateStarReducer,
+  productGetRelated: productGetRelatedReducer,
 });
 
 export default reducer;

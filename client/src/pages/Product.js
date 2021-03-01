@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { productGet, productUpdateStar } from "../actions/productActions";
+import {
+  productGet,
+  productGetRelated,
+  productUpdateStar,
+} from "../actions/productActions";
+import ProductCard from "../components/cards/ProductCard";
 import SingleProduct from "../components/cards/SingleProduct";
 
 const Product = ({ match }) => {
@@ -20,6 +25,12 @@ const Product = ({ match }) => {
     success,
   } = useSelector((state) => state.productUpdateStar);
 
+  const {
+    error: errorRelated,
+    loading: loadingRelated,
+    relatedProducts,
+  } = useSelector((state) => state.productGetRelated);
+
   useEffect(() => {
     dispatch(productGet(slug));
   }, [slug, dispatch, star]);
@@ -34,6 +45,12 @@ const Product = ({ match }) => {
       existingRatingObject && setStar(existingRatingObject.star); // current user star
     }
   }, []);
+
+  useEffect(() => {
+    if (product) {
+      dispatch(productGetRelated(product._id));
+    }
+  }, [product, dispatch]);
 
   const onStarClick = (newRating, productId) => {
     console.table(newRating, productId);
@@ -65,6 +82,22 @@ const Product = ({ match }) => {
 
           <hr />
         </div>
+      </div>
+
+      <div className="row pb-5">
+        {relatedProducts ? (
+          relatedProducts.map((product) => {
+            return (
+
+              <div key={product._id} className='col-md-4'>
+              {console.log(product)}
+                <ProductCard product={product} />
+              </div>
+            );
+          })
+        ) : (
+          <div className='text-center'>No Products Found</div>
+        )}
       </div>
     </div>
   );

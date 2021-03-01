@@ -9,6 +9,9 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_GET_FAIL,
+  PRODUCT_GET_RELATED_FAIL,
+  PRODUCT_GET_RELATED_REQUEST,
+  PRODUCT_GET_RELATED_SUCCESS,
   PRODUCT_GET_REQUEST,
   PRODUCT_GET_SUCCESS,
   PRODUCT_LISTS_FAIL,
@@ -107,6 +110,26 @@ export const productGet = (slug) => async (dispatch) => {
     });
   }
 };
+
+
+export const productGetRelated = (productId) => async (dispatch) => {
+  dispatch({ type: PRODUCT_GET_RELATED_REQUEST });
+  try {
+    // fetch to backend and verify token
+    const { data } = await axios.get(`/api/product/related/${productId}`);
+
+    dispatch({ type: PRODUCT_GET_RELATED_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_GET_RELATED_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 
 export const productCount = () => async (dispatch) => {
   dispatch({ type: PRODUCT_COUNT_REQUEST });

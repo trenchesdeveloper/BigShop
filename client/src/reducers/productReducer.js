@@ -25,6 +25,9 @@ import {
   PRODUCT_UPDATE_STAR_SUCCESS,
   PRODUCT_UPDATE_STAR_FAIL,
   PRODUCT_UPDATE_STAR_RESET,
+  PRODUCT_GET_RELATED_REQUEST,
+  PRODUCT_GET_RELATED_SUCCESS,
+  PRODUCT_GET_RELATED_FAIL,
 } from "../constants/productConstants";
 
 export const productCreateReducer = (state = { product: {} }, action) => {
@@ -95,6 +98,22 @@ export const productGetReducer = (state = { product: {} }, action) => {
   }
 };
 
+export const productGetRelatedReducer = (state = { relatedProducts: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_GET_RELATED_REQUEST:
+      return { loading: true, ...state };
+
+    case PRODUCT_GET_RELATED_SUCCESS:
+      return { loading: false, relatedProducts: action.payload };
+
+    case PRODUCT_GET_RELATED_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 export const productDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case PRODUCT_DELETE_REQUEST:
@@ -145,7 +164,6 @@ export const productCountReducer = (state = {}, action) => {
       return state;
   }
 };
-
 
 export const productUpdateStarReducer = (state = { product: {} }, action) => {
   switch (action.type) {
