@@ -17,13 +17,31 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
   const { userInfo, loading, error } = useSelector((state) => state.userLogin);
 
+  // useEffect(() => {
+  //   let intended = history.location.state;
+  //   if (intended) {
+  //     return;
+  //   } else {
+  //     if (userInfo && userInfo.token) {
+  //       history.push("/");
+  //     }
+  //   }
+  // }, [userInfo, history]);
+
   useEffect(() => {
     if (userInfo && userInfo.token && userInfo.role === "admin") {
       history.push("/admin/dashboard");
-    } else if(userInfo && userInfo.token ) {
-      history.push("/user/dashboard");
+    } else if (userInfo && userInfo.token) {
+      history.push("/");
     }
   }, [userInfo, history]);
+
+  const redirectAfterLogin = () => {
+    let intended = history.location.state;
+    if (intended) {
+      history.push(intended.from);
+    }
+  };
 
   // handler
   const handleSubmit = async (e) => {
@@ -38,8 +56,7 @@ const Login = ({ history }) => {
       console.log(error);
       toast.error(error.message);
     }
-
-    console.log(userInfo);
+    redirectAfterLogin();
   };
 
   const googleLogin = async () => {
@@ -55,6 +72,8 @@ const Login = ({ history }) => {
       console.log(error);
       toast.error(error.message);
     }
+
+    redirectAfterLogin();
   };
 
   return (
