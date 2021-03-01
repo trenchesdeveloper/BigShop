@@ -24,13 +24,16 @@ const Product = ({ match }) => {
     dispatch(productGet(slug));
   }, [slug, dispatch]);
 
-  useEffect(()=>{
-    if(errorUpdateStar){
-      toast.error(errorUpdateStar)
-    }else if(success){
-      dispatch(productGet(slug))
+  useEffect(() => {
+    if (product && product.ratings && userInfo) {
+      // check if current loggedin user have already added rating to this product
+      let existingRatingObject = product.ratings.find(
+        (el) => el.postedBy.toString() === userInfo._id.toString()
+      );
+
+      existingRatingObject && setStar(existingRatingObject.star); // current user star
     }
-  }, [dispatch, success, errorUpdateStar, slug])
+  }, []);
 
   const onStarClick = (newRating, productId) => {
     console.table(newRating, productId);

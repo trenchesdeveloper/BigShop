@@ -140,7 +140,7 @@ export const productStar = asyncHandler(async (req, res, next) => {
       },
       { new: true }
     );
-console.log(ratingAdded);
+
     res.status(200).json(ratingAdded);
   } else {
     // if user have already left rating, update it
@@ -152,7 +152,7 @@ console.log(ratingAdded);
       { new: true }
     );
 
-    console.log(ratingUpdated);
+ 
     res.status(200).json(ratingUpdated);
   }
 });
