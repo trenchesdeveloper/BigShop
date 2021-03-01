@@ -22,7 +22,7 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     dispatch(productGet(slug));
-  }, [slug, dispatch]);
+  }, [slug, dispatch, star]);
 
   useEffect(() => {
     if (product && product.ratings && userInfo) {
