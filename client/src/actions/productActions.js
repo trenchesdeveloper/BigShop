@@ -19,6 +19,9 @@ import {
   PRODUCT_LIST_SUCCESS,
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_STAR_FAIL,
+  PRODUCT_UPDATE_STAR_REQUEST,
+  PRODUCT_UPDATE_STAR_SUCCESS,
   PRODUCT_UPDATE_SUCCESS,
 } from "../constants/productConstants";
 import axios from "axios";
@@ -105,7 +108,6 @@ export const productGet = (slug) => async (dispatch) => {
   }
 };
 
-
 export const productCount = () => async (dispatch) => {
   dispatch({ type: PRODUCT_COUNT_REQUEST });
   try {
@@ -123,7 +125,6 @@ export const productCount = () => async (dispatch) => {
     });
   }
 };
-
 
 export const productDelete = (token, slug) => async (dispatch) => {
   dispatch({ type: PRODUCT_DELETE_REQUEST });
@@ -165,6 +166,32 @@ export const productUpdate = (token, slug, values) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const productUpdateStar = (token, productId, star) => async (
+  dispatch
+) => {
+  dispatch({ type: PRODUCT_UPDATE_STAR_REQUEST });
+  try {
+    const config = {
+      headers: {
+        token,
+      },
+    };
+
+    // fetch to backend and verify token
+   const {data} = await axios.put(`/api/product/star/${productId}`, { star }, config);
+
+    dispatch({ type: PRODUCT_UPDATE_STAR_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_UPDATE_STAR_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

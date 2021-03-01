@@ -21,6 +21,10 @@ import {
   PRODUCT_COUNT_FAIL,
   PRODUCT_COUNT_REQUEST,
   PRODUCT_COUNT_SUCCESS,
+  PRODUCT_UPDATE_STAR_REQUEST,
+  PRODUCT_UPDATE_STAR_SUCCESS,
+  PRODUCT_UPDATE_STAR_FAIL,
+  PRODUCT_UPDATE_STAR_RESET,
 } from "../constants/productConstants";
 
 export const productCreateReducer = (state = { product: {} }, action) => {
@@ -136,6 +140,26 @@ export const productCountReducer = (state = {}, action) => {
 
     case PRODUCT_COUNT_FAIL:
       return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+
+export const productUpdateStarReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_STAR_REQUEST:
+      return { loading: true, ...state };
+
+    case PRODUCT_UPDATE_STAR_SUCCESS:
+      return { loading: false, success: true, product: action.payload };
+
+    case PRODUCT_UPDATE_STAR_FAIL:
+      return { loading: false, error: action.payload };
+
+    case PRODUCT_UPDATE_STAR_RESET:
+      return {};
 
     default:
       return state;

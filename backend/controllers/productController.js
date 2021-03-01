@@ -140,8 +140,8 @@ export const productStar = asyncHandler(async (req, res, next) => {
       },
       { new: true }
     );
-
-    res.status(200).json(ratingsAdded);
+console.log(ratingAdded);
+    res.status(200).json(ratingAdded);
   } else {
     // if user have already left rating, update it
     let ratingUpdated = await Product.updateOne(
@@ -152,6 +152,7 @@ export const productStar = asyncHandler(async (req, res, next) => {
       { new: true }
     );
 
+    console.log(ratingUpdated);
     res.status(200).json(ratingUpdated);
   }
 });

@@ -16,6 +16,7 @@ import {
   productListByCountReducer,
   productListReducer,
   productUpdateReducer,
+  productUpdateStarReducer,
 } from "./productReducer";
 import {
   subCategoryCreateReducer,
@@ -46,6 +47,7 @@ const reducer = combineReducers({
   productUpdate: productUpdateReducer,
   productList: productListReducer,
   productCount: productCountReducer,
+  productUpdateStar: productUpdateStarReducer,
 });
 
 export default reducer;
