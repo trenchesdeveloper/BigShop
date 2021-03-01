@@ -152,17 +152,24 @@ export const productStar = asyncHandler(async (req, res, next) => {
       { new: true }
     );
 
- 
     res.status(200).json(ratingUpdated);
   }
 });
-
 
 //@DESC  Fetch all Related Products
 //@route GET api/product/related/:productId
 //@access PUBLIC
 export const getRelatedProducts = asyncHandler(async (req, res, next) => {
-  
+  const product = await Product.findById(req.params.productId);
 
-  res.status(200).json({ products, total });
+  const related = await Product.find(
+    { _id: { $ne: product._id } },
+    { category: product.category }
+  )
+    .limit(6)
+    .populate("category")
+    .populate("subs")
+    .populate("postedBy");
+
+  res.status(200).json(related);
 });
