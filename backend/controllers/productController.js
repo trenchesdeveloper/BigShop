@@ -156,3 +156,13 @@ export const productStar = asyncHandler(async (req, res, next) => {
     res.status(200).json(ratingUpdated);
   }
 });
+
+
+//@DESC  Fetch all Related Products
+//@route GET api/product/related/:productId
+//@access PUBLIC
+export const getRelatedProducts = asyncHandler(async (req, res, next) => {
+  
+
+  res.status(200).json({ products, total });
+});

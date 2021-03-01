@@ -9,6 +9,7 @@ import {
   listProducts,
   productsCount,
   productStar,
+  getRelatedProducts
 } from "../controllers/productController.js";
 
 import { adminCheck, authCheck } from "../middlewares/auth.js";
@@ -37,5 +38,8 @@ router.post("/allProducts", listProducts);
 
 // Rating
 router.put("/star/:productId", authCheck, productStar);
+
+// related product
+router.get('/related/:productId', getRelatedProducts)
 
 export default router;
