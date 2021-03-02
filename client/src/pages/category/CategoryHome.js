@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { categoryGet } from "../../actions/categoryActions";
+import ProductCard from "../../components/cards/ProductCard";
 const CategoryHome = ({ match }) => {
   const { slug } = match.params;
 
@@ -28,6 +29,14 @@ const CategoryHome = ({ match }) => {
             </h4>
           )}
         </div>
+      </div>
+
+      <div className="row">
+          {products && products.map((product=> (
+              <div key={product._id} className='col-md-4'>
+                    <ProductCard product={product}/>
+              </div>
+          )))}
       </div>
     </div>
   );
