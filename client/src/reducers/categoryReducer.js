@@ -68,13 +68,17 @@ export const categoryDeleteReducer = (state = {}, action) => {
   }
 };
 
-export const categoryGetReducer = (state = { category: {} }, action) => {
+export const categoryGetReducer = (state = { category: {}, products: [] }, action) => {
   switch (action.type) {
     case CATEGORY_GET_REQUEST:
       return { loading: true };
 
     case CATEGORY_GET_SUCCESS:
-      return { loading: false, category: action.payload };
+      return {
+        loading: false,
+        category: action.payload.category,
+        products: action.payload.products,
+      };
 
     case CATEGORY_GET_FAIL:
       return { loading: false, error: action.payload };
@@ -102,7 +106,6 @@ export const categoryUpdateReducer = (state = {}, action) => {
       return state;
   }
 };
-
 
 export const categorySubGetReducer = (state = { subs: [] }, action) => {
   switch (action.type) {

@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import Product from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
 import SubCategory from "../models/subCategorySchema.js";
 import AppError from "../utils/appError.js";
@@ -18,13 +19,15 @@ export const getAll = asyncHandler(async (req, res, next) => {
 });
 
 export const getOne = asyncHandler(async (req, res, next) => {
-  const cat = await Category.findOne({ slug: req.params.slug });
+  const category = await Category.findOne({ slug: req.params.slug });
 
-  if (!cat) {
+  if (!category) {
     next(new AppError("category not found", 404));
   }
 
-  res.status(200).json(cat);
+  const products = await Product.find({ category }).populate("category");
+
+  res.status(200).json({ category, products });
 });
 
 export const updateOne = asyncHandler(async (req, res, next) => {
@@ -46,9 +49,8 @@ export const deleteOne = asyncHandler(async (req, res, next) => {
   res.status(204).send("deleted");
 });
 
-
 export const getSubs = asyncHandler(async (req, res, next) => {
-console.log(req.params.id);
+  console.log(req.params.id);
   const subs = await SubCategory.find({ parent: req.params.id });
 
   if (!subs) {
@@ -57,4 +59,3 @@ console.log(req.params.id);
 
   res.status(200).json(subs);
 });
-
