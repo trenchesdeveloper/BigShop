@@ -9,7 +9,7 @@ const SubCategoryHome = ({ match }) => {
   const { slug } = match.params;
 
   const dispatch = useDispatch();
-  const { loading, error, subCategory, products } = useSelector(
+  const { loading, subCategory, products } = useSelector(
     (state) => state.subCategory
   );
 
