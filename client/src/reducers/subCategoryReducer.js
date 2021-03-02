@@ -33,7 +33,10 @@ export const subCategoryCreateReducer = (state = {}, action) => {
   }
 };
 
-export const subCategoryListReducer = (state = { subCategories: [] }, action) => {
+export const subCategoryListReducer = (
+  state = { subCategories: [] },
+  action
+) => {
   switch (action.type) {
     case SUBCATEGORY_LIST_REQUEST:
       return { loading: true };
@@ -65,13 +68,20 @@ export const subCategoryDeleteReducer = (state = {}, action) => {
   }
 };
 
-export const subCategoryGetReducer = (state = { subCategory: {} }, action) => {
+export const subCategoryGetReducer = (
+  state = { subCategory: {}, products: [] },
+  action
+) => {
   switch (action.type) {
     case SUBCATEGORY_GET_REQUEST:
       return { loading: true };
 
     case SUBCATEGORY_GET_SUCCESS:
-      return { loading: false, subCategory: action.payload };
+      return {
+        loading: false,
+        subCategory: action.payload.subCat,
+        products: action.payload.products,
+      };
 
     case SUBCATEGORY_GET_FAIL:
       return { loading: false, error: action.payload };
