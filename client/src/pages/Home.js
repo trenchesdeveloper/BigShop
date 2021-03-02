@@ -5,6 +5,7 @@ import { productList } from "../actions/productActions";
 import Jumbotron from "../components/cards/Jumbotron";
 import LoadingCard from "../components/cards/LoadingCard";
 import ProductCard from "../components/cards/ProductCard";
+import CategoryList from "../components/category/CategoryList";
 import BestSellers from "../components/home/BestSellers";
 import NewArrivals from "../components/home/NewArrivals";
 
@@ -23,10 +24,16 @@ const Home = () => {
       <NewArrivals />
 
       <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
-       Best Sellers
+        Best Sellers
       </h4>
 
-      <BestSellers/>
+      <BestSellers />
+
+      <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
+        Categories
+      </h4>
+
+      <CategoryList />
     </>
   );
 };
