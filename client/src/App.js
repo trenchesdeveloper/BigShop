@@ -25,6 +25,7 @@ import RegisterComplete from "./pages/auth/RegisterComplete";
 import CategoryHome from "./pages/category/CategoryHome";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
+import SubCategoryHome from "./pages/sub/SubCategoryHome";
 import Password from "./pages/users/Password";
 import UserDashboard from "./pages/users/UserDashboard";
 import Wishlist from "./pages/users/Wishlist";
@@ -86,6 +87,7 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/products/:slug" component={Product} />
         <Route exact path="/category/:slug" component={CategoryHome} />
+        <Route exact path="/sub/:slug" component={SubCategoryHome} />
       </Switch>
     </Router>
   );
