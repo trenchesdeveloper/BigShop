@@ -9,7 +9,8 @@ import {
   listProducts,
   productsCount,
   productStar,
-  getRelatedProducts
+  getRelatedProducts,
+  searchFilters,
 } from "../controllers/productController.js";
 
 import { adminCheck, authCheck } from "../middlewares/auth.js";
@@ -40,6 +41,9 @@ router.post("/allProducts", listProducts);
 router.put("/star/:productId", authCheck, productStar);
 
 // related product
-router.get('/related/:productId', getRelatedProducts)
+router.get("/related/:productId", getRelatedProducts);
+
+//search
+router.post("/search/filters", searchFilters);
 
 export default router;

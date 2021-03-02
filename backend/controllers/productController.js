@@ -4,12 +4,19 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 
+//@DESC  Create a new product
+//@route POST api/products
+//@access PRIVATE
 export const create = asyncHandler(async (req, res, next) => {
   console.log(req.body.subs);
   const product = await Product.create(req.body);
 
   res.status(201).json(product);
 });
+
+//@DESC  Get All Products
+//@route GET api/products
+//@access PUBLIC
 
 export const getAll = asyncHandler(async (req, res, next) => {
   const product = await Product.find({})
@@ -166,9 +173,49 @@ export const getRelatedProducts = asyncHandler(async (req, res, next) => {
     _id: { $ne: product._id },
     category: product.category,
   })
-  .limit(6)
-  .populate("category")
-  .populate("subs");
+    .limit(6)
+    .populate("category")
+    .populate("subs");
 
   res.status(200).json(related);
+});
+
+//@DESC  Fetch all Related Products
+//@route GET api/product/related/:productId
+//@access PUBLIC
+export const getRelatedProducts = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.productId);
+
+  const related = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  })
+    .limit(6)
+    .populate("category")
+    .populate("subs");
+
+  res.status(200).json(related);
+});
+
+// search-text helper method
+const handleQuery = async (req, res, query) => {
+  const products = await Product.find({ $text: { $search: query } })
+    .populate("category")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name");
+
+    res.status(200).json(products)
+};
+
+//@DESC  Filtering endpoint
+//@route POST api/product/search/filters
+//@access PUBLIC
+export const searchFilters = asyncHandler(async (req, res, next) => {
+  const { query } = req.body;
+
+  if (query) {
+    console.log("query", query);
+
+    await handleQuery(req, res, query);
+  }
 });
