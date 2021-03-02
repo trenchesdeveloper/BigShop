@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import Product from "../models/productModel.js";
 import SubCategory from "../models/subCategorySchema.js";
 import AppError from "../utils/appError.js";
 
@@ -23,7 +24,14 @@ export const getOne = asyncHandler(async (req, res, next) => {
     next(new AppError("sub-category not found", 404));
   }
 
-  res.status(200).json(subCat);
+  const products = await Product.find({ subs: subCat })
+    .populate("category")
+    .populate("subs");
+
+  res.status(200).json({
+    subCat,
+    products,
+  });
 });
 
 export const updateOne = asyncHandler(async (req, res, next) => {
@@ -33,7 +41,7 @@ export const updateOne = asyncHandler(async (req, res, next) => {
     next(new AppError("sub-category not found", 404));
   }
   cat.name = req.body.name;
-  cat.parent = req.body.parent
+  cat.parent = req.body.parent;
 
   const updatedSubCategory = await cat.save();
 
