@@ -9,13 +9,15 @@ const Search = () => {
 
   const { text } = useSelector((state) => state.search);
 
- 
-
   const handleChange = (e) => {
     dispatch({ type: "SEARCH_QUERY", payload: { text: e.target.value } });
   };
 
-   const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    history.push(`/shop?${text}`);
+  };
 
   return (
     <form className="form-inline my-2 mg-lg-0" onSubmit={handleSubmit}>
