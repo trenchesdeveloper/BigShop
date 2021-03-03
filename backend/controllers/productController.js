@@ -180,23 +180,6 @@ export const getRelatedProducts = asyncHandler(async (req, res, next) => {
   res.status(200).json(related);
 });
 
-//@DESC  Fetch all Related Products
-//@route GET api/product/related/:productId
-//@access PUBLIC
-export const getRelatedProducts = asyncHandler(async (req, res, next) => {
-  const product = await Product.findById(req.params.productId);
-
-  const related = await Product.find({
-    _id: { $ne: product._id },
-    category: product.category,
-  })
-    .limit(6)
-    .populate("category")
-    .populate("subs");
-
-  res.status(200).json(related);
-});
-
 // search-text helper method
 const handleQuery = async (req, res, query) => {
   const products = await Product.find({ $text: { $search: query } })
@@ -204,7 +187,7 @@ const handleQuery = async (req, res, query) => {
     .populate("subs", "_id name")
     .populate("postedBy", "_id name");
 
-    res.status(200).json(products)
+  res.status(200).json(products);
 };
 
 //@DESC  Filtering endpoint

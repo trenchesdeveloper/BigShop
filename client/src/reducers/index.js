@@ -19,6 +19,7 @@ import {
   productUpdateReducer,
   productUpdateStarReducer,
 } from "./productReducer";
+import { searchReducer } from "./searchReducer";
 import {
   subCategoryCreateReducer,
   subCategoryDeleteReducer,
@@ -50,6 +51,7 @@ const reducer = combineReducers({
   productCount: productCountReducer,
   productUpdateStar: productUpdateStarReducer,
   productGetRelated: productGetRelatedReducer,
+  search: searchReducer,
 });
 
 export default reducer;
