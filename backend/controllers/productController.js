@@ -192,6 +192,19 @@ const handleQuery = async (req, res, query) => {
   res.status(200).json(products);
 };
 
+const handlePrice = async (req, res, price) => {
+
+    const products = await Product.find({
+      $gte: price[0],
+      $lte: price[1],
+    })
+      .populate("category")
+      .populate("subs", "_id name")
+      .populate("postedBy", "_id name");
+
+    res.status(200).json(products);
+}
+
 //@DESC  Filtering endpoint
 //@route POST api/product/search/filters
 //@access PUBLIC
@@ -202,5 +215,11 @@ export const searchFilters = asyncHandler(async (req, res, next) => {
     console.log("query", query);
 
     await handleQuery(req, res, query);
+  }
+
+  // price [0, 200]
+  if (price !== undefined) {
+    console.log("price  ==>", price);
+    await handlePrice(req, res, price);
   }
 });
