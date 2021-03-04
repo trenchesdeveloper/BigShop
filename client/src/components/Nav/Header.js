@@ -10,6 +10,8 @@ import {
   SettingOutlined,
   UserAddOutlined,
   UserOutlined,
+  ShopOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import Search from "../forms/Search";
 const { SubMenu, Item } = Menu; // or Menu.subMenu
@@ -40,6 +42,10 @@ const Header = () => {
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
+      </Item>
+
+      <Item key="shop" icon={<ShoppingOutlined />}>
+        <Link to="/shop">Shop</Link>
       </Item>
 
       {!userInfo && (
