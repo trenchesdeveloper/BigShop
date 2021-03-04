@@ -8,6 +8,9 @@ import {
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
+  PRODUCT_FETCH_FILTER_FAIL,
+  PRODUCT_FETCH_FILTER_REQUEST,
+  PRODUCT_FETCH_FILTER_SUCCESS,
   PRODUCT_GET_FAIL,
   PRODUCT_GET_RELATED_FAIL,
   PRODUCT_GET_RELATED_REQUEST,
@@ -111,7 +114,6 @@ export const productGet = (slug) => async (dispatch) => {
   }
 };
 
-
 export const productGetRelated = (productId) => async (dispatch) => {
   dispatch({ type: PRODUCT_GET_RELATED_REQUEST });
   try {
@@ -130,6 +132,22 @@ export const productGetRelated = (productId) => async (dispatch) => {
   }
 };
 
+export const productFetchFilter = (arg) => async (dispatch) => {
+  dispatch({ type: PRODUCT_FETCH_FILTER_REQUEST });
+  try {
+    const { data } = await axios.post(`/api/product/search/filters`, arg);
+
+    dispatch({ type: PRODUCT_FETCH_FILTER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_FETCH_FILTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const productCount = () => async (dispatch) => {
   dispatch({ type: PRODUCT_COUNT_REQUEST });
@@ -209,7 +227,11 @@ export const productUpdateStar = (token, productId, star) => async (
     };
 
     // fetch to backend and verify token
-   const {data} = await axios.put(`/api/product/star/${productId}`, { star }, config);
+    const { data } = await axios.put(
+      `/api/product/star/${productId}`,
+      { star },
+      config
+    );
 
     dispatch({ type: PRODUCT_UPDATE_STAR_SUCCESS, payload: data });
   } catch (error) {

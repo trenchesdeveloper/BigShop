@@ -182,7 +182,9 @@ export const getRelatedProducts = asyncHandler(async (req, res, next) => {
 
 // search-text helper method
 const handleQuery = async (req, res, query) => {
-  const products = await Product.find({ $text: { $search: query } })
+  const products = await Product.find({
+    $text: { $search: query },
+  })
     .populate("category")
     .populate("subs", "_id name")
     .populate("postedBy", "_id name");

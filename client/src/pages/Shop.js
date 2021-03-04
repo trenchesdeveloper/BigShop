@@ -1,18 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { productListByCount } from "../actions/productActions";
+import {
+  productFetchFilter,
+  productListByCount,
+} from "../actions/productActions";
 import ProductCard from "../components/cards/ProductCard";
+import {
+  fetchProductsByCount,
+  fetchProductsByFilters,
+} from "../fetchUtils/product";
 
 const Shop = () => {
+  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
-  const { products, loading } = useSelector(
+  const { products: productsCount, loading } = useSelector(
     (state) => state.productListByCount
   );
 
+  //   const { products: productsFetch, loading: loadingFetch } = useSelector(
+  //     (state) => state.productFetchFilter
+  //   );
+
+  // Get search from the redux store
+  const { text } = useSelector((state) => state.search);
+
+    // 2) Get product after search input
+    useEffect(() => {
+      const delayed = setTimeout(() => {
+        fetchProductsByFilters({ query: text }).then((res) =>
+          setProducts(res.data)
+        );
+      }, 300);
+
+      return () => {
+        clearTimeout(delayed);
+      };
+    }, [text]);
+
+  // 1) Get Product on page load
   useEffect(() => {
-    dispatch(productListByCount(12));
+      fetchAll(12)
   }, []);
+
+  const fetchAll = () => {
+    fetchProductsByCount(12).then((res) => setProducts(res.data));
+    console.log(products);
+  };
 
   return (
     <div className="container-fluid">

@@ -28,6 +28,9 @@ import {
   PRODUCT_GET_RELATED_REQUEST,
   PRODUCT_GET_RELATED_SUCCESS,
   PRODUCT_GET_RELATED_FAIL,
+  PRODUCT_FETCH_FILTER_REQUEST,
+  PRODUCT_FETCH_FILTER_SUCCESS,
+  PRODUCT_FETCH_FILTER_FAIL,
 } from "../constants/productConstants";
 
 export const productCreateReducer = (state = { product: {} }, action) => {
@@ -98,7 +101,10 @@ export const productGetReducer = (state = { product: {} }, action) => {
   }
 };
 
-export const productGetRelatedReducer = (state = { relatedProducts: [] }, action) => {
+export const productGetRelatedReducer = (
+  state = { relatedProducts: [] },
+  action
+) => {
   switch (action.type) {
     case PRODUCT_GET_RELATED_REQUEST:
       return { loading: true, ...state };
@@ -107,6 +113,22 @@ export const productGetRelatedReducer = (state = { relatedProducts: [] }, action
       return { loading: false, relatedProducts: action.payload };
 
     case PRODUCT_GET_RELATED_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const productFetchFilterReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_FETCH_FILTER_REQUEST:
+      return { loading: true, ...state };
+
+    case PRODUCT_FETCH_FILTER_SUCCESS:
+      return { loading: false, products: action.payload };
+
+    case PRODUCT_FETCH_FILTER_FAIL:
       return { loading: false, error: action.payload };
 
     default:
