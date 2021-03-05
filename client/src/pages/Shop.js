@@ -35,6 +35,11 @@ const Shop = () => {
   useEffect(() => {
     fetchAll(12);
   }, []);
+  const fetchAll = () => {
+    fetchProductsByCount(12).then((res) => setProducts(res.data));
+    console.log(products);
+  };
+
 
   // 2) Get product after search input
   useEffect(() => {
@@ -50,12 +55,12 @@ const Shop = () => {
   }, [text]);
 
   // 3) Get product based on price range
+  useEffect(()=>{
+console.log('ok to request');
+fetchProductsByFilters({price})
+  }, [])
 
-  const fetchAll = () => {
-    fetchProductsByCount(12).then((res) => setProducts(res.data));
-    console.log(products);
-  };
-
+  
   return (
     <div className="container-fluid">
       <div className="row">
@@ -78,14 +83,14 @@ const Shop = () => {
                 tipFormatter={(value) => `₦${value}`}
                 range
                 value={price}
-                onChange={(value) => setPrice(value)}
+                onChange={handleSlider}
                 max={200000}
               />
             </SubMenu>
           </Menu>
         </div>
 
-        <div className="col-md-9">
+        <div className="col-md-9 pt-2">
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
