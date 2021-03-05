@@ -1,8 +1,8 @@
-import asyncHandler from "express-async-handler";
-import slugify from "slugify";
-import Product from "../models/productModel.js";
-import User from "../models/userModel.js";
-import AppError from "../utils/appError.js";
+import asyncHandler from 'express-async-handler';
+import slugify from 'slugify';
+import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
+import AppError from '../utils/appError.js';
 
 //@DESC  Create a new product
 //@route POST api/products
@@ -21,7 +21,7 @@ export const create = asyncHandler(async (req, res, next) => {
 export const getAll = asyncHandler(async (req, res, next) => {
   const product = await Product.find({})
     .sort({ createdAt: -1 })
-    .populate("category");
+    .populate('category');
 
   res.status(200).json(product);
 });
@@ -30,9 +30,9 @@ export const listAll = asyncHandler(async (req, res, next) => {
   console.log(req.params.count);
   const product = await Product.find({})
     .limit(parseInt(req.params.count))
-    .populate("subs")
-    .sort([["createdAt", "desc"]])
-    .populate("category");
+    .populate('subs')
+    .sort([['createdAt', 'desc']])
+    .populate('category');
 
   res.status(200).json(product);
 });
@@ -45,8 +45,8 @@ export const deleteProduct = asyncHandler(async (req, res, next) => {
 
 export const getProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findOne({ slug: req.params.slug })
-    .populate("category")
-    .populate("subs");
+    .populate('category')
+    .populate('subs');
 
   if (!product) {
     return next(new AppError(`product not found`, 404));
@@ -64,8 +64,8 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     req.body,
     { new: true }
   )
-    .populate("category")
-    .populate("subs");
+    .populate('category')
+    .populate('subs');
 
   if (!product) {
     return next(new AppError(`product not found`, 404));
@@ -104,8 +104,8 @@ export const listProducts = asyncHandler(async (req, res, next) => {
 
   const products = await Product.find({})
     .skip((currentPage - 1) * perPage)
-    .populate("subs")
-    .populate("category")
+    .populate('subs')
+    .populate('category')
     .limit(parseInt(perPage))
     .sort([[sort, order]]);
 
@@ -155,7 +155,7 @@ export const productStar = asyncHandler(async (req, res, next) => {
       {
         ratings: { $elemMatch: existingRatingObject },
       },
-      { $set: { "ratings.$.star": star } },
+      { $set: { 'ratings.$.star': star } },
       { new: true }
     );
 
@@ -174,8 +174,8 @@ export const getRelatedProducts = asyncHandler(async (req, res, next) => {
     category: product.category,
   })
     .limit(6)
-    .populate("category")
-    .populate("subs");
+    .populate('category')
+    .populate('subs');
 
   res.status(200).json(related);
 });
@@ -185,41 +185,42 @@ const handleQuery = async (req, res, query) => {
   const products = await Product.find({
     $text: { $search: query },
   })
-    .populate("category")
-    .populate("subs", "_id name")
-    .populate("postedBy", "_id name");
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
 
   res.status(200).json(products);
 };
 
 const handlePrice = async (req, res, price) => {
-
-    const products = await Product.find({
+  const products = await Product.find({
+    price: {
       $gte: price[0],
       $lte: price[1],
-    })
-      .populate("category")
-      .populate("subs", "_id name")
-      .populate("postedBy", "_id name");
+    },
+  })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
 
-    res.status(200).json(products);
-}
+  res.status(200).json(products);
+};
 
 //@DESC  Filtering endpoint
 //@route POST api/product/search/filters
 //@access PUBLIC
 export const searchFilters = asyncHandler(async (req, res, next) => {
-  const { query } = req.body;
+  const { query, price } = req.body;
 
   if (query) {
-    console.log("query", query);
+    console.log('query', query);
 
     await handleQuery(req, res, query);
   }
 
   // price [0, 200]
   if (price !== undefined) {
-    console.log("price  ==>", price);
+    console.log('price  ==>', price);
     await handlePrice(req, res, price);
   }
 });

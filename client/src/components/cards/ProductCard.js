@@ -8,7 +8,7 @@ import { showAverage } from "../../fetchUtils/rating";
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
-  const { images, title, description, slug } = product;
+  const { images, title, description, slug, price } = product;
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
         cover={
           <img
             className="p-1"
-            style={{ height: "150px", objectFit: "cover" }}
+            style={{ height: '150px', objectFit: 'cover' }}
             alt={title}
             src={images && images.length ? images[0].url : laptop}
           />
@@ -30,13 +30,13 @@ const ProductCard = ({ product }) => {
             <EyeOutlined className="text-warning" /> <br /> View Product
           </Link>,
           <>
-            <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart{" "}
+            <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart{' '}
           </>,
         ]}
       >
-        {" "}
+        {' '}
         <Meta
-          title={title}
+          title={`${title} - ₦${price}`}
           description={`${description && description.substring(0, 40)}...`}
         />
       </Card>

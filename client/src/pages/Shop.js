@@ -44,9 +44,7 @@ const Shop = () => {
   // 2) Get product after search input
   useEffect(() => {
     const delayed = setTimeout(() => {
-      fetchProductsByFilters({ query: text }).then((res) =>
-        setProducts(res.data)
-      );
+      fetchProducts({ query: text });
     }, 300);
 
     return () => {
@@ -54,10 +52,13 @@ const Shop = () => {
     };
   }, [text]);
 
+  const fetchProducts = (arg) => {
+    fetchProductsByFilters(arg).then((res) => setProducts(res.data));
+  };
+
   // 3) Get product based on price range
   useEffect(() => {
-    console.log('ok to request');
-    fetchProductsByFilters({ price }).then(res =)
+    fetchProducts({ price });
   }, [ok]);
 
   const handleSlider = (value) => {
