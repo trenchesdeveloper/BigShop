@@ -17,6 +17,7 @@ const { SubMenu, ItemGroup } = Menu;
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [price, setPrice] = useState([0, 0]);
+  const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,6 @@ const Shop = () => {
     console.log(products);
   };
 
-
   // 2) Get product after search input
   useEffect(() => {
     const delayed = setTimeout(() => {
@@ -55,24 +55,32 @@ const Shop = () => {
   }, [text]);
 
   // 3) Get product based on price range
-  useEffect(()=>{
-console.log('ok to request');
-fetchProductsByFilters({price})
-  }, [])
+  useEffect(() => {
+    console.log('ok to request');
+    fetchProductsByFilters({ price }).then(res =)
+  }, [ok]);
 
-  
+  const handleSlider = (value) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
+    setPrice(value);
+
+    setTimeout(() => {
+      setOk(!ok);
+    }, 300);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-3 pt-2">
           <h4>Search/Filter</h4>
 
-          <hr/>
+          <hr />
           <Menu mode="inline" defaultOpenKeys={['slider', '2']}>
             <SubMenu
               key="slider"
               title={
-                <span className='h6'>
+                <span className="h6">
                   {' '}
                   <DollarOutlined /> Price
                 </span>
