@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   productFetchFilter,
   productListByCount,
-} from "../actions/productActions";
-import ProductCard from "../components/cards/ProductCard";
+} from '../actions/productActions';
+import ProductCard from '../components/cards/ProductCard';
 import {
   fetchProductsByCount,
   fetchProductsByFilters,
-} from "../fetchUtils/product";
+} from '../fetchUtils/product';
+import { Menu, Slider } from 'antd';
+import { DollarOutlined } from '@ant-design/icons';
+
+const { SubMenu, ItemGroup } = Menu;
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
+  const [price, setPrice] = useState([0, 0]);
+
   const dispatch = useDispatch();
 
   const { products: productsCount, loading } = useSelector(
@@ -25,23 +31,25 @@ const Shop = () => {
   // Get search from the redux store
   const { text } = useSelector((state) => state.search);
 
-    // 2) Get product after search input
-    useEffect(() => {
-      const delayed = setTimeout(() => {
-        fetchProductsByFilters({ query: text }).then((res) =>
-          setProducts(res.data)
-        );
-      }, 300);
-
-      return () => {
-        clearTimeout(delayed);
-      };
-    }, [text]);
-
   // 1) Get Product on page load
   useEffect(() => {
-      fetchAll(12)
+    fetchAll(12);
   }, []);
+
+  // 2) Get product after search input
+  useEffect(() => {
+    const delayed = setTimeout(() => {
+      fetchProductsByFilters({ query: text }).then((res) =>
+        setProducts(res.data)
+      );
+    }, 300);
+
+    return () => {
+      clearTimeout(delayed);
+    };
+  }, [text]);
+
+  // 3) Get product based on price range
 
   const fetchAll = () => {
     fetchProductsByCount(12).then((res) => setProducts(res.data));
@@ -51,7 +59,31 @@ const Shop = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3">Sidebar filter</div>
+        <div className="col-md-3 pt-2">
+          <h4>Search/Filter</h4>
+
+          <hr/>
+          <Menu mode="inline" defaultOpenKeys={['slider', '2']}>
+            <SubMenu
+              key="slider"
+              title={
+                <span className='h6'>
+                  {' '}
+                  <DollarOutlined /> Price
+                </span>
+              }
+            >
+              <Slider
+                className="ml-4 mr-4"
+                tipFormatter={(value) => `₦${value}`}
+                range
+                value={price}
+                onChange={(value) => setPrice(value)}
+                max={200000}
+              />
+            </SubMenu>
+          </Menu>
+        </div>
 
         <div className="col-md-9">
           {loading ? (
