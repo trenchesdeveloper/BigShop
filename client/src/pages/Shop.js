@@ -40,6 +40,10 @@ const Shop = () => {
     fetchProductsByCount(12).then((res) => setProducts(res.data));
     console.log(products);
   };
+// Filter Function /******** */
+   const fetchProducts = (arg) => {
+     fetchProductsByFilters(arg).then((res) => setProducts(res.data));
+   };
 
   // 2) Get product after search input
   useEffect(() => {
@@ -52,9 +56,7 @@ const Shop = () => {
     };
   }, [text]);
 
-  const fetchProducts = (arg) => {
-    fetchProductsByFilters(arg).then((res) => setProducts(res.data));
-  };
+ 
 
   // 3) Get product based on price range
   useEffect(() => {
