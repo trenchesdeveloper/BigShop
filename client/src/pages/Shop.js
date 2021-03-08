@@ -71,7 +71,7 @@ const Shop = () => {
   const handleSlider = (value) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setCategoryIds([]);
-    
+
     setPrice(value);
 
     setTimeout(() => {
