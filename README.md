@@ -25,6 +25,7 @@ An E-commerce or shopping cart with all major features of a modern e-commerce.
 #### Technologies
 
 - React
+- Redux
 - Node.js
 - Firebase Authentication
 - MongoDb
