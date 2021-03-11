@@ -215,11 +215,46 @@ const handleCategory = asyncHandler(async (req, res, category) => {
   res.status(200).json(products);
 });
 
+const handleStars = asyncHandler(async (req, res, stars) => {
+  const project = await Product.aggregate([
+    //generate a new project on the array
+    {
+      $project: {
+        document: '$$ROOT',
+        floorAverage: {
+          $floor: {
+            $avg: '$ratings.star',
+          },
+        },
+      },
+    },
+
+    // match the stars coming from req.body to the floorAverage, these are the products we need
+
+    {
+      $match: {
+        floorAverage: stars,
+      },
+    },
+  ])
+    .limit(12)
+   
+
+
+const products = await Product
+  .find({ _id: project })
+  .populate('category')
+  .populate('subs', '_id name')
+  .populate('postedBy', '_id name');
+
+    res.status(200).json(products)
+});
+
 //@DESC  Filtering endpoint
 //@route POST api/product/search/filters
 //@access PUBLIC
 export const searchFilters = asyncHandler(async (req, res, next) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars } = req.body;
 
   if (query) {
     console.log('query', query);
@@ -236,5 +271,10 @@ export const searchFilters = asyncHandler(async (req, res, next) => {
   if (category) {
     console.log('category  ==>', category);
     await handleCategory(req, res, category);
+  }
+
+  if (stars) {
+    console.log('stars  ==>', stars);
+    await handleStars(req, res, stars);
   }
 });
