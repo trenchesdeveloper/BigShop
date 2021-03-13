@@ -83,6 +83,7 @@ const Shop = () => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setCategoryIds([]);
     setStar('');
+    setSub('')
 
     setPrice(value);
 
@@ -139,6 +140,7 @@ const Shop = () => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
+    setSub('')
 
     setStar(num);
 
@@ -163,7 +165,7 @@ const Shop = () => {
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
     setStar(''); // reset star
-    
+
     setSub(id);
     fetchProducts({ sub });
   };
