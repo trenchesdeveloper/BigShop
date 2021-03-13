@@ -9,7 +9,7 @@ import {
   fetchProductsByCount,
   fetchProductsByFilters,
 } from '../fetchUtils/product';
-import { Menu, Slider } from 'antd';
+import { Menu, Radio, Slider } from 'antd';
 import {
   DollarOutlined,
   DownSquareOutlined,
@@ -28,6 +28,14 @@ const Shop = () => {
   const [categoryIds, setCategoryIds] = useState([]);
   const [star, setStar] = useState('');
   const [sub, setSub] = useState('');
+  const [brands, setBrands] = useState([
+    'Apple',
+    'Lenovo',
+    'Samsung',
+    'Microsoft',
+    'ASUS',
+  ]);
+  const [brand, setBrand] = useState('');
   const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
@@ -85,6 +93,8 @@ const Shop = () => {
     setStar('');
     setSub('');
 
+    setBrand('');
+
     setPrice(value);
 
     setTimeout(() => {
@@ -141,6 +151,7 @@ const Shop = () => {
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
     setSub('');
+    setBrand('');
 
     setStar(num);
 
@@ -165,6 +176,7 @@ const Shop = () => {
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
     setStar(''); // reset star
+    setBrand('');
 
     setSub(id);
     fetchProducts({ sub });
@@ -185,6 +197,35 @@ const Shop = () => {
     });
   };
 
+  // 6. Show products by brands
+  const handleBrand = (e) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
+    setPrice([0, 0]); // reset price
+    setCategoryIds([]); //reset category
+    setStar(''); // reset star
+
+    setSub('');
+
+    setBrand(e.target.value);
+
+    fetchProducts({ brand: e.target.value });
+  };
+
+  const showBrands = () => {
+    return brands.map((b) => (
+      <Radio
+        key={b}
+        value={b}
+        name={b}
+        checked={b === brand}
+        onChange={handleBrand}
+        className="pb-1 pl-4 pr-4"
+      >
+        {b}
+      </Radio>
+    ));
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -192,7 +233,7 @@ const Shop = () => {
           <h4>Search/Filter</h4>
 
           <hr />
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5']}>
             {/* SubMenu for Price Filter */}
             <SubMenu
               key="1"
@@ -252,6 +293,21 @@ const Shop = () => {
             >
               <div style={{ marginTop: '-10px' }}>
                 {subCategories && showSubs()}
+              </div>
+            </SubMenu>
+
+            {/* SubMenu for Brand Filter */}
+            <SubMenu
+              key="5"
+              title={
+                <span className="h6">
+                  {' '}
+                  <DownSquareOutlined /> Brands
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }} className="pr-4">
+                {showBrands()}
               </div>
             </SubMenu>
           </Menu>
