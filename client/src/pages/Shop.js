@@ -18,6 +18,7 @@ import {
 import { categoryList } from '../actions/categoryActions';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Star from '../components/forms/Star';
+import { subCategoryList } from '../actions/subCategoryActions';
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -26,6 +27,7 @@ const Shop = () => {
   const [price, setPrice] = useState([0, 0]);
   const [categoryIds, setCategoryIds] = useState([]);
   const [star, setStar] = useState('');
+  const [sub, setSub] = useState('');
   const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,6 +37,8 @@ const Shop = () => {
   );
 
   const { categories } = useSelector((state) => state.categoryList);
+
+  const { subCategories } = useSelector((state) => state.subCategoryList);
 
   //   const { products: productsFetch, loading: loadingFetch } = useSelector(
   //     (state) => state.productFetchFilter
@@ -47,6 +51,7 @@ const Shop = () => {
   useEffect(() => {
     fetchAll(12);
     dispatch(categoryList());
+    dispatch(subCategoryList());
   }, []);
 
   const fetchAll = () => {
@@ -77,7 +82,7 @@ const Shop = () => {
   const handleSlider = (value) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setCategoryIds([]);
-    setStar('')
+    setStar('');
 
     setPrice(value);
 
@@ -107,7 +112,7 @@ const Shop = () => {
   const handleCheck = (e) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setPrice([0, 0]);
-      setStar('');
+    setStar('');
 
     const inTheState = [...categoryIds];
     const justChecked = e.target.value;
@@ -135,9 +140,9 @@ const Shop = () => {
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
 
-    setStar(num)
+    setStar(num);
 
-     fetchProducts({ stars: star });
+    fetchProducts({ stars: star });
   };
 
   const showStars = () => {
@@ -152,6 +157,32 @@ const Shop = () => {
     );
   };
 
+  // 6. Show products by subs
+  const handleSubmit = (id) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
+    setPrice([0, 0]); // reset price
+    setCategoryIds([]); //reset category
+    setStar(''); // reset star
+    
+    setSub(id);
+    fetchProducts({ sub });
+  };
+
+  const showSubs = () => {
+    return subCategories.map((sub) => {
+      return (
+        <div
+          key={sub._id}
+          className="p-1 m-1 badge badge-secondary"
+          onClick={() => handleSubmit(sub._id)}
+          style={{ cursor: 'pointer' }}
+        >
+          {sub.name}
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -159,7 +190,7 @@ const Shop = () => {
           <h4>Search/Filter</h4>
 
           <hr />
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4']}>
             {/* SubMenu for Price Filter */}
             <SubMenu
               key="1"
@@ -205,6 +236,21 @@ const Shop = () => {
               }
             >
               <div style={{ marginTop: '-10px' }}>{showStars()}</div>
+            </SubMenu>
+
+            {/* SubMenu for Category Filter */}
+            <SubMenu
+              key="4"
+              title={
+                <span className="h6">
+                  {' '}
+                  <DownSquareOutlined /> Sub-Categories
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }}>
+                {subCategories && showSubs()}
+              </div>
             </SubMenu>
           </Menu>
         </div>
