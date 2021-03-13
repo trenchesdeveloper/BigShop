@@ -10,9 +10,14 @@ import {
   fetchProductsByFilters,
 } from '../fetchUtils/product';
 import { Menu, Slider } from 'antd';
-import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import {
+  DollarOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
 import { categoryList } from '../actions/categoryActions';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
+import Star from '../components/forms/Star';
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -20,6 +25,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [price, setPrice] = useState([0, 0]);
   const [categoryIds, setCategoryIds] = useState([]);
+  const [star, setStar] = useState('');
   const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
@@ -71,6 +77,7 @@ const Shop = () => {
   const handleSlider = (value) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setCategoryIds([]);
+    setStar('')
 
     setPrice(value);
 
@@ -100,6 +107,7 @@ const Shop = () => {
   const handleCheck = (e) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setPrice([0, 0]);
+      setStar('');
 
     const inTheState = [...categoryIds];
     const justChecked = e.target.value;
@@ -120,6 +128,30 @@ const Shop = () => {
     fetchProducts({ category: inTheState });
   };
 
+  // 5. Show Products by star rating
+
+  const handleStarClick = (num) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
+    setPrice([0, 0]); // reset price
+    setCategoryIds([]); //reset category
+
+    setStar(num)
+
+     fetchProducts({ stars: star });
+  };
+
+  const showStars = () => {
+    return (
+      <div className="pr-4 pl-4 pb-2">
+        <Star starClick={handleStarClick} numberOfStars={5} />
+        <Star starClick={handleStarClick} numberOfStars={4} />
+        <Star starClick={handleStarClick} numberOfStars={3} />
+        <Star starClick={handleStarClick} numberOfStars={2} />
+        <Star starClick={handleStarClick} numberOfStars={1} />
+      </div>
+    );
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -127,7 +159,7 @@ const Shop = () => {
           <h4>Search/Filter</h4>
 
           <hr />
-          <Menu mode="inline" defaultOpenKeys={['1', '2']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3']}>
             {/* SubMenu for Price Filter */}
             <SubMenu
               key="1"
@@ -160,6 +192,19 @@ const Shop = () => {
               <div style={{ marginTop: '-10px' }}>
                 {categories && showCategories()}
               </div>
+            </SubMenu>
+
+            {/* SubMenu for Star Filter */}
+            <SubMenu
+              key="3"
+              title={
+                <span className="h6">
+                  {' '}
+                  <StarOutlined /> Rating
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }}>{showStars()}</div>
             </SubMenu>
           </Menu>
         </div>
