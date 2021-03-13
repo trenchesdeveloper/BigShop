@@ -236,25 +236,30 @@ const handleStars = asyncHandler(async (req, res, stars) => {
         floorAverage: stars,
       },
     },
-  ])
-    .limit(12)
-   
+  ]).limit(12);
 
+  const products = await Product.find({ _id: project })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
 
-const products = await Product
-  .find({ _id: project })
-  .populate('category')
-  .populate('subs', '_id name')
-  .populate('postedBy', '_id name');
+  res.status(200).json(products);
+});
 
-    res.status(200).json(products)
+const handleSub = asyncHandler(async (req, res, sub) => {
+  const products = await Product.find({ subs: sub })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
+
+  res.status(200).json(products);
 });
 
 //@DESC  Filtering endpoint
 //@route POST api/product/search/filters
 //@access PUBLIC
 export const searchFilters = asyncHandler(async (req, res, next) => {
-  const { query, price, category, stars } = req.body;
+  const { query, price, category, stars, sub } = req.body;
 
   if (query) {
     console.log('query', query);
@@ -276,5 +281,10 @@ export const searchFilters = asyncHandler(async (req, res, next) => {
   if (stars) {
     console.log('stars  ==>', stars);
     await handleStars(req, res, stars);
+  }
+
+  if (sub) {
+    console.log('sub  ==>', sub);
+    await handleSub(req, res, sub);
   }
 });
