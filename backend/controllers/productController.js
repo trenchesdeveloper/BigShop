@@ -255,11 +255,47 @@ const handleSub = asyncHandler(async (req, res, sub) => {
   res.status(200).json(products);
 });
 
+const handleShipping = asyncHandler(async (req, res, shipping) => {
+  const products = await Product.find({ shipping })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
+
+  res.status(200).json(products);
+});
+
+const handleColor = asyncHandler(async (req, res, color) => {
+  const products = await Product.find({ color })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
+
+  res.status(200).json(products);
+});
+
+const handleBrand = asyncHandler(async (req, res, brand) => {
+  const products = await Product.find({ brand })
+    .populate('category')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name');
+
+  res.status(200).json(products);
+});
+
 //@DESC  Filtering endpoint
 //@route POST api/product/search/filters
 //@access PUBLIC
 export const searchFilters = asyncHandler(async (req, res, next) => {
-  const { query, price, category, stars, sub } = req.body;
+  const {
+    query,
+    price,
+    category,
+    stars,
+    sub,
+    shipping,
+    color,
+    brand,
+  } = req.body;
 
   if (query) {
     console.log('query', query);
@@ -286,5 +322,20 @@ export const searchFilters = asyncHandler(async (req, res, next) => {
   if (sub) {
     console.log('sub  ==>', sub);
     await handleSub(req, res, sub);
+  }
+
+  if (shipping) {
+    console.log('shipping  ==>', shipping);
+    await handleShipping(req, res, shipping);
+  }
+
+  if (color) {
+    console.log('color  ==>', color);
+    await handleColor(req, res, color);
+  }
+
+  if (brand) {
+    console.log('brand  ==>', brand);
+    await handleBrand(req, res, brand);
   }
 });
