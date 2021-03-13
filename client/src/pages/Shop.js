@@ -83,7 +83,7 @@ const Shop = () => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setCategoryIds([]);
     setStar('');
-    setSub('')
+    setSub('');
 
     setPrice(value);
 
@@ -140,7 +140,7 @@ const Shop = () => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
     setPrice([0, 0]); // reset price
     setCategoryIds([]); //reset category
-    setSub('')
+    setSub('');
 
     setStar(num);
 
@@ -222,7 +222,7 @@ const Shop = () => {
                 </span>
               }
             >
-              <div style={{ marginTop: '-10px' }}>
+              <div style={{ marginTop: '-10px' }} className="pl-4 pr-4">
                 {categories && showCategories()}
               </div>
             </SubMenu>
