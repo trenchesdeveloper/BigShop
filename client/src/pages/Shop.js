@@ -44,6 +44,7 @@ const Shop = () => {
   ]);
   const [brand, setBrand] = useState('');
   const [color, setColor] = useState('');
+  const [shipping, setShipping] = useState('');
   const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
@@ -103,6 +104,7 @@ const Shop = () => {
 
     setBrand('');
     setColor('');
+    setShipping('');
 
     setPrice(value);
 
@@ -133,6 +135,10 @@ const Shop = () => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setPrice([0, 0]);
     setStar('');
+    setSub('');
+    setBrand('');
+    setColor('');
+    setShipping('');
 
     const inTheState = [...categoryIds];
     const justChecked = e.target.value;
@@ -162,6 +168,7 @@ const Shop = () => {
     setSub('');
     setBrand('');
     setColor('');
+    setShipping('');
 
     setStar(num);
 
@@ -188,6 +195,7 @@ const Shop = () => {
     setStar(''); // reset star
     setBrand('');
     setColor('');
+    setShipping('');
 
     setSub(id);
     fetchProducts({ sub });
@@ -215,9 +223,10 @@ const Shop = () => {
     setCategoryIds([]); //reset category
     setStar(''); // reset star
 
-    setColor('')
+    setColor('');
 
     setSub('');
+    setShipping('');
 
     setBrand(e.target.value);
 
@@ -249,6 +258,7 @@ const Shop = () => {
     setSub('');
 
     setBrand('');
+    setShipping('');
 
     setColor(e.target.value);
 
@@ -269,6 +279,47 @@ const Shop = () => {
       </Radio>
     ));
 
+  // 7. Show products by SHipping Yes or No
+
+  const handleShippingChange = (e) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
+    setPrice([0, 0]); // reset price
+    setCategoryIds([]); //reset category
+    setStar(''); // reset star
+
+    setSub('');
+
+    setBrand('');
+
+    setColor('');
+
+    setShipping(e.target.value);
+
+    fetchProducts({ shipping: e.target.value });
+  };
+  const showShipping = () => (
+    <>
+      <Checkbox
+        name="Yes"
+        className="pb-2 pl-4 pr-4"
+        onChange={handleShippingChange}
+        value="Yes"
+        checked={shipping === 'Yes'}
+      >
+        Yes
+      </Checkbox>{' '}
+      <Checkbox
+        name="No"
+        className="pb-2 pl-4 pr-4"
+        onChange={handleShippingChange}
+        value="No"
+        checked={shipping === 'No'}
+      >
+        No
+      </Checkbox>{' '}
+    </>
+  );
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -276,7 +327,10 @@ const Shop = () => {
           <h4>Search/Filter</h4>
 
           <hr />
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5', '6']}>
+          <Menu
+            mode="inline"
+            defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']}
+          >
             {/* SubMenu for Price Filter */}
             <SubMenu
               key="1"
@@ -366,6 +420,21 @@ const Shop = () => {
             >
               <div style={{ marginTop: '-10px' }} className="pr-4">
                 {showColors()}
+              </div>
+            </SubMenu>
+
+            {/* SubMenu for Shipping Filter */}
+            <SubMenu
+              key="6"
+              title={
+                <span className="h6">
+                  {' '}
+                  <DownSquareOutlined /> Shipping
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }} className="pr-4">
+                {showShipping()}
               </div>
             </SubMenu>
           </Menu>
