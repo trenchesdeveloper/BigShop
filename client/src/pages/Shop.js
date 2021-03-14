@@ -35,7 +35,15 @@ const Shop = () => {
     'Microsoft',
     'ASUS',
   ]);
+  const [colors, setColors] = useState([
+    'black',
+    'brown',
+    'silver',
+    'white',
+    'blue',
+  ]);
   const [brand, setBrand] = useState('');
+  const [color, setColor] = useState('');
   const [ok, setOk] = useState(false);
 
   const dispatch = useDispatch();
@@ -94,6 +102,7 @@ const Shop = () => {
     setSub('');
 
     setBrand('');
+    setColor('');
 
     setPrice(value);
 
@@ -152,6 +161,7 @@ const Shop = () => {
     setCategoryIds([]); //reset category
     setSub('');
     setBrand('');
+    setColor('');
 
     setStar(num);
 
@@ -177,6 +187,7 @@ const Shop = () => {
     setCategoryIds([]); //reset category
     setStar(''); // reset star
     setBrand('');
+    setColor('');
 
     setSub(id);
     fetchProducts({ sub });
@@ -204,6 +215,8 @@ const Shop = () => {
     setCategoryIds([]); //reset category
     setStar(''); // reset star
 
+    setColor('')
+
     setSub('');
 
     setBrand(e.target.value);
@@ -226,6 +239,36 @@ const Shop = () => {
     ));
   };
 
+  // 7. Show products by colors
+  const handleColor = (e) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } }); // reset search text
+    setPrice([0, 0]); // reset price
+    setCategoryIds([]); //reset category
+    setStar(''); // reset star
+
+    setSub('');
+
+    setBrand('');
+
+    setColor(e.target.value);
+
+    fetchProducts({ color: e.target.value });
+  };
+
+  const showColors = () =>
+    colors.map((c) => (
+      <Radio
+        key={c}
+        value={c}
+        name={c}
+        checked={c === color}
+        onChange={handleColor}
+        className="pb-1 pl-4 pr-4"
+      >
+        {c}
+      </Radio>
+    ));
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -233,7 +276,7 @@ const Shop = () => {
           <h4>Search/Filter</h4>
 
           <hr />
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5', '6']}>
             {/* SubMenu for Price Filter */}
             <SubMenu
               key="1"
@@ -308,6 +351,21 @@ const Shop = () => {
             >
               <div style={{ marginTop: '-10px' }} className="pr-4">
                 {showBrands()}
+              </div>
+            </SubMenu>
+
+            {/* SubMenu for Color Filter */}
+            <SubMenu
+              key="6"
+              title={
+                <span className="h6">
+                  {' '}
+                  <DownSquareOutlined /> Colors
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }} className="pr-4">
+                {showColors()}
               </div>
             </SubMenu>
           </Menu>
