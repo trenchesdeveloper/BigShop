@@ -281,7 +281,7 @@ const Shop = () => {
               <div style={{ marginTop: '-10px' }}>{showStars()}</div>
             </SubMenu>
 
-            {/* SubMenu for Category Filter */}
+            {/* SubMenu for Sub-Category Filter */}
             <SubMenu
               key="4"
               title={
