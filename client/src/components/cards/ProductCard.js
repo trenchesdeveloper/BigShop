@@ -1,14 +1,37 @@
-import React from "react";
-import { Card, Skeleton } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import laptop from "../../images/laptop.png";
-import { Link } from "react-router-dom";
-import { showAverage } from "../../fetchUtils/rating";
+import React from 'react';
+import { Card, Skeleton } from 'antd';
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import laptop from '../../images/laptop.png';
+import { Link } from 'react-router-dom';
+import { showAverage } from '../../fetchUtils/rating';
+import _ from 'lodash';
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const { images, title, description, slug, price } = product;
+
+  const handleAddToCart = () => {
+    // create a cart array
+    let cart = [];
+
+    if (typeof window !== 'undefined') {
+      // if cart is in localstorage, Get it
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+      }
+
+      // push new product to cart and save to localStorage
+      cart.push({ ...product, count: 1 });
+
+      // remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual());
+
+      // save in localStorage
+      localStorage.setItem('cart', JSON.stringify(unique));
+    }
+  };
+
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -29,9 +52,9 @@ const ProductCard = ({ product }) => {
           <Link to={`/products/${slug}`}>
             <EyeOutlined className="text-warning" /> <br /> View Product
           </Link>,
-          <>
+          <a href onClick={handleAddToCart}>
             <ShoppingCartOutlined className="text-danger" /> <br /> Add To Cart{' '}
-          </>,
+          </a>,
         ]}
       >
         {' '}
