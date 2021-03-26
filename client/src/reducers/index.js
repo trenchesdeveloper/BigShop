@@ -29,6 +29,7 @@ import {
   subCategoryUpdateReducer,
 } from "./subCategoryReducer";
 import { userLoginReducer } from "./userReducer";
+import {cartReducer} from './cartReducer'
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -54,6 +55,7 @@ const reducer = combineReducers({
   productGetRelated: productGetRelatedReducer,
   search: searchReducer,
   productFetchFilter: productFetchFilterReducer,
+  cartReducer: cartReducer
 });
 
 export default reducer;
