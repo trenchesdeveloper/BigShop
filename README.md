@@ -2,7 +2,7 @@
 
 ![Project Image](project-image-url)
 
-> This is a E-commerce web Application built with React, node, Firebase and mongoDB.
+> This is a E-commerce web Application built with React, node, Ant-Design, Firebase and mongoDB.
 
 ---
 
